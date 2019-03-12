@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Sidebar_func from '../components/Sidebar';
-import Agents from './Agents';
-import Grid from '@material-ui/core/Grid';
-import ResponsiveDrawer from '../components/Sidebar';
-import PrimarySearchAppBar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 
 
 export default class PostJobProfile extends Component{
@@ -18,12 +14,7 @@ export default class PostJobProfile extends Component{
       render() {
         return (
             <div>
-                <Grid item xs={12}>
-                    {/* <PrimarySearchAppBar/> */}
-                    <ResponsiveDrawer/>
-                    {/* <Sidebar_func tab={this.state.tabs}/> */}
-                    <Agents/>
-                </Grid>
+                    <Sidebar/>
             </div>
         );
       } 

@@ -29,6 +29,7 @@ import Menu from '@material-ui/core/Menu';
 import Navbar from '../components/Navbar';
 import Calendar from './Calendar';
 import Settings from './Settings';
+import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
@@ -70,6 +71,12 @@ class ResponsiveDrawer extends React.Component {
     tabs: [
         {id: 0,  name: 'Calendar', show: false},
         {id: 1, name: 'Settings', show: false}
+    ], 
+    home_tabs: [
+        {id: 0,  name: 'Find an Ally', show: false},
+        {id: 1, name: 'Job Bank', show: false},
+        {id: 2, name: 'Register', show: false},
+        {id: 3, name: 'Login', show: false}
     ]
   };
 
@@ -95,11 +102,12 @@ class ResponsiveDrawer extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
+    
+    console.log('Props' + this.props);
     const drawer = (
       <div>
         {/* <div className={classes.toolbar} /> */}
-        <Divider />
+        {/* <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
@@ -107,15 +115,37 @@ class ResponsiveDrawer extends React.Component {
               <ListItemText primary={text} />
             </ListItem>
           ))}   
-        </List>
+        </List> */}
+         {this.props.origin == 'home'?  
+         null :
+          <Card >
+                <CardMedia src="profile.png">
+                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
+                    <p>Sebastiao Silva</p>
+                </CardMedia>
+            </Card> 
+        }
         <Divider />
         <List>
-          {this.state.tabs.map((tabs, index) => (
+            {this.props.origin == 'home'?   
+             this.state.home_tabs.map((tabs, index) => (
             <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>
-          ))}
+          )) :  
+          this.state.tabs.map((tabs, index) => (
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
+              <ListItemText primary={tabs.name} />
+            </ListItem>))
+            }
+          {/* {this.state.tabs.map((tabs, index) => (
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
+              <ListItemText primary={tabs.name} />
+            </ListItem>
+          ))} */}
         </List>
     
       </div>
@@ -135,6 +165,10 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
         </IconButton>
+        <Button color="inherit">Find an Ally</Button>
+          <Button color="inherit">Job Bank</Button>
+          <Button color="inherit">Register</Button>
+          <Button color="inherit">Login</Button>
           {/* <Toolbar>
             <IconButton
               color="inherit"
@@ -167,12 +201,7 @@ class ResponsiveDrawer extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
-            <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card>
+         
               {drawer}
             </Drawer>
           </Hidden>
@@ -184,12 +213,6 @@ class ResponsiveDrawer extends React.Component {
               variant="permanent"
               open
             >        
-            <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card>
             {drawer}
             </Drawer>
           </Hidden>

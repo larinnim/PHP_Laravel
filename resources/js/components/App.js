@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home';
-import Agents from '../Agents/Agents';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import PostJobProfile from '../Agents/PostJobProfile';
-
+import Home from '../container/Home';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
+import PostJobProfile from '../container/PostJobProfile';
+import ResponsiveDrawer from './Sidebar';
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/agents" exact component={Agents} />
-                    <Route path="/post_job" exact component={PostJobProfile} />
-                    {/* <Route path="/signup" component={Signup} />                                                                    
-                    <Route path="/signin" component={Signin} /> */}
-                </Switch>
-            </BrowserRouter>
+            <div>
+              <Switch>
+                  <Route exact path='/' component={Home} />
+                  <Route path='/post_job' component={PostJobProfile} />
+              </Switch>
+            </div>
+          </BrowserRouter>
         );
+       
     }
 }
 
