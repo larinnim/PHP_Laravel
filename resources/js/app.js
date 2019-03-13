@@ -22,5 +22,7 @@ require('./components/Settings');
 require('./components/Sidebar');
 require('./components/NavApp');
 require('./container/PostJobProfile');
+require('./container/SignIn');
+
 
 
