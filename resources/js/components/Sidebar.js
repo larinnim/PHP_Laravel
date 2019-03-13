@@ -49,6 +49,12 @@ const styles = theme => ({
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
+  appBar_home: {
+    marginLeft: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - 0px)`,
+    },
+  },
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('sm')]: {
@@ -62,6 +68,12 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
+  },
+  flexGrow10: {
+    flexGrow: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 60,
+    },
   },
 });
 
@@ -155,7 +167,9 @@ class ResponsiveDrawer extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         {/* <PrimarySearchAppBar/> */}
-        <AppBar position="fixed" style={{ background: 'black' }} className={classes.appBar}>
+    
+   
+        <AppBar position="fixed" style={{ background: 'black' }} className="appBar">
         <Toolbar>
         <IconButton
               color="inherit"
@@ -165,28 +179,17 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
         </IconButton>
-        <Button color="inherit">Find an Ally</Button>
+        <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
+          Tarefazz
+        </Typography>
+        <Hidden xsDown >
+          <Button color="inherit">Find an Ally</Button>
           <Button color="inherit">Job Bank</Button>
           <Button color="inherit">Register</Button>
           <Button color="inherit">Login</Button>
-          {/* <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Responsive drawer
-            </Typography> */}
-             <Typography variant="h6" color="inherit" className="center-align" noWrap>
-                Tarefazz
-            </Typography>
-            <Navbar/>
-          {/* </Toolbar> */}
-          </Toolbar>
+          <Navbar/>
+        </Hidden>
+        </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -206,15 +209,17 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >        
-            {drawer}
-            </Drawer>
+         {this.props.origin == 'home' ? null :
+             <Drawer
+             classes={{
+               paper: classes.drawerPaper,
+             }}
+             variant="permanent"
+             open
+           >        
+           {drawer}
+           </Drawer>
+          }
           </Hidden>
         </nav>
         <main className={classes.content}>

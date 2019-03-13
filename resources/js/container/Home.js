@@ -19,6 +19,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
+          <ResponsiveDrawer origin="home"/>
           <Layout>
             <Autocomplete />
           </Layout>

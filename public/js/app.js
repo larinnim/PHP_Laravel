@@ -99561,9 +99561,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Layout = function Layout(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_1__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    origin: "home"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, props.children));
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_hoc_Aux__WEBPACK_IMPORTED_MODULE_1__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, props.children));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Layout);
@@ -99744,12 +99742,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var styles = {
-  root: {
-    flexGrow: 1
-  },
-  grow: {
-    flexGrow: 1
-  },
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // grow: {
+  //   flexGrow: 1,
+  // },
   menuButton: {
     marginLeft: -12,
     marginRight: 20
@@ -100328,6 +100326,11 @@ var styles = function styles(theme) {
     }, theme.breakpoints.up('sm'), {
       width: "calc(100% - ".concat(drawerWidth, "px)")
     }),
+    appBar_home: _defineProperty({
+      marginLeft: 0
+    }, theme.breakpoints.up('sm'), {
+      width: "calc(100% - 0px)"
+    }),
     menuButton: _defineProperty({
       marginRight: 20
     }, theme.breakpoints.up('sm'), {
@@ -100340,7 +100343,12 @@ var styles = function styles(theme) {
     content: {
       flexGrow: 1,
       padding: theme.spacing.unit * 3
-    }
+    },
+    flexGrow10: _defineProperty({
+      flexGrow: 10
+    }, theme.breakpoints.down('sm'), {
+      marginLeft: 60
+    })
   };
 };
 
@@ -100468,13 +100476,20 @@ function (_React$Component) {
         style: {
           background: 'black'
         },
-        className: classes.appBar
+        className: "appBar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Toolbar__WEBPACK_IMPORTED_MODULE_17___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_7___default.a, {
         color: "inherit",
         "aria-label": "Open drawer",
         onClick: this.handleDrawerToggle,
         className: classes.menuButton
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Menu__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_30___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Menu__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_18___default.a, {
+        variant: "h6",
+        color: "inherit",
+        className: classes.flexGrow10,
+        noWrap: true
+      }, "Tarefazz"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        xsDown: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_30___default.a, {
         color: "inherit"
       }, "Find an Ally"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_30___default.a, {
         color: "inherit"
@@ -100482,12 +100497,7 @@ function (_React$Component) {
         color: "inherit"
       }, "Register"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_30___default.a, {
         color: "inherit"
-      }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_18___default.a, {
-        variant: "h6",
-        color: "inherit",
-        className: "center-align",
-        noWrap: true
-      }, "Tarefazz"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_20__["default"], null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+      }, "Login"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navbar__WEBPACK_IMPORTED_MODULE_20__["default"], null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
         className: classes.drawer
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_6___default.a, {
         smUp: true,
@@ -100504,7 +100514,7 @@ function (_React$Component) {
       }, drawer)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_6___default.a, {
         xsDown: true,
         implementation: "css"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Drawer__WEBPACK_IMPORTED_MODULE_5___default.a, {
+      }, this.props.origin == 'home' ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Drawer__WEBPACK_IMPORTED_MODULE_5___default.a, {
         classes: {
           paper: classes.drawerPaper
         },
@@ -100623,7 +100633,9 @@ function (_React$Component) {
   _createClass(Home, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout_Layout__WEBPACK_IMPORTED_MODULE_13__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Autocomplete__WEBPACK_IMPORTED_MODULE_14__["default"], null)));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_12__["default"], {
+        origin: "home"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Layout_Layout__WEBPACK_IMPORTED_MODULE_13__["default"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Autocomplete__WEBPACK_IMPORTED_MODULE_14__["default"], null)));
     }
   }]);
 

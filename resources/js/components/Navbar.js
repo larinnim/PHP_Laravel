@@ -14,12 +14,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // grow: {
+  //   flexGrow: 1,
+  // },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
