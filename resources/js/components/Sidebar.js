@@ -30,6 +30,7 @@ import Navbar from '../components/Navbar';
 import Calendar from './Calendar';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
+import hashHistory from 'react-router';
 
 const drawerWidth = 240;
 
@@ -69,6 +70,14 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+  main_Tarefazz: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    color: 'white',
+    lineHeight: 1.75,
+    fontWeight: 500,
+    textDecoration: 'unset',
+    textTransform: 'uppercase',
+  },
   flexGrow10: {
     flexGrow: 10,
     [theme.breakpoints.down('sm')]: {
@@ -88,7 +97,7 @@ class ResponsiveDrawer extends React.Component {
         {id: 0,  name: 'Find an Ally', show: false},
         {id: 1, name: 'Job Bank', show: false},
         {id: 2, name: 'Register', show: false},
-        {id: 3, name: 'Login', show: false}
+        {id: 3, name: 'Login', show: false, href: '/login'}
     ]
   };
 
@@ -96,21 +105,24 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  handleClickTab = (tabIndex, id) => {
+  handleClickTab = (id) => {
 
-      const tab_found = {...this.state.tabs[id]};
-      console.log(tab_found);
-      tab_found.show = true;
+      const tab_found = {...this.state.home_tabs[id]};
+      window.location = tab_found.href;
+      // tab_found.show = true;
 
-      const tabs = [...this.state.tabs];
-      tabs[id] = tab_found;
-      this.state.tabs.map((tabs, index) => (
-          index == id ? tabs.show = true : tabs.show = false
-      ))
+      // const tabs = [...this.state.tabs];
+      // tabs[id] = tab_found;
+      // this.state.tabs.map((tabs, index) => (
+      //     index == id ? tabs.show = true : tabs.show = false
+      // ))
         
-      this.setState(state => ({ tabs: tabs}));
+      // this.setState(state => ({ tabs: tabs}));
     };
 
+    handleClickNav = href => {
+      window.location = href;
+    };
 
   render() {
     const { classes, theme } = this.props;
@@ -179,14 +191,16 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
         </IconButton>
-        <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
+        <a href="/" color="inherit" className={`${classes.flexGrow10} ${classes.main_Tarefazz}`}  >Tarefazz</a>
+        {/* <Button onClick={() => this.handleClickNav('/')} color="inherit" className={classes.flexGrow10}>Tarefazz</Button> */}
+        {/* <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
           Tarefazz
-        </Typography>
+        </Typography> */}
         <Hidden xsDown >
-          <Button color="inherit">Find an Ally</Button>
-          <Button color="inherit">Job Bank</Button>
-          <Button color="inherit">Register</Button>
-          <Button color="inherit">Login</Button>
+          <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
+          <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
+          <Button onClick={() => this.handleClickNav('/')} color="inherit">Register</Button>
+          <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>
           <Navbar/>
         </Hidden>
         </Toolbar>

@@ -18,3 +18,5 @@ use Illuminate\Http\Request;
 // });
 
 Route::get('occupations', 'OccupationController@index');
+Route::get('occupations/agents', 'OccupationController@agentOccupation');
+

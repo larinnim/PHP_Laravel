@@ -21,8 +21,10 @@ require('./components/Calendar');
 require('./components/Settings');
 require('./components/Sidebar');
 require('./components/NavApp');
+require('./components/Cards');
 require('./container/PostJobProfile');
 require('./container/SignIn');
+require('./container/AgentsOccupation');
 
 
 

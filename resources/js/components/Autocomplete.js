@@ -158,12 +158,23 @@ class Autocomplete extends React.Component {
   state = {
     single: null,
     suggestions: [],
+    results: [],
   };
 
   handleChange = name => value => {
     this.setState({
       [name]: value,
     });
+  };
+
+  handleSearch() {
+    let url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
+      axios.get(url)
+        .then(response => {
+          this.setState({results: response.data});
+          window.location = "/agents_occupations";
+        })
+        .catch(error => console.log(error));
   };
 
   componentDidMount () {
@@ -204,9 +215,15 @@ class Autocomplete extends React.Component {
           />
           <div className={classes.divider} />
         </NoSsr>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button onClick={() => this.handleSearch()} variant="contained" color="primary" className={classes.button}>
         Search
       </Button>
+      {this.state.results.length > 0 &&
+          <Redirect to={{
+            pathname: '/login',
+            state: { results: this.state.results }
+          }}/>
+        }
       </div>
     );
   }
