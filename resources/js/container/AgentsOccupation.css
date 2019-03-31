@@ -1,0 +1,10 @@
+.DottedBox_content {
+    margin-left: 'auto';
+    margin-right: 'auto';
+    margin-bottom: 20;
+    width: 40%;
+    margin-right: 50px;
+    margin-bottom: 20px;
+    /* max-width: 400; */
+    box-shadow:  0 4px 8px 0 rgba(0,0,0,0.2);
+  }

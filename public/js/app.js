@@ -18280,6 +18280,41 @@ exports.default = _default;
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/colors/orange.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@material-ui/core/colors/orange.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var orange = {
+  50: '#fff3e0',
+  100: '#ffe0b2',
+  200: '#ffcc80',
+  300: '#ffb74d',
+  400: '#ffa726',
+  500: '#ff9800',
+  600: '#fb8c00',
+  700: '#f57c00',
+  800: '#ef6c00',
+  900: '#e65100',
+  A100: '#ffd180',
+  A200: '#ffab40',
+  A400: '#ff9100',
+  A700: '#ff6d00'
+};
+var _default = orange;
+exports.default = _default;
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/colors/pink.js":
 /*!*******************************************************!*\
   !*** ./node_modules/@material-ui/core/colors/pink.js ***!
@@ -22498,6 +22533,73 @@ var _default = (0, _createSvgIcon.default)(_react.default.createElement(_react.d
 }), _react.default.createElement("path", {
   d: "M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"
 })), 'Share');
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/icons/Star.js":
+/*!*************************************************!*\
+  !*** ./node_modules/@material-ui/icons/Star.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@material-ui/icons/utils/createSvgIcon.js"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement(_react.default.Fragment, null, _react.default.createElement("path", {
+  fill: "none",
+  d: "M0 0h24v24H0z"
+}), _react.default.createElement("path", {
+  d: "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+}), _react.default.createElement("path", {
+  fill: "none",
+  d: "M0 0h24v24H0z"
+})), 'Star');
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/icons/StarBorder.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/icons/StarBorder.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _createSvgIcon = _interopRequireDefault(__webpack_require__(/*! ./utils/createSvgIcon */ "./node_modules/@material-ui/icons/utils/createSvgIcon.js"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement(_react.default.Fragment, null, _react.default.createElement("path", {
+  d: "M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"
+}), _react.default.createElement("path", {
+  fill: "none",
+  d: "M0 0h24v24H0z"
+})), 'StarBorder');
 
 exports.default = _default;
 
@@ -29571,6 +29673,25 @@ exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base
 
 // module
 exports.push([module.i, "/* DayPicker styles */\n\n.DayPicker {\n  display: inline-block;\n  font-size: 1rem;\n}\n\n.DayPicker-wrapper {\n  position: relative;\n\n  flex-direction: row;\n  padding-bottom: 1em;\n\n  -webkit-user-select: none;\n\n     -moz-user-select: none;\n\n      -ms-user-select: none;\n\n          user-select: none;\n}\n\n.DayPicker-Months {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.DayPicker-Month {\n  display: table;\n  margin: 0 1em;\n  margin-top: 1em;\n  border-spacing: 0;\n  border-collapse: collapse;\n\n  -webkit-user-select: none;\n\n     -moz-user-select: none;\n\n      -ms-user-select: none;\n\n          user-select: none;\n}\n\n.DayPicker-NavBar {\n}\n\n.DayPicker-NavButton {\n  position: absolute;\n  top: 1em;\n  right: 1.5em;\n  left: auto;\n\n  display: inline-block;\n  margin-top: 2px;\n  width: 1.25em;\n  height: 1.25em;\n  background-position: center;\n  background-size: 50%;\n  background-repeat: no-repeat;\n  color: #8B9898;\n  cursor: pointer;\n}\n\n.DayPicker-NavButton:hover {\n  opacity: 0.8;\n}\n\n.DayPicker-NavButton--prev {\n  margin-right: 1.5em;\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAVVJREFUWAnN2G0KgjAYwPHpGfRkaZeqvgQaK+hY3SUHrk1YzNLay/OiEFp92I+/Mp2F2Mh2lLISWnflFjzH263RQjzMZ19wgs73ez0o1WmtW+dgA01VxrE3p6l2GLsnBy1VYQOtVSEH/atCCgqpQgKKqYIOiq2CBkqtggLKqQIKgqgCBjpJ2Y5CdJ+zrT9A7HHSTA1dxUdHgzCqJIEwq0SDsKsEg6iqBIEoq/wEcVRZBXFV+QJxV5mBtlDFB5VjYTaGZ2sf4R9PM7U9ZU+lLuaetPP/5Die3ToO1+u+MKtHs06qODB2zBnI/jBd4MPQm1VkY79Tb18gB+C62FdBFsZR6yeIo1YQiLJWMIiqVjQIu1YSCLNWFgijVjYIuhYYCKoWKAiiFgoopxYaKLUWOii2FgkophYp6F3r42W5A9s9OcgNvva8xQaysKXlFytoqdYmQH6tF3toSUo0INq9AAAAAElFTkSuQmCC');\n}\n\n.DayPicker-NavButton--next {\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAXRJREFUWAnN119ugjAcwPHWzJ1gnmxzB/BBE0n24m4xfNkTaOL7wOtsl3AXMMb+Vjaa1BG00N8fSEibPpAP3xAKKs2yjzTPH9RAjhEo9WzPr/Vm8zgE0+gXATAxxuxtqeJ9t5tIwv5AtQAApsfT6TPdbp+kUBcgVwvO51KqVhMkXKsVJFXrOkigVhCIs1Y4iKlWZxB1rX4gwlpRIIpa8SDkWmggrFq4IIRaJKCYWnSgnrXIQV1r8YD+1Vrn+bReagysIFfLABRt31v8oBu1xEBttfRbltmfjgEcWh9snUS2kNdBK6WN1vrOWxObWsz+fjxevsxmB1GQDfINWiev83nhaoiB/CoOU438oPrhXS0WpQ9xc1ZQWxWHqUYe0I0qrKCQKjygDlXIQV2r0IF6ViEBxVTBBSFUQQNhVYkHIVeJAtkNsbQ7c1LtzP6FsObhb2rCKv7NBIGoq4SDmKoEgTirXAcJVGkFSVVpgoSrXICGUMUH/QBZNSUy5XWUhwAAAABJRU5ErkJggg==');\n}\n\n.DayPicker-NavButton--interactionDisabled {\n  display: none;\n}\n\n.DayPicker-Caption {\n  display: table-caption;\n  margin-bottom: 0.5em;\n  padding: 0 0.5em;\n  text-align: left;\n}\n\n.DayPicker-Caption > div {\n  font-weight: 500;\n  font-size: 1.15em;\n}\n\n.DayPicker-Weekdays {\n  display: table-header-group;\n  margin-top: 1em;\n}\n\n.DayPicker-WeekdaysRow {\n  display: table-row;\n}\n\n.DayPicker-Weekday {\n  display: table-cell;\n  padding: 0.5em;\n  color: #8B9898;\n  text-align: center;\n  font-size: 0.875em;\n}\n\n.DayPicker-Weekday abbr[title] {\n  border-bottom: none;\n  text-decoration: none;\n}\n\n.DayPicker-Body {\n  display: table-row-group;\n}\n\n.DayPicker-Week {\n  display: table-row;\n}\n\n.DayPicker-Day {\n  display: table-cell;\n  padding: 0.5em;\n  border-radius: 50%;\n  vertical-align: middle;\n  text-align: center;\n  cursor: pointer;\n}\n\n.DayPicker-WeekNumber {\n  display: table-cell;\n  padding: 0.5em;\n  min-width: 1em;\n  border-right: 1px solid #EAECEC;\n  color: #8B9898;\n  vertical-align: middle;\n  text-align: right;\n  font-size: 0.75em;\n  cursor: pointer;\n}\n\n.DayPicker--interactionDisabled .DayPicker-Day {\n  cursor: default;\n}\n\n.DayPicker-Footer {\n  padding-top: 0.5em;\n}\n\n.DayPicker-TodayButton {\n  border: none;\n  background-color: transparent;\n  background-image: none;\n  box-shadow: none;\n  color: #4A90E2;\n  font-size: 0.875em;\n  cursor: pointer;\n}\n\n/* Default modifiers */\n\n.DayPicker-Day--today {\n  color: #D0021B;\n  font-weight: 700;\n}\n\n.DayPicker-Day--outside {\n  color: #8B9898;\n  cursor: default;\n}\n\n.DayPicker-Day--disabled {\n  color: #DCE0E0;\n  cursor: default;\n  /* background-color: #eff1f1; */\n}\n\n/* Example modifiers */\n\n.DayPicker-Day--sunday {\n  background-color: #F7F8F8;\n}\n\n.DayPicker-Day--sunday:not(.DayPicker-Day--today) {\n  color: #DCE0E0;\n}\n\n.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {\n  position: relative;\n\n  background-color: #4A90E2;\n  color: #F0F8FF;\n}\n\n.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {\n  background-color: #51A0FA;\n}\n\n.DayPicker:not(.DayPicker--interactionDisabled)\n  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {\n  background-color: #F0F8FF;\n}\n\n/* DayPickerInput */\n\n.DayPickerInput {\n  display: inline-block;\n}\n\n.DayPickerInput-OverlayWrapper {\n  position: relative;\n}\n\n.DayPickerInput-Overlay {\n  position: absolute;\n  left: 0;\n  z-index: 1;\n\n  background: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/js/container/AgentsOccupation.css":
+/*!*************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./resources/js/container/AgentsOccupation.css ***!
+  \*************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".DottedBox_content {\n    margin-left: 'auto';\n    margin-right: 'auto';\n    margin-bottom: 20;\n    width: 40%;\n    margin-right: 50px;\n    margin-bottom: 20px;\n    /* max-width: 400; */\n    box-shadow:  0 4px 8px 0 rgba(0,0,0,0.2);\n  }", ""]);
 
 // exports
 
@@ -63619,6 +63740,265 @@ module.exports = warning;
 }.call(this));
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/material-ui-rating/lib/components/Rating/Rating.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/material-ui-rating/lib/components/Rating/Rating.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _IconButton = _interopRequireDefault(__webpack_require__(/*! @material-ui/core/IconButton */ "./node_modules/@material-ui/core/IconButton/index.js"));
+
+var _orange = _interopRequireDefault(__webpack_require__(/*! @material-ui/core/colors/orange */ "./node_modules/@material-ui/core/colors/orange.js"));
+
+var _grey = _interopRequireDefault(__webpack_require__(/*! @material-ui/core/colors/grey */ "./node_modules/@material-ui/core/colors/grey.js"));
+
+var _styles = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
+
+var _Star = _interopRequireDefault(__webpack_require__(/*! @material-ui/icons/Star */ "./node_modules/@material-ui/icons/Star.js"));
+
+var _StarBorder = _interopRequireDefault(__webpack_require__(/*! @material-ui/icons/StarBorder */ "./node_modules/@material-ui/icons/StarBorder.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+var noPointerEvents = {
+  pointerEvents: 'none'
+};
+var styles = {
+  root: {},
+  iconButton: {},
+  icon: {},
+  disabled: noPointerEvents,
+  readOnly: noPointerEvents
+  /**
+   * Material design star rating component for oyur star application!
+   * @see [Card UI controls](https://material.io/guidelines/components/cards.html#cards-actions)
+   */
+
+};
+
+var Rating =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Rating, _Component);
+
+  function Rating(props) {
+    var _this;
+
+    _classCallCheck(this, Rating);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Rating).call(this, props));
+    _this.state = {
+      hoverValue: props.value
+    };
+    return _this;
+  }
+
+  _createClass(Rating, [{
+    key: "renderIcon",
+    value: function renderIcon(i) {
+      var filled = i <= this.props.value;
+      var hovered = i <= this.state.hoverValue;
+      var normalColor = this.props.disabled ? {} : {
+        nativeColor: _grey.default[300]
+      };
+      var orangeColor = this.props.disabled ? {} : {
+        nativeColor: _orange.default[500]
+      };
+      var iconHovered = !this.props.iconHovered ? _react.default.createElement(_StarBorder.default, _extends({
+        classes: {
+          root: this.props.classes.icon
+        }
+      }, orangeColor)) : this.props.iconHovered;
+      var iconFilled = !this.props.iconFilled ? _react.default.createElement(_Star.default, _extends({
+        classes: {
+          root: this.props.classes.icon
+        }
+      }, orangeColor)) : this.props.iconFilled;
+      var iconNormal = !this.props.iconNormal ? _react.default.createElement(_StarBorder.default, _extends({
+        className: this.props.classes.icon
+      }, normalColor)) : this.props.iconNormal;
+
+      if (hovered && !filled || !hovered && filled) {
+        return this.props.iconHoveredRenderer ? this.props.iconHoveredRenderer(_objectSpread({}, this.props, {
+          index: i
+        })) : iconHovered;
+      } else if (filled) {
+        return this.props.iconFilledRenderer ? this.props.iconFilledRenderer(_objectSpread({}, this.props, {
+          index: i
+        })) : iconFilled;
+      } else {
+        return this.props.iconNormalRenderer ? this.props.iconNormalRenderer(_objectSpread({}, this.props, {
+          index: i
+        })) : iconNormal;
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$props = this.props,
+          classes = _this$props.classes,
+          max = _this$props.max,
+          disabled = _this$props.disabled,
+          readOnly = _this$props.readOnly,
+          value = _this$props.value,
+          onChange = _this$props.onChange;
+      var rating = [];
+
+      var _loop = function _loop(i) {
+        var _classNames;
+
+        rating.push(_react.default.createElement(_IconButton.default, {
+          key: i,
+          className: (0, _classnames.default)(classes.iconButton, (_classNames = {}, _defineProperty(_classNames, classes.disabled, disabled), _defineProperty(_classNames, classes.readOnly, readOnly), _classNames)),
+          disabled: disabled,
+          onMouseEnter: function onMouseEnter() {
+            return _this2.setState({
+              hoverValue: i
+            });
+          },
+          onMouseLeave: function onMouseLeave() {
+            return _this2.setState({
+              hoverValue: value
+            });
+          },
+          onClick: function onClick() {
+            if (!readOnly && onChange) {
+              onChange(i);
+            }
+          }
+        }, _this2.renderIcon(i)));
+      };
+
+      for (var i = 1; i <= max; i++) {
+        _loop(i);
+      }
+
+      return _react.default.createElement("div", {
+        className: classes.root
+      }, rating);
+    }
+  }]);
+
+  return Rating;
+}(_react.Component);
+
+Rating.defaultProps = {
+  disabled: false,
+  max: 5,
+  readOnly: false,
+  value: 0
+};
+Rating.propTypes = {
+  /** Useful to extend the style applied to components. See the repository README for the accepted keys. */
+  classes: _propTypes.default.object.isRequired,
+
+  /** Disables the rating and gray it out if set to true. */
+  disabled: _propTypes.default.bool,
+
+  /** This is the icon to be used as an icon in value range. */
+  iconFilled: _propTypes.default.node,
+
+  /** Overrides filled icon renderer. */
+  iconFilledRenderer: _propTypes.default.func,
+
+  /** Overrides hovered icon renderer. */
+  iconHoveredRenderer: _propTypes.default.func,
+
+  /** This is the icon to be used as an hovered icon. */
+  iconHovered: _propTypes.default.node,
+
+  /** This is the icon to be used as an normal icon. */
+  iconNormal: _propTypes.default.node,
+
+  /** Overrides normal icon renderer. */
+  iconNormalRenderer: _propTypes.default.func,
+
+  /** The max value of the rating bar. */
+  max: _propTypes.default.number,
+
+  /** Fired when a value is clicked. */
+  onChange: _propTypes.default.func,
+
+  /** Don't allow input if set to true. */
+  readOnly: _propTypes.default.bool,
+
+  /** The value of the rating bar. */
+  value: _propTypes.default.number
+};
+
+var _default = (0, _styles.withStyles)(styles)(Rating);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/material-ui-rating/lib/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/material-ui-rating/lib/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Rating = _interopRequireDefault(__webpack_require__(/*! ./components/Rating/Rating */ "./node_modules/material-ui-rating/lib/components/Rating/Rating.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = _Rating.default;
+exports.default = _default;
 
 /***/ }),
 
@@ -106038,6 +106418,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_icons_ExpandMore__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_ExpandMore__WEBPACK_IMPORTED_MODULE_16__);
 /* harmony import */ var _material_ui_icons_MoreVert__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/icons/MoreVert */ "./node_modules/@material-ui/icons/MoreVert.js");
 /* harmony import */ var _material_ui_icons_MoreVert__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_MoreVert__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var material_ui_rating__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! material-ui-rating */ "./node_modules/material-ui-rating/lib/index.js");
+/* harmony import */ var material_ui_rating__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(material_ui_rating__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _GoogleMaps__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./GoogleMaps */ "./resources/js/components/GoogleMaps.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106077,11 +106460,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var styles = function styles(theme) {
   return {
-    card: {
-      maxWidth: 400
-    },
+    card: _defineProperty({
+      marginLeft: 'auto',
+      marginRight: 2,
+      marginBottom: 20
+    }, theme.breakpoints.up('sm'), {
+      width: '40%'
+    }),
     media: {
       height: 0,
       paddingTop: '56.25%' // 16:9
@@ -106102,6 +106491,9 @@ var styles = function styles(theme) {
     },
     avatar: {
       backgroundColor: _material_ui_core_colors_red__WEBPACK_IMPORTED_MODULE_13___default.a[500]
+    },
+    margin_right: {
+      marginRight: 30
     }
   };
 };
@@ -106125,7 +106517,10 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Cards)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      expanded: false
+      expanded: false,
+      lat: -34.397,
+      lng: 150.644,
+      zoom: 8
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleExpandClick", function () {
@@ -106148,42 +106543,41 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardHeader__WEBPACK_IMPORTED_MODULE_5___default.a, {
         avatar: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Avatar__WEBPACK_IMPORTED_MODULE_10___default.a, {
           "aria-label": "Recipe",
+          src: "img/default.png",
           className: classes.avatar
         }, "R"),
-        action: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_MoreVert__WEBPACK_IMPORTED_MODULE_17___default.a, null)),
+        action: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Favorite__WEBPACK_IMPORTED_MODULE_14___default.a, null)),
         title: "Shrimp and Chorizo Paella",
-        subheader: "September 14, 2016"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_6___default.a, {
-        className: classes.media,
-        image: "img/default.png",
-        title: "Paella dish"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_7___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        component: "p"
-      }, "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        subheader: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+          variant: "caption",
+          gutterBottom: true
+        }, "Member Since: September 14, 2016")
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        className: classes.actions
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: classes.margin_right
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        variant: "caption",
+        gutterBottom: true
+      }, "Hourly Rate:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        variant: "subheading",
+        gutterBottom: true
+      }, "$ 8")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        variant: "caption",
+        gutterBottom: true
+      }, "Professions:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+        variant: "subheading",
+        gutterBottom: true
+      }, "Agent, Baby Sitter, Pet Sitter"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_8___default.a, {
         className: classes.actions,
         disableActionSpacing: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, {
-        "aria-label": "Add to favorites"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Favorite__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, {
-        "aria-label": "Share"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Share__WEBPACK_IMPORTED_MODULE_15___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, {
-        className: classnames__WEBPACK_IMPORTED_MODULE_3___default()(classes.expand, _defineProperty({}, classes.expandOpen, this.state.expanded)),
-        onClick: this.handleExpandClick,
-        "aria-expanded": this.state.expanded,
-        "aria-label": "Show more"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ExpandMore__WEBPACK_IMPORTED_MODULE_16___default.a, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Collapse__WEBPACK_IMPORTED_MODULE_9___default.a, {
-        in: this.state.expanded,
-        timeout: "auto",
-        unmountOnExit: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_7___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        paragraph: true
-      }, "Method:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        paragraph: true
-      }, "Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10 minutes."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        paragraph: true
-      }, "Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving chicken and chorizo in the pan. Add piment\xF3n, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook, stirring often until thickened and fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        paragraph: true
-      }, "Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don\u2019t open.)"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, null, "Set aside off of the heat to let rest for 10 minutes, and then serve."))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(material_ui_rating__WEBPACK_IMPORTED_MODULE_18___default.a, {
+        value: 3,
+        max: 5,
+        onChange: function onChange(value) {
+          return console.log("Rated with value ".concat(value));
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "(40,200 ratings)")));
     }
   }]);
 
@@ -106270,6 +106664,114 @@ function (_Component) {
 if (document.getElementById('example')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Example, null), document.getElementById('example'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/GoogleMaps.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/GoogleMaps.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+ // Google Maps Component ------
+// Wraps the google maps API 
+
+var GoogleMaps =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(GoogleMaps, _React$Component);
+
+  function GoogleMaps() {
+    _classCallCheck(this, GoogleMaps);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(GoogleMaps).call(this));
+  }
+
+  _createClass(GoogleMaps, [{
+    key: "shouldComponentUpdate",
+    value: function shouldComponentUpdate() {
+      return false;
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      this._setOptions(nextProps.lat, nextProps.lng, nextProps.zoom);
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this._renderMap();
+    }
+  }, {
+    key: "_setOptions",
+    value: function _setOptions(lat, lng, zoom) {
+      var mapOptions = {
+        center: {
+          lat: lat,
+          lng: lng
+        },
+        zoom: zoom
+      };
+      console.log(mapOptions);
+
+      this._map.setOptions(mapOptions);
+    }
+  }, {
+    key: "_renderMap",
+    value: function _renderMap() {
+      var mapOptions = {
+        center: {
+          lat: this.props.lat,
+          lng: this.props.lng
+        },
+        zoom: this.props.zoom
+      };
+      this._map = new google.maps.Map(this._map, mapOptions);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "map",
+        ref: function ref(m) {
+          return _this._map = m;
+        },
+        style: {
+          height: 250
+        }
+      });
+    }
+  }]);
+
+  return GoogleMaps;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (GoogleMaps);
 
 /***/ }),
 
@@ -107289,6 +107791,36 @@ ResponsiveDrawer.propTypes = {
 
 /***/ }),
 
+/***/ "./resources/js/container/AgentsOccupation.css":
+/*!*****************************************************!*\
+  !*** ./resources/js/container/AgentsOccupation.css ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/postcss-loader/src??ref--6-2!./AgentsOccupation.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./resources/js/container/AgentsOccupation.css");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./resources/js/container/AgentsOccupation.js":
 /*!****************************************************!*\
   !*** ./resources/js/container/AgentsOccupation.js ***!
@@ -107302,6 +107834,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _components_Cards__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Cards */ "./resources/js/components/Cards.js");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Sidebar */ "./resources/js/components/Sidebar.js");
+/* harmony import */ var _components_GoogleMaps__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/GoogleMaps */ "./resources/js/components/GoogleMaps.js");
+/* harmony import */ var _AgentsOccupation_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./AgentsOccupation.css */ "./resources/js/container/AgentsOccupation.css");
+/* harmony import */ var _AgentsOccupation_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_AgentsOccupation_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/Hidden */ "./node_modules/@material-ui/core/Hidden/index.js");
+/* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107312,17 +107849,25 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
+
+
+
+
+var divStyle = {
+  display: 'flex'
+};
 
 var AgentsOccupation =
 /*#__PURE__*/
@@ -107330,9 +107875,25 @@ function (_React$Component) {
   _inherits(AgentsOccupation, _React$Component);
 
   function AgentsOccupation() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, AgentsOccupation);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(AgentsOccupation).apply(this, arguments));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(AgentsOccupation)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      lat: -34.397,
+      lng: 150.644,
+      zoom: 8
+    });
+
+    return _this;
   }
 
   _createClass(AgentsOccupation, [{
@@ -107340,7 +107901,20 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         origin: "home"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Cards__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        style: divStyle
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Cards__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        smDown: true
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "DottedBox_content",
+        style: {
+          background: 'white'
+        }
+      }, "Your ally is located within this area:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_GoogleMaps__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        lat: this.state.lat,
+        lng: this.state.lng,
+        zoom: this.state.zoom
+      })))));
     }
   }]);
 

@@ -16,10 +16,19 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Rating  from 'material-ui-rating';
+import GoogleMaps from './GoogleMaps';
 
 const styles = theme => ({
   card: {
-    maxWidth: 400,
+    marginLeft: 'auto',
+    marginRight: 2,
+    marginBottom: 20,
+    [theme.breakpoints.up('sm')]: {
+      width: '40%'
+    },
+    // width: '40%'
+    // maxWidth: 400,
   },
   media: {
     height: 0,
@@ -27,7 +36,7 @@ const styles = theme => ({
   },
   actions: {
     display: 'flex',
-  },
+  },    
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -41,10 +50,18 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+  margin_right: {
+    marginRight: 30,
+  },   
 });
 
 class Cards extends React.Component {
-  state = { expanded: false };
+  state = {
+     expanded: false,
+      lat: -34.397,
+      lng: 150.644,
+      zoom: 8
+  };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -57,37 +74,57 @@ class Cards extends React.Component {
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
+            <Avatar aria-label="Recipe" src="img/default.png"  className={classes.avatar}>
               R
             </Avatar>
           }
           action={
             <IconButton>
-              <MoreVertIcon />
+              <FavoriteIcon/>
             </IconButton>
           }
           title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
+          subheader={
+            <Typography variant="caption" gutterBottom>
+              Member Since: September 14, 2016
+          </Typography>}
         />
-        <CardMedia
+        {/* <CardMedia
           className={classes.media}
           image="img/default.png"
           title="Paella dish"
-        />
-        <CardContent>
-          <Typography component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
+        /> */}
+        <CardContent className={classes.actions} >
+          <div className={classes.margin_right}>
+            <Typography variant="caption" gutterBottom>
+              Hourly Rate:  
+            </Typography>
+            <Typography variant="subheading" gutterBottom>
+              $ 8  
+            </Typography>
+          </div>
+          <div>
+            <Typography variant="caption" gutterBottom>
+              Professions:  
+            </Typography>
+            <Typography variant="subheading" gutterBottom>
+              Agent, Baby Sitter, Pet Sitter 
+            </Typography>
+          </div>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton aria-label="Add to favorites">
+          {/* <IconButton aria-label="Add to favorites">
             <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="Share">
-            <ShareIcon />
-          </IconButton>
-          <IconButton
+          </IconButton> */}
+          <Rating
+            value={3}
+            max={5}
+            onChange={(value) => console.log(`Rated with value ${value}`)}
+          />
+          <div>
+          (40,200 ratings)
+          </div>
+          {/* <IconButton
             className={classnames(classes.expand, {
               [classes.expandOpen]: this.state.expanded,
             })}
@@ -96,9 +133,9 @@ class Cards extends React.Component {
             aria-label="Show more"
           >
             <ExpandMoreIcon />
-          </IconButton>
+          </IconButton> */}
         </CardActions>
-        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+        {/* <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Typography paragraph>Method:</Typography>
             <Typography paragraph>
@@ -124,7 +161,7 @@ class Cards extends React.Component {
               Set aside off of the heat to let rest for 10 minutes, and then serve.
             </Typography>
           </CardContent>
-        </Collapse>
+        </Collapse> */}
       </Card>
     );
   }
