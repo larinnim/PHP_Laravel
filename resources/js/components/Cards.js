@@ -22,10 +22,11 @@ import GoogleMaps from './GoogleMaps';
 const styles = theme => ({
   card: {
     marginLeft: 'auto',
-    marginRight: 2,
+    marginRight: 'auto',
     marginBottom: 20,
     [theme.breakpoints.up('sm')]: {
-      width: '40%'
+      width: '40%',
+      marginRight: 2,
     },
     // width: '40%'
     // maxWidth: 400,
@@ -37,16 +38,6 @@ const styles = theme => ({
   actions: {
     display: 'flex',
   },    
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
   avatar: {
     backgroundColor: red[500],
   },
@@ -55,21 +46,8 @@ const styles = theme => ({
   },   
 });
 
-class Cards extends React.Component {
-  state = {
-     expanded: false,
-      lat: -34.397,
-      lng: 150.644,
-      zoom: 8
-  };
-
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
-
-  render() {
-    const { classes } = this.props;
-
+  var Cards_func =  function Cards (props) {
+    const { name, member_since, hourly_rate, professions, classes, rating, total_rating } = props;
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -83,10 +61,11 @@ class Cards extends React.Component {
               <FavoriteIcon/>
             </IconButton>
           }
-          title="Shrimp and Chorizo Paella"
+          title={name}
           subheader={
             <Typography variant="caption" gutterBottom>
-              Member Since: September 14, 2016
+              Member Since: {member_since}
+              {/* Member Since: September 14, 2016 */}
           </Typography>}
         />
         {/* <CardMedia
@@ -100,7 +79,7 @@ class Cards extends React.Component {
               Hourly Rate:  
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              $ 8  
+              {hourly_rate}
             </Typography>
           </div>
           <div>
@@ -108,7 +87,7 @@ class Cards extends React.Component {
               Professions:  
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              Agent, Baby Sitter, Pet Sitter 
+            {professions}
             </Typography>
           </div>
         </CardContent>
@@ -117,12 +96,12 @@ class Cards extends React.Component {
             <FavoriteIcon />
           </IconButton> */}
           <Rating
-            value={3}
+            value={rating}
             max={5}
             onChange={(value) => console.log(`Rated with value ${value}`)}
           />
           <div>
-          (40,200 ratings)
+            ({total_rating} ratings)
           </div>
           {/* <IconButton
             className={classnames(classes.expand, {
@@ -165,10 +144,11 @@ class Cards extends React.Component {
       </Card>
     );
   }
-}
+  export default withStyles( styles ) (Cards_func);
+// }
 
-Cards.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// Cards.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
-export default withStyles(styles)(Cards);
+// export default withStyles(styles)(Cards);

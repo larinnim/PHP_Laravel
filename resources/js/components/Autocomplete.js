@@ -171,8 +171,7 @@ class Autocomplete extends React.Component {
     let url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
       axios.get(url)
         .then(response => {
-          this.setState({results: response.data});
-          window.location = "/agents_occupations";
+          response.data.length > 0 ? window.location = "/agents_occupations?q=" +  encodeURI(this.state.single.value) : '';
         })
         .catch(error => console.log(error));
   };
@@ -218,12 +217,12 @@ class Autocomplete extends React.Component {
         <Button onClick={() => this.handleSearch()} variant="contained" color="primary" className={classes.button}>
         Search
       </Button>
-      {this.state.results.length > 0 &&
+      {/* {this.state.results.length > 0 &&
           <Redirect to={{
             pathname: '/login',
             state: { results: this.state.results }
           }}/>
-        }
+        } */}
       </div>
     );
   }

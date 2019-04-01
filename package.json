@@ -31,6 +31,7 @@
         "autosuggest-highlight": "^3.1.1",
         "material-ui-rating": "^3.0.1",
         "material-ui-star-rating": "^1.0.0",
+        "query-string": "^6.4.2",
         "react-autosuggest": "^9.4.3",
         "react-datepicker": "^2.1.0",
         "react-day-picker": "^7.3.0",

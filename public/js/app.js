@@ -30173,6 +30173,112 @@ module.exports = debounce;
 
 /***/ }),
 
+/***/ "./node_modules/decode-uri-component/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/decode-uri-component/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var token = '%[a-f0-9]{2}';
+var singleMatcher = new RegExp(token, 'gi');
+var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+
+function decodeComponents(components, split) {
+	try {
+		// Try to decode the entire string first
+		return decodeURIComponent(components.join(''));
+	} catch (err) {
+		// Do nothing
+	}
+
+	if (components.length === 1) {
+		return components;
+	}
+
+	split = split || 1;
+
+	// Split the array in 2 parts
+	var left = components.slice(0, split);
+	var right = components.slice(split);
+
+	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
+}
+
+function decode(input) {
+	try {
+		return decodeURIComponent(input);
+	} catch (err) {
+		var tokens = input.match(singleMatcher);
+
+		for (var i = 1; i < tokens.length; i++) {
+			input = decodeComponents(tokens, i).join('');
+
+			tokens = input.match(singleMatcher);
+		}
+
+		return input;
+	}
+}
+
+function customDecodeURIComponent(input) {
+	// Keep track of all the replacements and prefill the map with the `BOM`
+	var replaceMap = {
+		'%FE%FF': '\uFFFD\uFFFD',
+		'%FF%FE': '\uFFFD\uFFFD'
+	};
+
+	var match = multiMatcher.exec(input);
+	while (match) {
+		try {
+			// Decode as big chunks as possible
+			replaceMap[match[0]] = decodeURIComponent(match[0]);
+		} catch (err) {
+			var result = decode(match[0]);
+
+			if (result !== match[0]) {
+				replaceMap[match[0]] = result;
+			}
+		}
+
+		match = multiMatcher.exec(input);
+	}
+
+	// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
+	replaceMap['%C2'] = '\uFFFD';
+
+	var entries = Object.keys(replaceMap);
+
+	for (var i = 0; i < entries.length; i++) {
+		// Replace all decoded components
+		var key = entries[i];
+		input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
+	}
+
+	return input;
+}
+
+module.exports = function (encodedURI) {
+	if (typeof encodedURI !== 'string') {
+		throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + typeof encodedURI + '`');
+	}
+
+	try {
+		encodedURI = encodedURI.replace(/\+/g, ' ');
+
+		// Try the built in decoder first
+		return decodeURIComponent(encodedURI);
+	} catch (err) {
+		// Fallback to a more advanced decoder
+		return customDecodeURIComponent(encodedURI);
+	}
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/dom-helpers/class/addClass.js":
 /*!****************************************************!*\
   !*** ./node_modules/dom-helpers/class/addClass.js ***!
@@ -67762,6 +67868,278 @@ module.exports = ReactPropTypesSecret;
 
 /***/ }),
 
+/***/ "./node_modules/query-string/index.js":
+/*!********************************************!*\
+  !*** ./node_modules/query-string/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+const strictUriEncode = __webpack_require__(/*! strict-uri-encode */ "./node_modules/strict-uri-encode/index.js");
+const decodeComponent = __webpack_require__(/*! decode-uri-component */ "./node_modules/decode-uri-component/index.js");
+const splitOnFirst = __webpack_require__(/*! split-on-first */ "./node_modules/split-on-first/index.js");
+
+function encoderForArrayFormat(options) {
+	switch (options.arrayFormat) {
+		case 'index':
+			return key => (result, value) => {
+				const index = result.length;
+				if (value === undefined) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, [encode(key, options), '[', index, ']'].join('')];
+				}
+
+				return [
+					...result,
+					[encode(key, options), '[', encode(index, options), ']=', encode(value, options)].join('')
+				];
+			};
+
+		case 'bracket':
+			return key => (result, value) => {
+				if (value === undefined) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, [encode(key, options), '[]'].join('')];
+				}
+
+				return [...result, [encode(key, options), '[]=', encode(value, options)].join('')];
+			};
+
+		case 'comma':
+			return key => (result, value, index) => {
+				if (!value) {
+					return result;
+				}
+
+				if (index === 0) {
+					return [[encode(key, options), '=', encode(value, options)].join('')];
+				}
+
+				return [[result, encode(value, options)].join(',')];
+			};
+
+		default:
+			return key => (result, value) => {
+				if (value === undefined) {
+					return result;
+				}
+
+				if (value === null) {
+					return [...result, encode(key, options)];
+				}
+
+				return [...result, [encode(key, options), '=', encode(value, options)].join('')];
+			};
+	}
+}
+
+function parserForArrayFormat(options) {
+	let result;
+
+	switch (options.arrayFormat) {
+		case 'index':
+			return (key, value, accumulator) => {
+				result = /\[(\d*)\]$/.exec(key);
+
+				key = key.replace(/\[\d*\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return (key, value, accumulator) => {
+				result = /(\[\])$/.exec(key);
+				key = key.replace(/\[\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = [value];
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		case 'comma':
+			return (key, value, accumulator) => {
+				const isArray = typeof value === 'string' && value.split('').indexOf(',') > -1;
+				const newValue = isArray ? value.split(',') : value;
+				accumulator[key] = newValue;
+			};
+
+		default:
+			return (key, value, accumulator) => {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
+function encode(value, options) {
+	if (options.encode) {
+		return options.strict ? strictUriEncode(value) : encodeURIComponent(value);
+	}
+
+	return value;
+}
+
+function decode(value, options) {
+	if (options.decode) {
+		return decodeComponent(value);
+	}
+
+	return value;
+}
+
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	}
+
+	if (typeof input === 'object') {
+		return keysSorter(Object.keys(input))
+			.sort((a, b) => Number(a) - Number(b))
+			.map(key => input[key]);
+	}
+
+	return input;
+}
+
+function extract(input) {
+	const queryStart = input.indexOf('?');
+	if (queryStart === -1) {
+		return '';
+	}
+
+	return input.slice(queryStart + 1);
+}
+
+function parse(input, options) {
+	options = Object.assign({
+		decode: true,
+		arrayFormat: 'none'
+	}, options);
+
+	const formatter = parserForArrayFormat(options);
+
+	// Create an object with no prototype
+	const ret = Object.create(null);
+
+	if (typeof input !== 'string') {
+		return ret;
+	}
+
+	input = input.trim().replace(/^[?#&]/, '');
+
+	if (!input) {
+		return ret;
+	}
+
+	for (const param of input.split('&')) {
+		let [key, value] = splitOnFirst(param.replace(/\+/g, ' '), '=');
+
+		// Missing `=` should be `null`:
+		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+		value = value === undefined ? null : decode(value, options);
+
+		formatter(decode(key, options), value, ret);
+	}
+
+	return Object.keys(ret).sort().reduce((result, key) => {
+		const value = ret[key];
+		if (Boolean(value) && typeof value === 'object' && !Array.isArray(value)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(value);
+		} else {
+			result[key] = value;
+		}
+
+		return result;
+	}, Object.create(null));
+}
+
+exports.extract = extract;
+exports.parse = parse;
+
+exports.stringify = (object, options) => {
+	if (!object) {
+		return '';
+	}
+
+	options = Object.assign({
+		encode: true,
+		strict: true,
+		arrayFormat: 'none'
+	}, options);
+
+	const formatter = encoderForArrayFormat(options);
+	const keys = Object.keys(object);
+
+	if (options.sort !== false) {
+		keys.sort(options.sort);
+	}
+
+	return keys.map(key => {
+		const value = object[key];
+
+		if (value === undefined) {
+			return '';
+		}
+
+		if (value === null) {
+			return encode(key, options);
+		}
+
+		if (Array.isArray(value)) {
+			return value
+				.reduce(formatter(key), [])
+				.join('&');
+		}
+
+		return encode(key, options) + '=' + encode(value, options);
+	}).filter(x => x.length > 0).join('&');
+};
+
+exports.parseUrl = (input, options) => {
+	const hashStart = input.indexOf('#');
+	if (hashStart !== -1) {
+		input = input.slice(0, hashStart);
+	}
+
+	return {
+		url: input.split('?')[0] || '',
+		query: parse(extract(input), options)
+	};
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/raf/index.js":
 /*!***********************************!*\
   !*** ./node_modules/raf/index.js ***!
@@ -104902,6 +105280,54 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/split-on-first/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/split-on-first/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = (string, separator) => {
+	if (!(typeof string === 'string' && typeof separator === 'string')) {
+		throw new TypeError('Expected the arguments to be of type `string`');
+	}
+
+	if (separator === '') {
+		return [string];
+	}
+
+	const separatorIndex = string.indexOf(separator);
+
+	if (separatorIndex === -1) {
+		return [string];
+	}
+
+	return [
+		string.slice(0, separatorIndex),
+		string.slice(separatorIndex + separator.length)
+	];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/strict-uri-encode/index.js":
+/*!*************************************************!*\
+  !*** ./node_modules/strict-uri-encode/index.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
+
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -106191,11 +106617,7 @@ function (_React$Component) {
 
       var url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
       axios.get(url).then(function (response) {
-        _this2.setState({
-          results: response.data
-        });
-
-        window.location = "/agents_occupations";
+        response.data.length > 0 ? window.location = "/agents_occupations?q=" + encodeURI(_this2.state.single.value) : '';
       }).catch(function (error) {
         return console.log(error);
       });
@@ -106254,14 +106676,7 @@ function (_React$Component) {
         variant: "contained",
         color: "primary",
         className: classes.button
-      }, "Search"), this.state.results.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Redirect, {
-        to: {
-          pathname: '/login',
-          state: {
-            results: this.state.results
-          }
-        }
-      }));
+      }, "Search"));
     }
   }]);
 
@@ -106421,24 +106836,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var material_ui_rating__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! material-ui-rating */ "./node_modules/material-ui-rating/lib/index.js");
 /* harmony import */ var material_ui_rating__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(material_ui_rating__WEBPACK_IMPORTED_MODULE_18__);
 /* harmony import */ var _GoogleMaps__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./GoogleMaps */ "./resources/js/components/GoogleMaps.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -106466,10 +106863,11 @@ var styles = function styles(theme) {
   return {
     card: _defineProperty({
       marginLeft: 'auto',
-      marginRight: 2,
+      marginRight: 'auto',
       marginBottom: 20
     }, theme.breakpoints.up('sm'), {
-      width: '40%'
+      width: '40%',
+      marginRight: 2
     }),
     media: {
       height: 0,
@@ -106478,16 +106876,6 @@ var styles = function styles(theme) {
     },
     actions: {
       display: 'flex'
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest
-      })
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)'
     },
     avatar: {
       backgroundColor: _material_ui_core_colors_red__WEBPACK_IMPORTED_MODULE_13___default.a[500]
@@ -106498,96 +106886,61 @@ var styles = function styles(theme) {
   };
 };
 
-var Cards =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(Cards, _React$Component);
-
-  function Cards() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    _classCallCheck(this, Cards);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+var Cards_func = function Cards(props) {
+  var name = props.name,
+      member_since = props.member_since,
+      hourly_rate = props.hourly_rate,
+      professions = props.professions,
+      classes = props.classes,
+      rating = props.rating,
+      total_rating = props.total_rating;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    className: classes.card
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardHeader__WEBPACK_IMPORTED_MODULE_5___default.a, {
+    avatar: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Avatar__WEBPACK_IMPORTED_MODULE_10___default.a, {
+      "aria-label": "Recipe",
+      src: "img/default.png",
+      className: classes.avatar
+    }, "R"),
+    action: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Favorite__WEBPACK_IMPORTED_MODULE_14___default.a, null)),
+    title: name,
+    subheader: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+      variant: "caption",
+      gutterBottom: true
+    }, "Member Since: ", member_since)
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_7___default.a, {
+    className: classes.actions
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: classes.margin_right
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    variant: "caption",
+    gutterBottom: true
+  }, "Hourly Rate:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    variant: "subheading",
+    gutterBottom: true
+  }, hourly_rate)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    variant: "caption",
+    gutterBottom: true
+  }, "Professions:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    variant: "subheading",
+    gutterBottom: true
+  }, professions))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_8___default.a, {
+    className: classes.actions,
+    disableActionSpacing: true
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(material_ui_rating__WEBPACK_IMPORTED_MODULE_18___default.a, {
+    value: rating,
+    max: 5,
+    onChange: function onChange(value) {
+      return console.log("Rated with value ".concat(value));
     }
-
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Cards)).call.apply(_getPrototypeOf2, [this].concat(args)));
-
-    _defineProperty(_assertThisInitialized(_this), "state", {
-      expanded: false,
-      lat: -34.397,
-      lng: 150.644,
-      zoom: 8
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "handleExpandClick", function () {
-      _this.setState(function (state) {
-        return {
-          expanded: !state.expanded
-        };
-      });
-    });
-
-    return _this;
-  }
-
-  _createClass(Cards, [{
-    key: "render",
-    value: function render() {
-      var classes = this.props.classes;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        className: classes.card
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardHeader__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        avatar: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Avatar__WEBPACK_IMPORTED_MODULE_10___default.a, {
-          "aria-label": "Recipe",
-          src: "img/default.png",
-          className: classes.avatar
-        }, "R"),
-        action: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Favorite__WEBPACK_IMPORTED_MODULE_14___default.a, null)),
-        title: "Shrimp and Chorizo Paella",
-        subheader: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-          variant: "caption",
-          gutterBottom: true
-        }, "Member Since: September 14, 2016")
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_7___default.a, {
-        className: classes.actions
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: classes.margin_right
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        variant: "caption",
-        gutterBottom: true
-      }, "Hourly Rate:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        variant: "subheading",
-        gutterBottom: true
-      }, "$ 8")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        variant: "caption",
-        gutterBottom: true
-      }, "Professions:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_12___default.a, {
-        variant: "subheading",
-        gutterBottom: true
-      }, "Agent, Baby Sitter, Pet Sitter"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        className: classes.actions,
-        disableActionSpacing: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(material_ui_rating__WEBPACK_IMPORTED_MODULE_18___default.a, {
-        value: 3,
-        max: 5,
-        onChange: function onChange(value) {
-          return console.log("Rated with value ".concat(value));
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "(40,200 ratings)")));
-    }
-  }]);
-
-  return Cards;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-Cards.propTypes = {
-  classes: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.object.isRequired
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "(", total_rating, " ratings)")));
 };
-/* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["withStyles"])(styles)(Cards));
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["withStyles"])(styles)(Cards_func)); // }
+// Cards.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
+// export default withStyles(styles)(Cards);
 
 /***/ }),
 
@@ -107839,6 +108192,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AgentsOccupation_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_AgentsOccupation_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/Hidden */ "./node_modules/@material-ui/core/Hidden/index.js");
 /* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
+/* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(query_string__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107865,9 +108222,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var divStyle = {
   display: 'flex'
 };
+var agents = [{
+  name: 'Jose Alencar',
+  member_since: 'March 26, 2019',
+  hourly_rate: '$ 98',
+  professions: 'Agent, Baby Sitter',
+  rating: 0,
+  total_rating: 20,
+  objectID: 0,
+  lat: -34.397,
+  lng: 150.644,
+  zoom: 8
+}, {
+  name: 'Maria do Bairro',
+  member_since: 'September 2, 2019',
+  hourly_rate: '$ 1540',
+  professions: 'Elderly Care',
+  rating: 4,
+  total_rating: 500,
+  objectID: 1,
+  lat: 46.449340,
+  lng: -80.982040,
+  zoom: 8
+}];
 
 var AgentsOccupation =
 /*#__PURE__*/
@@ -107888,33 +108270,67 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(AgentsOccupation)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      lat: -34.397,
-      lng: 150.644,
-      zoom: 8
+      users: [] //  lat: -34.397,
+      //  lng: 150.644,
+      //  zoom: 8
+
     });
 
     return _this;
   }
 
   _createClass(AgentsOccupation, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var values = query_string__WEBPACK_IMPORTED_MODULE_7___default.a.parse(this.props.location.search);
+      console.log(values); // "top"
+
+      var url = '/api/occupations/agents?q=' + encodeURI(values.q);
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get(url).then(function (response) {
+        console.log(response.data);
+
+        _this2.setState({
+          users: response.data
+        });
+      }).catch(function (error) {
+        return console.log(error);
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         origin: "home"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-        style: divStyle
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Cards__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        smDown: true
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "DottedBox_content",
-        style: {
-          background: 'white'
-        }
-      }, "Your ally is located within this area:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_GoogleMaps__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        lat: this.state.lat,
-        lng: this.state.lng,
-        zoom: this.state.zoom
-      })))));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.users.map(function (user) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: user.id
+        }, user.name);
+      })), agents.map(function (agent) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+          style: divStyle,
+          key: agent.objectID
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Cards__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          name: agent.name,
+          member_since: agent.member_since,
+          hourly_rate: agent.hourly_rate,
+          professions: agent.professions,
+          rating: agent.rating,
+          total_rating: agent.total_rating
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_5___default.a, {
+          smDown: true
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "DottedBox_content",
+          style: {
+            background: 'white'
+          }
+        }, "Your ally is located within this area:", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_GoogleMaps__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          lat: agent.lat,
+          lng: agent.lng,
+          zoom: agent.zoom
+        }))));
+      }));
     }
   }]);
 

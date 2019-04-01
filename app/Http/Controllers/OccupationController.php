@@ -18,7 +18,8 @@ class OccupationController extends Controller
 
       public function agentOccupation(Request $request) 
         {
-          $professions = User::where('professions', 'like', "%\"{$request->q}\"%")->get();
-          Log::alert($professions);
+          $user_searched_profession = User::where('professions', 'like', "%\"{$request->q}\"%")->get();
+          Log::alert($user_searched_profession);
+          return $user_searched_profession->toJson();
         }
 }
