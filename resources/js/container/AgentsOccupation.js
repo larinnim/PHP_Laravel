@@ -63,10 +63,31 @@ class AgentsOccupation extends React.Component {
     return (
       <div>
           <ResponsiveDrawer origin="home"/>
-          <div>
-          { this.state.users.map(user => <li key={user.id} >{user.name}</li>)}
-          </div>
-          {agents.map(function(agent) {
+          {/* <div> */}
+          { this.state.users.map(user => 
+          // <li key={user.id} >{user.name}</li>
+            <article style={divStyle} key={user.id}>
+                <Cards
+                name={user.name} 
+                member_since={user.member_since} 
+                hourly_rate={user.hourly_rate} 
+                professions={user.professions} 
+                rating={user.rating} 
+                total_rating={user.total_rating} 
+                />
+                <Hidden smDown>
+                <div className="DottedBox_content" style={{background: 'white'}}>
+                Your ally is located within this area:
+                  <GoogleMaps 
+                  lat={user.latitude} 
+                  lng={user.longitude} 
+                  zoom={user.zoom} />
+                </div>
+              </Hidden>
+            </article>
+          )}
+        {/* </div> */}
+          {/* {agents.map(function(agent) {
             return <article style={divStyle} key={agent.objectID}>
               <Cards
               name={agent.name} 
@@ -86,7 +107,7 @@ class AgentsOccupation extends React.Component {
               </div>
             </Hidden>
             </article>;
-          })}
+          })} */}
       </div>
     );
   }

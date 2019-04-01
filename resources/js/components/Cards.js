@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating  from 'material-ui-rating';
 import GoogleMaps from './GoogleMaps';
+import Moment from 'react-moment';
 
 const styles = theme => ({
   card: {
@@ -41,6 +42,9 @@ const styles = theme => ({
   avatar: {
     backgroundColor: red[500],
   },
+ capitalize: {
+  textTransform: 'capitalize',
+ },
   margin_right: {
     marginRight: 30,
   },   
@@ -64,8 +68,7 @@ const styles = theme => ({
           title={name}
           subheader={
             <Typography variant="caption" gutterBottom>
-              Member Since: {member_since}
-              {/* Member Since: September 14, 2016 */}
+              Member Since:         <Moment format="MMMM Do YYYY">{member_since}</Moment>
           </Typography>}
         />
         {/* <CardMedia
@@ -79,16 +82,25 @@ const styles = theme => ({
               Hourly Rate:  
             </Typography>
             <Typography variant="subheading" gutterBottom>
-              {hourly_rate}
+              $ {hourly_rate}
             </Typography>
           </div>
           <div>
             <Typography variant="caption" gutterBottom>
               Professions:  
             </Typography>
-            <Typography variant="subheading" gutterBottom>
-            {professions}
-            </Typography>
+            {/* <Typography variant="subheading" gutterBottom> */}
+            {
+              JSON.parse(professions).map(function (profession, index) {
+                return (
+                  <ul key={index}>
+                  <li className={classes.capitalize}>
+                    {profession}
+                  </li>
+                </ul>
+                )
+              })
+            }
           </div>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>

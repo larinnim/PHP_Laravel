@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOccupationsTable extends Migration
+class ChangeUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateOccupationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('occupations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->float('hourly_rate', 4,2);
+            $table->string('professions');
+            $table->integer('total_rating');
+            $table->date('member_since');
         });
     }
 
@@ -26,6 +28,6 @@ class CreateOccupationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occupations');
+        //
     }
 }

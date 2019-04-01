@@ -171,6 +171,7 @@ class Autocomplete extends React.Component {
     let url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
       axios.get(url)
         .then(response => {
+          console.log(response.data);
           response.data.length > 0 ? window.location = "/agents_occupations?q=" +  encodeURI(this.state.single.value) : '';
         })
         .catch(error => console.log(error));
