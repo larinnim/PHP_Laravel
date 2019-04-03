@@ -42,13 +42,19 @@ class AgentsOccupation extends React.Component {
   sortByPriceAsc() {
     this.setState(prevState => {
       this.state.users.sort((a, b) => (a.hourly_rate - b.hourly_rate))
-  });
+    });
   }
 
   sortByPriceDesc() {
     this.setState(prevState => {
       this.state.users.sort((a, b) => (b.hourly_rate - a.hourly_rate))
-  });
+    });
+  }
+
+  sortByReview() {
+    this.setState(prevState => {
+      this.state.users.sort((a, b) => (b.rating - a.rating))
+    });
   }
 
   handleChange = event => {
@@ -57,6 +63,9 @@ class AgentsOccupation extends React.Component {
     }
     else if (event.target.value == 'sortByPriceDesc'){
       this.sortByPriceDesc();
+    }
+    else if (event.target.value == 'sortByReview'){
+      this.sortByReview();
     }
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -75,7 +84,7 @@ class AgentsOccupation extends React.Component {
                   <option value="none" disabled>Sort by:</option>
                   <option value="sortByPriceAsc">Price: Low to High</option>
                   <option value="sortByPriceDesc">Price: High to Low</option>
-                  <option value="3">Avg. Customer Review</option>
+                  <option value="sortByReview">Avg. Customer Review</option>
                 </Select>
               </div>
             </div>
