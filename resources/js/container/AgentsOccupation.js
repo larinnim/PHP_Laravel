@@ -6,111 +6,103 @@ import './AgentsOccupation.css';
 import Hidden from '@material-ui/core/Hidden';
 import axios from 'axios';
 import queryString from 'query-string'
+import Autocomplete from '../components/Autocomplete';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FilledInput from '@material-ui/core/FilledInput';
+import Typography from '@material-ui/core/Typography';
 
 const divStyle = {
   display: 'flex',
 };
+const topbar = {
+  backgroundColor: 'white',
+  marginBottom: 50,
+};
+const mov_right = {
+  float: 'right',
+}
 
-const agents = [
-    {
-    name: 'Jose Alencar',
-    member_since: 'March 26, 2019',
-    hourly_rate: '$ 98',
-    professions: 'Agent, Baby Sitter',
-    rating: 0,
-    total_rating: 20,
-    objectID: 0,
-    lat: -34.397,
-     lng: 150.644,
-     zoom: 8
-    },
-    {
-      name: 'Maria do Bairro',
-      member_since: 'September 2, 2019',
-      hourly_rate: '$ 1540',
-      professions: 'Elderly Care',
-      rating: 4,
-      total_rating: 500,  
-      objectID: 1,
-      lat: 46.449340,
-      lng: -80.982040,
-      zoom: 8
-      },
-
-  ];
 class AgentsOccupation extends React.Component {
   state = {
-    users: []
-    //  lat: -34.397,
-    //  lng: 150.644,
-    //  zoom: 8
+    users: [],
  };
 
  componentDidMount() {
   const values = queryString.parse(this.props.location.search)
-  console.log(values) // "top"
-
   let url = '/api/occupations/agents?q=' + encodeURI(values.q);
   axios.get(url)
     .then(response => {
-      console.log(response.data);
+      response.data = response.data.sort((a, b) => (a.hourly_rate - b.hourly_rate))
       this.setState({users: response.data});
     })
     .catch(error => console.log(error));
-}
-
-  render() {
-    return (
-      <div>
-          <ResponsiveDrawer origin="home"/>
-          {/* <div> */}
-          { this.state.users.map(user => 
-          // <li key={user.id} >{user.name}</li>
-            <article style={divStyle} key={user.id}>
-                <Cards
-                name={user.name} 
-                member_since={user.member_since} 
-                hourly_rate={user.hourly_rate} 
-                professions={user.professions} 
-                rating={user.rating} 
-                total_rating={user.total_rating} 
-                />
-                <Hidden smDown>
-                <div className="DottedBox_content" style={{background: 'white'}}>
-                Your ally is located within this area:
-                  <GoogleMaps 
-                  lat={user.latitude} 
-                  lng={user.longitude} 
-                  zoom={user.zoom} />
-                </div>
-              </Hidden>
-            </article>
-          )}
-        {/* </div> */}
-          {/* {agents.map(function(agent) {
-            return <article style={divStyle} key={agent.objectID}>
-              <Cards
-              name={agent.name} 
-              member_since={agent.member_since} 
-              hourly_rate={agent.hourly_rate} 
-              professions={agent.professions} 
-              rating={agent.rating} 
-              total_rating={agent.total_rating} 
-              />
-              <Hidden smDown>
-              <div className="DottedBox_content" style={{background: 'white'}}>
-              Your ally is located within this area:
-                <GoogleMaps 
-                lat={agent.lat} 
-                lng={agent.lng} 
-                zoom={agent.zoom} />
-              </div>
-            </Hidden>
-            </article>;
-          })} */}
-      </div>
-    );
   }
+
+  sortByPriceAsc() {
+    this.setState(prevState => {
+      this.state.users.sort((a, b) => (a.hourly_rate - b.hourly_rate))
+  });
+  }
+
+  sortByPriceDesc() {
+    this.setState(prevState => {
+      this.state.users.sort((a, b) => (b.hourly_rate - a.hourly_rate))
+  });
+  }
+
+  handleChange = event => {
+    if(event.target.value == 'sortByPriceAsc'){
+      this.sortByPriceAsc();
+    }
+    else if (event.target.value == 'sortByPriceDesc'){
+      this.sortByPriceDesc();
+    }
+    this.setState({ [event.target.name]: event.target.value });
+  };
+    render() {
+      return (
+        <div>
+            <ResponsiveDrawer origin="home"/>
+            <div style={topbar}>
+              <Hidden smDown>
+                <Typography>
+                  1-48 of over 60,000 results for "bluetooth earbuds"
+                </Typography>
+              </Hidden>
+              <div style={mov_right}>
+                <Select native value={this.state.select} onChange={this.handleChange}>
+                  <option value="none" disabled>Sort by:</option>
+                  <option value="sortByPriceAsc">Price: Low to High</option>
+                  <option value="sortByPriceDesc">Price: High to Low</option>
+                  <option value="3">Avg. Customer Review</option>
+                </Select>
+              </div>
+            </div>
+            { this.state.users.map(user => 
+              <article style={divStyle} key={user.id}>
+                  <Cards
+                  name={user.name} 
+                  member_since={user.member_since} 
+                  hourly_rate={user.hourly_rate} 
+                  professions={user.professions} 
+                  rating={user.rating} 
+                  total_rating={user.total_rating} 
+                  />
+                  <Hidden smDown>
+                  <div className="DottedBox_content" style={{background: 'white'}}>
+                  Your ally is located within this area:
+                    <GoogleMaps                  
+                    lat={parseFloat(user.latitude)} 
+                    lng={parseFloat(user.longitude)} 
+                    zoom={8} />
+                  </div>
+                </Hidden>
+              </article>
+            )}
+        </div>
+      );
+    }
 }
 
 

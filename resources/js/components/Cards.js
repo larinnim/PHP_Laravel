@@ -48,6 +48,11 @@ const styles = theme => ({
   margin_right: {
     marginRight: 30,
   },   
+  iconHover: {
+    '&:hover': {
+      color: red[800],
+    },
+  },
 });
 
   var Cards_func =  function Cards (props) {
@@ -62,7 +67,7 @@ const styles = theme => ({
           }
           action={
             <IconButton>
-              <FavoriteIcon/>
+              <FavoriteIcon className={classes.iconHover}/>
             </IconButton>
           }
           title={name}
@@ -71,11 +76,6 @@ const styles = theme => ({
               Member Since:         <Moment format="MMMM Do YYYY">{member_since}</Moment>
           </Typography>}
         />
-        {/* <CardMedia
-          className={classes.media}
-          image="img/default.png"
-          title="Paella dish"
-        /> */}
         <CardContent className={classes.actions} >
           <div className={classes.margin_right}>
             <Typography variant="caption" gutterBottom>

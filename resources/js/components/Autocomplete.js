@@ -218,12 +218,7 @@ class Autocomplete extends React.Component {
         <Button onClick={() => this.handleSearch()} variant="contained" color="primary" className={classes.button}>
         Search
       </Button>
-      {/* {this.state.results.length > 0 &&
-          <Redirect to={{
-            pathname: '/login',
-            state: { results: this.state.results }
-          }}/>
-        } */}
+
       </div>
     );
   }

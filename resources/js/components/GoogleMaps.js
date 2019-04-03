@@ -39,6 +39,18 @@ class GoogleMaps extends React.Component {
         zoom: this.props.zoom
       }
       this._map = new google.maps.Map(this._map, mapOptions);
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#0000CC',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#3399FF',
+
+        // fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: this._map,
+        center: mapOptions.center,
+        radius: 1609.344 * 10
+      });
     }
     
     render() {
