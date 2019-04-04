@@ -18,6 +18,7 @@ require('./components/App');
 require('./container/Home');
 require('./components/Navbar');
 require('./components/Calendar');
+require('./components/Dropzone');
 require('./components/Settings');
 require('./components/Sidebar');
 require('./components/NavApp');

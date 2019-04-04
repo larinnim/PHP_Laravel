@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FilledInput from '@material-ui/core/FilledInput';
 import Typography from '@material-ui/core/Typography';
+import Dropzone from '../components/Dropzone';
 
 const divStyle = {
   display: 'flex',
@@ -26,6 +27,7 @@ const mov_right = {
 class AgentsOccupation extends React.Component {
   state = {
     users: [],
+    imgSrc: ''
  };
 
  componentDidMount() {
@@ -35,6 +37,11 @@ class AgentsOccupation extends React.Component {
     .then(response => {
       response.data = response.data.sort((a, b) => (a.hourly_rate - b.hourly_rate))
       this.setState({users: response.data});
+    })
+    axios.get('/api/getImage')
+    .then(response => {
+      this.setState({imgSrc: response.data});
+      console.log(response);
     })
     .catch(error => console.log(error));
   }
@@ -97,6 +104,7 @@ class AgentsOccupation extends React.Component {
                   professions={user.professions} 
                   rating={user.rating} 
                   total_rating={user.total_rating} 
+                  imgSrc={this.state.imgSrc}
                   />
                   <Hidden smDown>
                   <div className="DottedBox_content" style={{background: 'white'}}>
@@ -109,6 +117,7 @@ class AgentsOccupation extends React.Component {
                 </Hidden>
               </article>
             )}
+            <Dropzone />
         </div>
       );
     }

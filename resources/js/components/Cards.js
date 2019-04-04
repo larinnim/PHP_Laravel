@@ -56,12 +56,12 @@ const styles = theme => ({
 });
 
   var Cards_func =  function Cards (props) {
-    const { name, member_since, hourly_rate, professions, classes, rating, total_rating } = props;
+    const { name, member_since, hourly_rate, professions, classes, rating, total_rating, imgSrc } = props;
     return (
       <Card className={classes.card}>
         <CardHeader
           avatar={
-            <Avatar aria-label="Recipe" src="img/default.png"  className={classes.avatar}>
+            <Avatar aria-label="Recipe" src={imgSrc}  className={classes.avatar}>
               R
             </Avatar>
           }

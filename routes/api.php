@@ -20,3 +20,6 @@ use Illuminate\Http\Request;
 Route::get('occupations', 'OccupationController@index');
 Route::get('occupations/agents', 'OccupationController@agentOccupation');
 
+Route::get('getImage', 'AWS3@index');
+Route::post('uploadImage', 'AWS3@store');
+
