@@ -199,7 +199,7 @@ class ResponsiveDrawer extends React.Component {
         <Hidden xsDown >
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
-          <Button onClick={() => this.handleClickNav('/')} color="inherit">Register</Button>
+          <Button onClick={() => this.handleClickNav('/register')} color="inherit">Register</Button>
           <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>
           <Navbar/>
         </Hidden>

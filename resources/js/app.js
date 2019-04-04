@@ -26,6 +26,8 @@ require('./components/Cards');
 require('./container/PostJobProfile');
 require('./container/SignIn');
 require('./container/AgentsOccupation');
+require('./container/Register');
+
 
 
 

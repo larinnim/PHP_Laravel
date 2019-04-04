@@ -6,6 +6,8 @@ import PostJobProfile from '../container/PostJobProfile';
 import ResponsiveDrawer from './Sidebar';
 import SignIn from '../container/SignIn';
 import AgentsOccupation from '../container/AgentsOccupation';
+import Register from '../container/Register';
+
 class App extends Component {
     render() {
         return (
@@ -16,6 +18,7 @@ class App extends Component {
                   <Route path='/post_job' component={PostJobProfile} />
                   <Route path='/login' component={SignIn} />
                   <Route path='/agents_occupations' component={AgentsOccupation} />
+                  <Route path='/register' component={Register} />
               </Switch>
             </div>
           </BrowserRouter>
