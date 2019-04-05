@@ -97,6 +97,7 @@ p, div {
   
   .error {
     color:#db2269;
+    margin-top: 5px;
     /* font-size: 0.5em; */
     display: relative;
   }
