@@ -2,7 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --env.GOOGLE_RECAPTCHA=6LfEA50UAAAAANJqDk54fXfu1FxsS_cJsu7_bcV-",
         "watch": "npm run development -- --watch",
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -39,6 +39,7 @@
         "react-day-picker": "^7.3.0",
         "react-moment": "^0.8.4",
         "react-native-elements": "^1.1.0",
+        "react-recaptcha": "^2.3.10",
         "react-router-dom": "^4.3.1",
         "react-router-hash-history": "^0.2.3",
         "react-select": "^2.4.2",

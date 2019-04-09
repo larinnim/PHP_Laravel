@@ -104,6 +104,7 @@ p, div {
   
   .fullName,
   .postal_code,
+  .recaptcha,
   .email,
   .confirm_password,
   .password {
@@ -117,6 +118,7 @@ p, div {
   }
   
   .email,
+  .recaptcha,
   .postal_code,
   .confirm_password,
   .password {
@@ -132,10 +134,12 @@ p, div {
   input[type=text]:focus{
     border-color:dodgerBlue;
     box-shadow:0 0 8px 0 dodgerBlue;
+    /* border-color:dodgerBlue;
+    box-shadow:0 0 8px 0 dodgerBlue; */
   }
 
   .inp-icon-error{
-      background: url('../../img/exclamation-mark.png')no-repeat 100%;
+    background: url('../../img/exclamation-mark.png')no-repeat 100%;
     background-size: 16px;
     }
 

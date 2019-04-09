@@ -1,89 +1,13 @@
 
-// import React from 'react';
-// import TextField from '@material-ui/core/TextField';
-// import Checkbox from '@material-ui/core/Checkbox';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import { withStyles } from '@material-ui/core/styles';
-
-// const styles = theme => ({
-//     card: {
-//       marginLeft: 'auto',
-//       marginRight: 'auto',
-//       marginBottom: 20,
-//       [theme.breakpoints.up('sm')]: {
-//         width: '40%',
-//         marginRight: 2,
-//       },
-//     },
-//   });
-  
-// class Register extends React.Component {
-//     state = {
-//         name: 'Cat in the Hat',
-//         age: '',
-//         multiline: 'Controlled',
-//         currency: 'EUR',
-//       };
-        
-//     render() {
-//         const { classes } = this.props;
-//         return (
-//             <div className={classes.card}>
-
-//             <form noValidate autoComplete="off">
-//                     <TextField
-//                     id="outlined-name"
-//                     label="Name"
-//                     margin="normal"
-//                     variant="outlined"
-//                     />
-//                     <TextField
-//                     id="outlined-name"
-//                     label="Email"
-//                     margin="normal"
-//                     variant="outlined"
-//                     /> <TextField
-//                     id="outlined-name"
-//                     label="Postal Code"
-//                     margin="normal"
-//                     variant="outlined"
-//                     /> <TextField
-//                     id="outlined-name"
-//                     label="Password"
-//                     margin="normal"
-//                     variant="outlined"
-//                     /> <TextField
-//                     id="outlined-name"
-//                     label="Confirm Password"
-//                     margin="normal"
-//                     variant="outlined"
-//                     />
-//                     <FormControlLabel
-//                 control={
-//                 <Checkbox
-//                 checked={this.state.checkedA}
-//                 value="checkedA"
-//                 />
-//             }
-//             label="Secondary"
-//             />
-//             </form>
-//         </div>
-//         );
-//     }
-// }
-
-
-// export default withStyles( styles ) (Register);
-
-
-
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import ResponsiveDrawer from '../components/Sidebar';
 import './Register.css';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import Recaptcha from 'react-recaptcha';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+
 const validateForm = (errors) => {
   let valid = true;
   Object.values(errors).forEach(
@@ -109,7 +33,10 @@ class Register extends Component {
     };
   }
 
-
+  recaptchaLoaded(){
+    console.log('captcha successfully loaded');
+  }
+  
   handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -155,6 +82,8 @@ class Register extends Component {
     const {errors} = this.state;
     return (
       <div className='wrapper'>
+            <ResponsiveDrawer origin="home"/>
+
         <div className='form-wrapper'>
           <h2>Create Account</h2>
           <form onSubmit={this.handleSubmit} noValidate>
@@ -190,6 +119,13 @@ class Register extends Component {
             </div>
             <div className='info'>
               <small>Password must be eight characters in length.</small>
+            </div>
+            <div className='recaptcha'>
+            <Recaptcha
+                    sitekey='6LfEA50UAAAAANJqDk54fXfu1FxsS_cJsu7_bcV-'
+                    render='explicit'
+                    onloadCallback={this.recaptchaLoaded}
+          />,
             </div>
             <div className='submit'>
               <button>Create</button>
