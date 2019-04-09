@@ -11,8 +11,7 @@
 
         <!-- Recaptcha -->
         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> 
-        <script src="https://www.google.com/recaptcha/api.js?render=6LfEA50UAAAAANJqDk54fXfu1FxsS_cJsu7_bcV-"></script>
-
+      
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7Q5jQEy9IIUrGP0nChvEH7rXwo9dnEHE" type="text/javascript"></script>

@@ -23,3 +23,5 @@ Route::get('occupations/agents', 'OccupationController@agentOccupation');
 Route::get('getImage', 'AWS3@index');
 Route::post('uploadImage', 'AWS3@store');
 
+Route::post('/register_store', 'RegisterController@store');
+

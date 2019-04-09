@@ -5,6 +5,7 @@ import ResponsiveDrawer from '../components/Sidebar';
 import './Register.css';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Recaptcha from 'react-recaptcha';
+import axios from 'axios';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
@@ -68,10 +69,43 @@ class Register extends Component {
     this.setState({errors, [name]: value});
   }
 
+  onLoadRecaptcha() {
+    if (this.captchaDemo) {
+        this.captchaDemo.reset();
+        this.captchaDemo.execute();
+    }
+}
+verifyCallback(recaptchaToken) {
+  // Here you will get the final recaptchaToken!!!  
+  console.log(recaptchaToken, "<= your recaptcha token")
+}
+
   handleSubmit = (event) => {
     event.preventDefault();
     if(validateForm(this.state.errors)) {
-      console.info('Valid Form')
+      const formData = new FormData();
+
+      formData.append('name', this.state.fullName);
+      formData.append('email', this.state.email);
+      formData.append('password', this.state.password);
+      axios({
+        method: 'post',
+        url: 'api/register_store',
+        data: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+          'Acccept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+    })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // console.info('Valid Form')
     }else{
       console.error('Invalid Form')
     }
@@ -122,10 +156,18 @@ class Register extends Component {
             </div>
             <div className='recaptcha'>
             <Recaptcha
+            ref={(el) => {this.captchaDemo = el;}}
+            size="normal"
+            render="explicit"
+            sitekey="6LcmI50UAAAAANmitKM4gr1Qf0HtCHyh4dGKMvkn"
+            onloadCallback={this.onLoadRecaptcha}
+            verifyCallback={this.verifyCallback}
+        />
+            {/* <Recaptcha
                     sitekey='6LfEA50UAAAAANJqDk54fXfu1FxsS_cJsu7_bcV-'
                     render='explicit'
                     onloadCallback={this.recaptchaLoaded}
-          />,
+          />, */}
             </div>
             <div className='submit'>
               <button>Create</button>

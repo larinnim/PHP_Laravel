@@ -78,6 +78,10 @@ class AWS3 extends Controller
        }
        return back()->withSuccess('Image uploaded successfully');
    }
+
+   public function test (){
+       Log::alert('heree');
+   }
    public function destroy($image)
    {
        Storage::disk('s3')->delete('images/' . $image);
