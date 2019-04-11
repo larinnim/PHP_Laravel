@@ -138,12 +138,23 @@ p, div {
     box-shadow:0 0 8px 0 dodgerBlue; */
   }
 
+  .form-wrapper
+    input{
+      background-position: 99% 50%;
+      width: 100%;
+    }
+    label abbr {
+      color: #EF5350;
+      text-decoration: none;
+    }
   .inp-icon-error{
+    /* background: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%234CAF50' d='M9.984 17.016l9-9-1.406-1.453-7.594 7.594-3.563-3.563-1.406 1.406zM12 2.016c5.531 0 9.984 4.453 9.984 9.984s-4.453 9.984-9.984 9.984-9.984-4.453-9.984-9.984 4.453-9.984 9.984-9.984z'></path></svg>")no-repeat 100%  ; */
     background: url('../../img/exclamation-mark.png')no-repeat 100%;
     background-size: 16px;
     }
 
     .inp-icon-correct{
+      /* background: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%234CAF50' d='M9.984 17.016l9-9-1.406-1.453-7.594 7.594-3.563-3.563-1.406 1.406zM12 2.016c5.531 0 9.984 4.453 9.984 9.984s-4.453 9.984-9.984 9.984-9.984-4.453-9.984-9.984 4.453-9.984 9.984-9.984z'></path></svg>")no-repeat 100%; */
         background: url('../../img/checked.png')no-repeat 100%;
         background-size: 16px;
-        }
+      }
