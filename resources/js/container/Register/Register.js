@@ -1,12 +1,10 @@
 
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import ResponsiveDrawer from '../../components/Sidebar';
 import './Register.css';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Recaptcha from 'react-recaptcha';
 import axios from 'axios';
-import { translate } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPostalCodeRegexCA = RegExp(/([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i);
@@ -182,7 +180,9 @@ class Register extends Component {
 
   render() {
     const {errors, errors_required, submitSet, isVerified} = this.state;  
-
+    const { t } = this.props;
+    {console.log('Calling render...')}
+    
     return (
       <div className='wrapper'>
             <ResponsiveDrawer origin="home"/>
@@ -191,7 +191,7 @@ class Register extends Component {
           <h2>Create Account</h2>
           <form onSubmit={this.handleSubmit} noValidate>
             <div className='fullName'>
-              <label htmlFor="fullName">{t('home.title')}<abbr title="Required">*</abbr></label>
+              <label htmlFor="fullName">{t('register.fullname')}<abbr title="Required">*</abbr></label>
               <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.fullName.length > 0 && 
                 <span className='error'>{errors.fullName}</span>}
@@ -270,4 +270,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withTranslation('common')(Register);

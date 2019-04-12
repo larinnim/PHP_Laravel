@@ -31,6 +31,7 @@
         "autosuggest-highlight": "^3.1.1",
         "i18next": "^15.0.9",
         "i18next-browser-languagedetector": "^3.0.1",
+        "i18next-xhr-backend": "^2.0.1",
         "material-ui-dropzone": "^2.3.2",
         "material-ui-rating": "^3.0.1",
         "material-ui-star-rating": "^1.0.0",

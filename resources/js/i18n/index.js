@@ -1,22 +1,25 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { pt, en } from '../container/locale';
 
+const languages = {
+    pt: require('./locale/pt.json'),
+    en: require('./locale/en.json')
+  };
+  
 const options = {
   interpolation: {
     escapeValue: false, // not needed for react!!
   },
 
   debug: true,
-
-  // lng: 'en',
+  initImmediate: false,
 
   resources: {
     pt: {
-      common: pt['pt-BR'],
+        common: languages.pt
     },
     en: {
-      common: en.en,
+        common: languages.en,
     },
   },
 
@@ -26,8 +29,11 @@ const options = {
 
   defaultNS: 'common',
 
+  backend: {
+    loadPath: './locale',
+  },
   react: {
-    wait: false,
+    wait: true,
     bindI18n: 'languageChanged loaded',
     bindStore: 'added removed',
     nsMode: 'default'
@@ -35,10 +41,7 @@ const options = {
 };
 
 i18n
-  .use(LanguageDetector)
-  .init(options)
-  .changeLanguage('en', (err, t) => {
-    if (err) return console.log('something went wrong loading', err);
-  });
+.use(LanguageDetector)
+.init(options)
 
 export default i18n;
