@@ -25,8 +25,8 @@ require('./components/NavApp');
 require('./components/Cards');
 require('./container/PostJobProfile');
 require('./container/SignIn');
-require('./container/AgentsOccupation');
-require('./container/Register');
+require('./container/AgentsOccupation/AgentsOccupation');
+require('./container/Register/Register');
 
 
 
