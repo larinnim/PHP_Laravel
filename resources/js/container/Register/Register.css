@@ -159,3 +159,6 @@ p, div {
         background: url('../../../img/checked.png')no-repeat 100%;
         background-size: 16px;
       }
+.margin_bottom20 {
+  margin-bottom: 20px;
+}

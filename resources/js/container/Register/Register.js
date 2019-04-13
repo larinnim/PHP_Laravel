@@ -5,6 +5,13 @@ import './Register.css';
 import Recaptcha from 'react-recaptcha';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
+import i18n from '../../i18n/index';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPostalCodeRegexCA = RegExp(/([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i);
@@ -23,6 +30,8 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mate: false,
+      postJob: false,
       isVerified: false,
       focus: false,
       fullName: null,
@@ -44,6 +53,7 @@ class Register extends Component {
         password: '',
         postal_code: '',
         confirm_password: '',
+        checkbox: '',
       }
     };
     this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
@@ -123,6 +133,10 @@ class Register extends Component {
       errors_required.confirm_password = 'This is required';
       return false;
     }
+    else if (!this.state.mate || !this.state.postJob) {
+      errors_required.checkbox = 'This is required';
+      return false;
+    }
     else {
       return true;
     }
@@ -150,6 +164,8 @@ class Register extends Component {
         formData.append('email', this.state.email);
         formData.append('password', this.state.password);
         formData.append('postal_code', this.state.postal_code);
+        formData.append('mate', this.state.mate);
+        formData.append('postJob', this.state.postJob);
 
         axios({
           method: 'post',
@@ -177,12 +193,14 @@ class Register extends Component {
    }
   }
 
+  handleCheckbox = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
 
   render() {
     const {errors, errors_required, submitSet, isVerified} = this.state;  
-    const { t } = this.props;
-    {console.log('Calling render...')}
-    
+    const { t } = this.props;  
+    console.log(i18n.language)  
     return (
       <div className='wrapper'>
             <ResponsiveDrawer origin="home"/>
@@ -193,55 +211,52 @@ class Register extends Component {
             <div className='fullName'>
               <label htmlFor="fullName">{t('register.fullname')}<abbr title="Required">*</abbr></label>
               <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
-              {errors.fullName.length > 0 && 
-                <span className='error'>{errors.fullName}</span>}
-                {console.log(errors_required.fullName != null && submitSet == true && isVerified)}
-                {console.log('Errors: ' + errors_required.fullName)}
-                {console.log('Submit: ' + submitSet)}
-                {console.log('IsVerified: ' + isVerified)}
 
+              {/* <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate /> */}
+              {errors.fullName.length > 0 && 
+                <span className='error'>{t('register.fullname_error')}</span>}
               { errors_required.fullName.length > 0 && submitSet == true && isVerified ? 
-                             <span className='error'>This field is required</span>
+                             <span className='error'>{t('register.required_field')}</span>
                 : null  }
             </div>
             <div className='email'>
               <label htmlFor="email">Email<abbr title="Required">*</abbr></label>
               <input type='email' name='email' className={errors.email.length > 0 ? 'inp-icon-error' : this.state.email == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.email.length > 0 && 
-                <span className='error'>{errors.email}</span>}
+                <span className='error'>{t('register.email_invalido')}</span>}
                 {errors_required.email.length > 0 && 
                 <span className='error'>{errors_required.email}</span>}
               { errors_required.email.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>This field is required</span>
+                          <span className='error'>{t('register.required_field')}</span>
             : null  }
             </div>
             <div className='postal_code'>
-              <label htmlFor="postal_code">Postal Code<abbr title="Required">*</abbr></label>
+              <label htmlFor="postal_code">{t('register.cep')}<abbr title="Required">*</abbr></label>
               <input type='text' name='postal_code' className={errors.postal_code.length > 0 ? 'inp-icon-error' : this.state.postal_code == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.postal_code.length > 0 && 
-                <span className='error'>{errors.postal_code}</span>}
+                <span className='error'>{i18n.language == 'pt-BR' ?  t('register.postal_codeBR'): t('register.postal_codeCA')}</span>}
                 {errors_required.postal_code.length > 0 && 
                 <span className='error'>{errors_required.postal_code}</span>}
               { errors_required.postal_code.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>This field is required</span>
+                          <span className='error'>{t('register.required_field')}</span>
             : null  }
             </div>
             <div className='password'>
-              <label htmlFor="password">Password<abbr title="Required">*</abbr></label> 
+              <label htmlFor="password">{t('register.password')}<abbr title="Required">*</abbr></label> 
               <div className='info'>
-              <small>Password must be eight characters in length.</small>
+              <small>{t('register.password_set')}.</small>
             </div>
               <input type='password' name='password' className={errors.password.length > 0 ? 'inp-icon-error' : this.state.password == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.password.length > 0 && 
-                <span className='error'>{errors.password}</span>}
+                <span className='error'>{t('register.password_set')}</span>}
                 {errors_required.password.length > 0 && 
                 <span className='error'>{errors_required.password}</span>}
                 { errors_required.password.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>This field is required</span>
+                          <span className='error'>{t('register.required_field')}</span>
             : null  }
             </div>
             <div className='confirm_password'>
-              <label htmlFor="confirm_password">Confirm Password<abbr title="Required">*</abbr></label>
+              <label htmlFor="confirm_password">{t('register.confirm_password')}<abbr title="Required">*</abbr></label>
               <input type='password' name='confirm_password' className={errors.confirm_password.length > 0 ? 'inp-icon-error' : this.state.confirm_password == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.confirm_password.length > 0 && 
                 <span className='error'>{errors.confirm_password}</span>}
@@ -249,8 +264,36 @@ class Register extends Component {
                 <span className='error'>{errors_required.confirm_password}</span>}
             </div>
             { errors_required.confirm_password != null && submitSet == true && isVerified? 
-                          <span className='error'>This field is required</span>
+                          <span className='error'>{t('register.required_field')}</span>
             : null  }
+            <div>
+              {t('register.activity_title')}
+            </div>
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.mate}
+                    onChange={this.handleCheckbox('mate')}
+                    value="mate"
+                  />
+                }
+                label={t('register.activity_mate')}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.postJob}
+                    onChange={this.handleCheckbox('postJob')}
+                    value="postJob"
+                  />
+                }
+                label={t('register.activity_postJob')}
+              />
+               { errors_required.checkbox != null && submitSet == true && isVerified? 
+                          <div className="margin_bottom20"><span className='error'>{t('register.required_field')}</span></div>
+            : null  }
+            </div>
             <div className='recaptcha'>
             <Recaptcha
             ref={(el) => {this.captchaDemo = el;}}
@@ -261,7 +304,7 @@ class Register extends Component {
         />
             </div>
             <div className='submit'>
-              <button>Create</button>
+              <button>{t('register.create')}</button>
             </div>
           </form>
         </div>

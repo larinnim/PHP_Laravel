@@ -1,6 +1,19 @@
 {
   "register": {
-    "fullname": "Nome Completo"
+    "fullname": "Nome Completo",
+    "fullname_error": "Nome completo deve ter no mínimo 8 caracteres!",
+    "email_invalido": "Email inválido",
+    "cep": "CEP",
+    "password": "Senha",
+    "confirm_password": "Confirmar Senha",
+    "confirm_password_error": "Senhas não conferem",
+    "create": "Registrar",
+    "required_field": "Campo Obrigatório",
+    "postal_codeBR" : "CEP brasileiro inválido",
+    "password_set": "Senha deve ter no mínimo 8 caracteres",
+    "activity_mate": "Aliado",
+    "activity_postJob": "Postar Tarefas",
+    "activity_title": "Como você quer se registrar?"
   },
   "pricing": {
     "title": "Prix"

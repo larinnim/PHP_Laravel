@@ -1,6 +1,11 @@
 {
       "register": {
-        "fullname": "Full Name"
+        "fullname": "Full Name",
+        "postal_codeCA" : "Invalid Canadian Postal Code",
+        "password_set": "Password must be eight characters in length",
+        "confirm_password_error": "The passwords doesn't match"
+
+
       },
       "pricing": {
         "title": "Prix"
