@@ -18,11 +18,20 @@ class RegisterController extends Controller
             'password' => 'required'
         ]);
         
-        Log::alert(request(['name', 'email', 'password']));
-        $user = User::create(request(['name', 'email', 'password']));
+        Log::alert(request(['name', 'email', 'password', 'postal_code', 'mate', 'post_job']));
+        $email = request(['email']);
+
+        $isExists = \App\User::where('email', $email)->first();
+        if($isExists){
+            return response()->json(array("exists" => true));
+        }
+        else{
+            $user = User::create(request(['name', 'email', 'password', 'postal_code', 'mate', 'post_job']));
+    
+            // auth()->login($user);
+            
+            return response()->json(array("success" => true));
+        }
         
-        auth()->login($user);
-        
-        return redirect()->to('/');
     }
 }

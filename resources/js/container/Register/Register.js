@@ -11,7 +11,8 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
+import CustomizedSnackbars from '../../components/Snackbar';
+import Grid from '@material-ui/core/Grid';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 const validPostalCodeRegexCA = RegExp(/([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i);
@@ -32,14 +33,15 @@ class Register extends Component {
     this.state = {
       mate: false,
       postJob: false,
-      isVerified: false,
-      focus: false,
-      fullName: null,
-      email: null,
-      postal_code: null,
-      password: null,
-      confirm_password: null,
+      isVerified: true,
+      fullName: '',
+      email: '',
+      postal_code: '',
+      password: '',
+      confirm_password: '',
       submitSet: false,
+      emptyErrorSnackbar: false,
+      duplicateEmailErrorSnackbar: false,
       errors: {
         fullName: '',
         email: '',
@@ -103,7 +105,6 @@ class Register extends Component {
   }
 
   onLoadRecaptcha() {
-    console.log('in verify ONLOADRECAPTCHA');
       if (this.captchaDemo) {
           this.captchaDemo.reset();
           this.captchaDemo.execute();
@@ -113,28 +114,25 @@ class Register extends Component {
   handleEmptyForm () {
     let errors_required = this.state.errors_required;
 
-    if (!this.state.fullName) {
-      errors_required.fullName = 'This is required';
-      return false;
-    }
-    if (!this.state.postal_code) {
-      errors_required.postal_code = 'This is required';
-      return false;
-    }
-    else if (!this.state.email) {
-      errors_required.email = 'This is required';
-      return false;
-    }
-    else if (!this.state.password) {
-      errors_required.password = 'This is required';
-      return false;
-    }
-    else if (!this.state.confirm_password) {
-      errors_required.confirm_password = 'This is required';
-      return false;
-    }
-    else if (!this.state.mate || !this.state.postJob) {
-      errors_required.checkbox = 'This is required';
+    if(!this.state.fullName || !this.state.postal_code || !this.state.email || !this.state.password || !this.state.confirm_password || (!this.state.mate && !this.state.postJob)){
+      if (!this.state.fullName) {
+        errors_required.fullName = 'This is required';
+      }
+      else if (!this.state.postal_code) {
+        errors_required.postal_code = 'This is required';
+      }
+      else if (!this.state.email) {
+        errors_required.email = 'This is required';
+      }
+      else if (!this.state.password) {
+        errors_required.password = 'This is required';
+      }
+      else if (!this.state.confirm_password) {
+        errors_required.confirm_password = 'This is required';
+      }
+      else if (!this.state.mate || !this.state.postJob) {
+        errors_required.checkbox = 'This is required';
+      }
       return false;
     }
     else {
@@ -151,21 +149,33 @@ class Register extends Component {
   }
 
 
-  handleSubmit = (event) => {
+  handleSubmit =  (event) => {
+    var self = this;
+    self.setState({duplicateEmailErrorSnackbar: false})
     event.preventDefault();
     this.setState({
       submitSet: true
     })
-    if(this.state.isVerified){
+    // if(this.state.isVerified){
       if(validateForm(this.state.errors) && this.handleEmptyForm()) {
         const formData = new FormData();
   
+       const mate_value =  this.state.mate === true ? 1 : 0
+       const postJob_value =  this.state.postJob === true ? 1 : 0
+        console.log('mate value' + mate_value);
+        console.log('mate state value' + this.state.mate);
+        console.log('post job value' + postJob_value);
+        console.log('POst Job value' + this.state.postJob);
+
         formData.append('name', this.state.fullName);
         formData.append('email', this.state.email);
         formData.append('password', this.state.password);
         formData.append('postal_code', this.state.postal_code);
-        formData.append('mate', this.state.mate);
-        formData.append('postJob', this.state.postJob);
+        formData.append('mate', mate_value);
+        formData.append('post_job', postJob_value);
+
+        // formData.append('mate', this.state.mate);
+        // formData.append('post_job', this.state.postJob);
 
         axios({
           method: 'post',
@@ -177,20 +187,48 @@ class Register extends Component {
             'Acccept': 'application/json',
             'Content-Type': 'application/json',
           },
-      })
+        })
           .then(function (response) {
-            console.log(response);
+            if(response.data.exists){
+              self.setState({
+                isVerified: false,
+                email: '',
+                submitSet: false,
+                emptyErrorSnackbar: false,
+                duplicateEmailErrorSnackbar: true,
+                errors: {
+                  fullName: '',
+                  email: '',
+                  password: '',
+                  postal_code: '',
+                  confirm_password: '',
+                },
+                errors_required: {
+                  fullName: '',
+                  email: '',
+                  password: '',
+                  postal_code: '',
+                  confirm_password: '',
+                  checkbox: '',
+                }
+              })
+              self.captchaDemo.reset();
+            }
+            if(response.data.success) {
+              self.props.history.replace('/');
+            }
+            // console.log(response);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       }else{
-        alert('Please, verify the required fields')
+        this.setState({emptyErrorSnackbar: true})
       }
-    }
-   else {
-     alert('Please fill the recaptcha');
-   }
+  //   }
+  //  else {
+  //    alert('Please fill the recaptcha');
+  //  }
   }
 
   handleCheckbox = name => event => {
@@ -198,116 +236,108 @@ class Register extends Component {
   };
 
   render() {
-    const {errors, errors_required, submitSet, isVerified} = this.state;  
+    const {errors, errors_required, submitSet, isVerified, emptyErrorSnackbar, duplicateEmailErrorSnackbar} = this.state;  
     const { t } = this.props;  
-    console.log(i18n.language)  
     return (
       <div className='wrapper'>
-            <ResponsiveDrawer origin="home"/>
-
+        <ResponsiveDrawer origin="home"/>
         <div className='form-wrapper'>
-          <h2>Create Account</h2>
-          <form onSubmit={this.handleSubmit} noValidate>
-            <div className='fullName'>
-              <label htmlFor="fullName">{t('register.fullname')}<abbr title="Required">*</abbr></label>
-              <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
-
-              {/* <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate /> */}
-              {errors.fullName.length > 0 && 
-                <span className='error'>{t('register.fullname_error')}</span>}
-              { errors_required.fullName.length > 0 && submitSet == true && isVerified ? 
-                             <span className='error'>{t('register.required_field')}</span>
-                : null  }
-            </div>
-            <div className='email'>
-              <label htmlFor="email">Email<abbr title="Required">*</abbr></label>
-              <input type='email' name='email' className={errors.email.length > 0 ? 'inp-icon-error' : this.state.email == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
-              {errors.email.length > 0 && 
-                <span className='error'>{t('register.email_invalido')}</span>}
-                {errors_required.email.length > 0 && 
-                <span className='error'>{errors_required.email}</span>}
-              { errors_required.email.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>{t('register.required_field')}</span>
-            : null  }
-            </div>
-            <div className='postal_code'>
-              <label htmlFor="postal_code">{t('register.cep')}<abbr title="Required">*</abbr></label>
-              <input type='text' name='postal_code' className={errors.postal_code.length > 0 ? 'inp-icon-error' : this.state.postal_code == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
-              {errors.postal_code.length > 0 && 
-                <span className='error'>{i18n.language == 'pt-BR' ?  t('register.postal_codeBR'): t('register.postal_codeCA')}</span>}
-                {errors_required.postal_code.length > 0 && 
-                <span className='error'>{errors_required.postal_code}</span>}
-              { errors_required.postal_code.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>{t('register.required_field')}</span>
-            : null  }
-            </div>
-            <div className='password'>
-              <label htmlFor="password">{t('register.password')}<abbr title="Required">*</abbr></label> 
-              <div className='info'>
-              <small>{t('register.password_set')}.</small>
-            </div>
-              <input type='password' name='password' className={errors.password.length > 0 ? 'inp-icon-error' : this.state.password == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
+            <h2>Create Account</h2>
+            <form onSubmit={this.handleSubmit} noValidate>
+              <div className='fullName'>
+                <label htmlFor="fullName">{t('register.fullname')}<abbr title="Required">*</abbr></label>
+                <input type='text' name='fullName' className={errors.fullName.length > 0 ? 'inp-icon-error' : this.state.fullName == '' ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
+                {errors.fullName.length > 0 && 
+                  <span className='error'>{t('register.fullname_error')}</span>}
+                { errors_required.fullName.length > 0 && submitSet == true && isVerified ? 
+                              <span className='error'>{t('register.required_field')}</span>
+                  : null  }
+              </div>
+              <div className='email'>
+                <label htmlFor="email">Email<abbr title="Required">*</abbr></label>
+                <input type='email' name='email' value={this.state.email} className={errors.email.length > 0 ? 'inp-icon-error' : this.state.email == '' ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
+                {errors.email.length > 0 && 
+                  <span className='error'>{t('register.email_invalido')}</span>}
+                { errors_required.email.length > 0 && submitSet == true && isVerified? 
+                            <span className='error'>{t('register.required_field')}</span>
+              : null  }
+              </div>
+              <div className='postal_code'>
+                <label htmlFor="postal_code">{t('register.cep')}<abbr title="Required">*</abbr></label>
+                <input type='text' name='postal_code' className={errors.postal_code.length > 0 ? 'inp-icon-error' : this.state.postal_code == '' ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
+                {errors.postal_code.length > 0 && 
+                  <span className='error'>{i18n.language == 'pt-BR' ?  t('register.postal_codeBR'): t('register.postal_codeCA')}</span>}
+                {errors_required.postal_code.length > 0 && submitSet == true && isVerified? 
+                  <span className='error'>{t('register.required_field')}</span>
+              : null}
+              </div>
+              <div className='password'>
+                <label htmlFor="password">{t('register.password')}<abbr title="Required">*</abbr></label> 
+                <div className='info'>
+                  <small>{t('register.password_set')}.</small>
+                </div>
+              <input type='password' name='password' className={errors.password.length > 0 ? 'inp-icon-error' : this.state.password == '' ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
               {errors.password.length > 0 && 
                 <span className='error'>{t('register.password_set')}</span>}
-                {errors_required.password.length > 0 && 
-                <span className='error'>{errors_required.password}</span>}
-                { errors_required.password.length > 0 && submitSet == true && isVerified? 
-                          <span className='error'>{t('register.required_field')}</span>
-            : null  }
-            </div>
-            <div className='confirm_password'>
-              <label htmlFor="confirm_password">{t('register.confirm_password')}<abbr title="Required">*</abbr></label>
-              <input type='password' name='confirm_password' className={errors.confirm_password.length > 0 ? 'inp-icon-error' : this.state.confirm_password == null ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
-              {errors.confirm_password.length > 0 && 
-                <span className='error'>{errors.confirm_password}</span>}
-                {errors_required.confirm_password.length > 0 && 
-                <span className='error'>{errors_required.confirm_password}</span>}
-            </div>
-            { errors_required.confirm_password != null && submitSet == true && isVerified? 
-                          <span className='error'>{t('register.required_field')}</span>
-            : null  }
-            <div>
-              {t('register.activity_title')}
-            </div>
-            <div>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.mate}
-                    onChange={this.handleCheckbox('mate')}
-                    value="mate"
+              { errors_required.password.length > 0 && submitSet == true && isVerified? 
+                  <span className='error'>{t('register.required_field')}</span>
+              : null  }
+              </div>
+              <div className='confirm_password'>
+                <label htmlFor="confirm_password">{t('register.confirm_password')}<abbr title="Required">*</abbr></label>
+                <input type='password' name='confirm_password' className={errors.confirm_password.length > 0 ? 'inp-icon-error' : this.state.confirm_password == '' ? '' : 'inp-icon-correct'} onChange={this.handleChange} noValidate />
+                {errors.confirm_password.length > 0 && 
+                  <span className='error'>{t('register.confirm_password_error')}</span>}
+                { errors_required.confirm_password.length > 0 && submitSet == true && isVerified? 
+                  <span className='error'>{t('register.required_field')}</span>
+              : null  }
+              </div>
+              <div>
+                <div>
+                  {t('register.activity_title')}
+                </div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.mate}
+                        onChange={this.handleCheckbox('mate')}
+                        value="mate"
+                      />
+                    }
+                    label={t('register.activity_mate')}
                   />
-                }
-                label={t('register.activity_mate')}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.postJob}
-                    onChange={this.handleCheckbox('postJob')}
-                    value="postJob"
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={this.state.postJob}
+                        onChange={this.handleCheckbox('postJob')}
+                        value="postJob"
+                      />
+                    }
+                    label={t('register.activity_postJob')}
                   />
-                }
-                label={t('register.activity_postJob')}
-              />
-               { errors_required.checkbox != null && submitSet == true && isVerified? 
-                          <div className="margin_bottom20"><span className='error'>{t('register.required_field')}</span></div>
-            : null  }
-            </div>
-            <div className='recaptcha'>
-            <Recaptcha
-            ref={(el) => {this.captchaDemo = el;}}
-            size="normal"
-            sitekey="6LcmI50UAAAAANmitKM4gr1Qf0HtCHyh4dGKMvkn"
-            onloadCallback={this.onLoadRecaptcha}
-            verifyCallback={this.onCaptchaVerify}
-        />
-            </div>
-            <div className='submit'>
-              <button>{t('register.create')}</button>
-            </div>
-          </form>
+                  <div>
+                  { errors_required.checkbox.length > 0 && submitSet == true && isVerified? 
+                              <div className="margin_bottom20"><span className='error'>{t('register.required_field')}</span></div>
+                : null  }
+                  </div>
+              </div>
+                <div className='recaptcha'>
+                {/* <Recaptcha
+                ref={(el) => {this.captchaDemo = el;}}
+                size="normal"
+                sitekey="6LcmI50UAAAAANmitKM4gr1Qf0HtCHyh4dGKMvkn"
+                onloadCallback={this.onLoadRecaptcha}
+                verifyCallback={this.onCaptchaVerify}
+            /> */}
+                </div>
+              <div className='submit'>
+                <button>{t('register.create')}</button>
+              </div>
+            </form>
         </div>
+        {emptyErrorSnackbar == true ? <CustomizedSnackbars variant={'error'} message={'register.blank_fields'} open={true}/> : false}
+        {duplicateEmailErrorSnackbar == true ?  <CustomizedSnackbars variant={'error'} message={'register.email_exist'} open={true}/> : false}
       </div>
     );
   }

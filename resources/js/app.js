@@ -23,6 +23,7 @@ require('./components/Settings');
 require('./components/Sidebar');
 require('./components/NavApp');
 require('./components/Cards');
+require('./components/Snackbar');
 require('./container/PostJobProfile');
 require('./container/SignIn');
 require('./container/AgentsOccupation/AgentsOccupation');
