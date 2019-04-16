@@ -46,46 +46,124 @@ const styles = theme => ({
   },
 });
 
-function SignIn(props) {
-  const { classes } = props;
+class SignIn extends React.Component  {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      remember: false,
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
 
-  return (
-    <main className={classes.main}>
-      <ResponsiveDrawer origin="home" />
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleCheckboxChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleSubmit =  (event) => {
+    var self = this;
+    event.preventDefault();
+    const formData = new FormData();
+    console.log(this.state.email)
+    console.log(this.state.password)
+
+    formData.append("email", this.state.email);
+    formData.append("password", this.state.password);
+    formData.append("remember", this.state.remember);
+
+    axios
+    .post("/api/logged_in", formData)
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .then(json => {
+      if (json.data.success) {
+        alert("Login Successful!");
+
+        let userData = {
+          name: json.data.data.name,
+          id: json.data.data.id,
+          email: json.data.data.email,
+          auth_token: json.data.data.auth_token,
+          timestamp: new Date().toString()
+        };
+        let appState = {
+          isLoggedIn: true,
+          user: userData
+        };
+        // save app state with user date in local storage
+        localStorage["appState"] = JSON.stringify(appState);
+        this.setState({
+          isLoggedIn: appState.isLoggedIn,
+          user: appState.user
+        });
+      } else alert("Login Failed!");
+
+      $("#login-form button")
+        .removeAttr("disabled")
+        .html("Login");
+    })
+    .catch(error => {
+      alert(`An Error Occured! ${error}`);
+      $("#login-form button")
+        .removeAttr("disabled")
+        .html("Login");
+    });
+    
+  }
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <main className={classes.main}>
+        <ResponsiveDrawer origin="home" />
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Sign in
-          </Button>
-        </form>
-      </Paper>
-    </main>
-  );
+          </Typography>
+          <form className={classes.form} onSubmit={this.handleSubmit}>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
+            </FormControl>
+            <FormControl margin="normal" required fullWidth>
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <Input name="password" type="password" id="password" autoComplete="current-password"  onChange={this.handleInputChange}/>
+            </FormControl>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign in
+            </Button>
+          </form>
+        </Paper>
+      </main>
+    );
+  }
 }
 
 SignIn.propTypes = {

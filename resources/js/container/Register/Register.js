@@ -162,11 +162,7 @@ class Register extends Component {
   
        const mate_value =  this.state.mate === true ? 1 : 0
        const postJob_value =  this.state.postJob === true ? 1 : 0
-        console.log('mate value' + mate_value);
-        console.log('mate state value' + this.state.mate);
-        console.log('post job value' + postJob_value);
-        console.log('POst Job value' + this.state.postJob);
-
+       
         formData.append('name', this.state.fullName);
         formData.append('email', this.state.email);
         formData.append('password', this.state.password);
