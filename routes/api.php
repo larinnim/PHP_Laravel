@@ -24,6 +24,7 @@ Route::get('getImage', 'AWS3@index');
 Route::post('uploadImage', 'AWS3@store');
 
 Route::post('/register_store', 'RegisterController@store');
+// Route::middleware('jwt.auth')->get('logged_in', 'LoginController@login');
 Route::post('/logged_in', 'LoginController@login');
 
 

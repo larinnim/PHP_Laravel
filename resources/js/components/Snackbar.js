@@ -95,7 +95,7 @@ const styles2 = theme => ({
   },
 });
 
-class CustomizedSnackbars extends React.Component {
+class SnackbarComponent extends React.Component {
     constructor(props) {
         super(props);
         console.log(props.open)
@@ -170,8 +170,8 @@ class CustomizedSnackbars extends React.Component {
   }
 }
 
-CustomizedSnackbars.propTypes = {
+SnackbarComponent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default  (withStyles(styles2) (withTranslation('common') (CustomizedSnackbars)));
+export default  (withStyles(styles2) (withTranslation('common') (SnackbarComponent)));

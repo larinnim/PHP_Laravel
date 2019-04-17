@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Sidebar from '../components/Sidebar';
+import SidebarComponent from '../components/Sidebar';
 
 
 export default class PostJobProfile extends Component{
@@ -14,7 +14,7 @@ export default class PostJobProfile extends Component{
       render() {
         return (
             <div>
-                    <Sidebar/>
+                    <SidebarComponent/>
             </div>
         );
       } 

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import ResponsiveDrawer from '../../components/Sidebar';
+import SidebarComponent from '../../components/Sidebar';
 import './Register.css';
 import Recaptcha from 'react-recaptcha';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import CustomizedSnackbars from '../../components/Snackbar';
+import SnackbarComponent from '../../components/Snackbar';
 import Grid from '@material-ui/core/Grid';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -162,7 +162,7 @@ class Register extends Component {
   
        const mate_value =  this.state.mate === true ? 1 : 0
        const postJob_value =  this.state.postJob === true ? 1 : 0
-       
+
         formData.append('name', this.state.fullName);
         formData.append('email', this.state.email);
         formData.append('password', this.state.password);
@@ -236,7 +236,8 @@ class Register extends Component {
     const { t } = this.props;  
     return (
       <div className='wrapper'>
-        <ResponsiveDrawer origin="home"/>
+        <SidebarComponent origin="home"/>
+        {/* <ResponsiveDrawer origin="home"/> */}
         <div className='form-wrapper'>
             <h2>Create Account</h2>
             <form onSubmit={this.handleSubmit} noValidate>
@@ -332,8 +333,8 @@ class Register extends Component {
               </div>
             </form>
         </div>
-        {emptyErrorSnackbar == true ? <CustomizedSnackbars variant={'error'} message={'register.blank_fields'} open={true}/> : false}
-        {duplicateEmailErrorSnackbar == true ?  <CustomizedSnackbars variant={'error'} message={'register.email_exist'} open={true}/> : false}
+        {emptyErrorSnackbar == true ? <SnackbarComponent variant={'error'} message={'register.blank_fields'} open={true}/> : false}
+        {duplicateEmailErrorSnackbar == true ?  <SnackbarComponent variant={'error'} message={'register.email_exist'} open={true}/> : false}
       </div>
     );
   }

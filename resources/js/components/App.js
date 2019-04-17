@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Home from '../container/Home';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import PostJobProfile from '../container/PostJobProfile';
-import ResponsiveDrawer from './Sidebar';
 import SignIn from '../container/SignIn';
 import AgentsOccupation from '../container/AgentsOccupation/AgentsOccupation';
 import Register from '../container/Register/Register';

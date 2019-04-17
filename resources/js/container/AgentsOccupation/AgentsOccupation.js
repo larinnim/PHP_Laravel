@@ -1,6 +1,6 @@
 import React from 'react';
 import Cards from '../../components/Cards';
-import ResponsiveDrawer from '../../components/Sidebar';
+import SidebarComponent from '../../components/Sidebar';
 import GoogleMaps from '../../components/GoogleMaps';
 import './AgentsOccupation.css';
 import Hidden from '@material-ui/core/Hidden';
@@ -79,7 +79,9 @@ class AgentsOccupation extends React.Component {
     render() {
       return (
         <div>
-            <ResponsiveDrawer origin="home"/>
+            <SidebarComponent origin="home"/>
+
+            {/* <ResponsiveDrawer origin="home"/> */}
             <div style={topbar}>
               <Hidden smDown>
                 <Typography>

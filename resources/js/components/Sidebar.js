@@ -31,6 +31,7 @@ import Calendar from './Calendar';
 import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 import hashHistory from 'react-router';
+import { Sidebar } from 'semantic-ui-react';
 
 const drawerWidth = 240;
 
@@ -86,7 +87,7 @@ const styles = theme => ({
   },
 });
 
-class ResponsiveDrawer extends React.Component {
+class SidebarComponent extends React.Component {
   state = {
     mobileOpen: false,
     tabs: [
@@ -97,7 +98,8 @@ class ResponsiveDrawer extends React.Component {
         {id: 0,  name: 'Find an Ally', show: false},
         {id: 1, name: 'Job Bank', show: false},
         {id: 2, name: 'Register', show: false},
-        {id: 3, name: 'Login', show: false, href: '/login'}
+        {id: 3, name: 'Login', show: false, href: '/login'},
+        {id: 4, name: 'Logout', show: false, href: '/logout'}
     ]
   };
 
@@ -125,7 +127,7 @@ class ResponsiveDrawer extends React.Component {
     };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, isLoggedIn } = this.props;
     
     console.log('Props' + this.props);
     const drawer = (
@@ -200,7 +202,7 @@ class ResponsiveDrawer extends React.Component {
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
           <Button onClick={() => this.handleClickNav('/register')} color="inherit">Register</Button>
-          <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>
+          {this.props.isLoggedIn ? <Button onClick={() => this.handleClickNav('/logout')} color="inherit">Logout</Button> : <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>}
           <Navbar/>
         </Hidden>
         </Toolbar>
@@ -247,7 +249,7 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-ResponsiveDrawer.propTypes = {
+SidebarComponent.propTypes = {
   classes: PropTypes.object.isRequired,
   // Injected by the documentation to work in an iframe.
   // You won't need it on your project.
@@ -255,4 +257,4 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(SidebarComponent);

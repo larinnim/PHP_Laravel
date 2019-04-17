@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import ResponsiveDrawer from '../components/Sidebar';
+import SidebarComponent from '../components/Sidebar';
 
 const styles = theme => ({
   main: {
@@ -53,6 +53,8 @@ class SignIn extends React.Component  {
       email: '',
       password: '',
       remember: false,
+      isLoggedIn: false,
+      user: [],
     }
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -93,12 +95,13 @@ class SignIn extends React.Component  {
         alert("Login Successful!");
 
         let userData = {
-          name: json.data.data.name,
-          id: json.data.data.id,
-          email: json.data.data.email,
-          auth_token: json.data.data.auth_token,
+          name: json.data.user.name,
+          id: json.data.user.id,
+          email: json.data.user.email,
+          token: json.data.user.auth_token,
           timestamp: new Date().toString()
         };
+
         let appState = {
           isLoggedIn: true,
           user: userData
@@ -110,10 +113,6 @@ class SignIn extends React.Component  {
           user: appState.user
         });
       } else alert("Login Failed!");
-
-      $("#login-form button")
-        .removeAttr("disabled")
-        .html("Login");
     })
     .catch(error => {
       alert(`An Error Occured! ${error}`);
@@ -128,7 +127,9 @@ class SignIn extends React.Component  {
 
     return (
       <main className={classes.main}>
-        <ResponsiveDrawer origin="home" />
+        <SidebarComponent origin="home" isLoggedIn={this.state.isLoggedIn} />
+
+        {/* <ResponsiveDrawer origin="home" isLoggedIn={this.state.isLoggedIn} /> */}
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -165,7 +166,6 @@ class SignIn extends React.Component  {
     );
   }
 }
-
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };

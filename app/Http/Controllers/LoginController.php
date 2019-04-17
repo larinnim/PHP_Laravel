@@ -45,6 +45,9 @@ class LoginController extends Controller
 
         $token = JWTAuth::attempt($credentials);
         $success = 'success';
+        $user = auth()->user();
+        $expires = auth('api')->factory()->getTTL() * 60;
+        
         try {
             if (!$token) {
                 return response()->json(['error' => 'invalid_credentials'], 401);
@@ -52,6 +55,6 @@ class LoginController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
-        return response()->json(compact('token', 'success'));
+        return response()->json(compact('token', 'expires', 'success', 'user'));
     }
 }
