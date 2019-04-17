@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('occupations', 'OccupationController@index');
+Route::get('occupations/agents', 'OccupationController@agentOccupation');
+
+Route::get('getImage', 'AWS3@index');
+Route::post('uploadImage', 'AWS3@store');
+
+Route::post('/register_store', 'RegisterController@store');
+// Route::middleware('jwt.auth')->get('logged_in', 'LoginController@login');
+Route::post('/logged_in', 'LoginController@login');
+
+

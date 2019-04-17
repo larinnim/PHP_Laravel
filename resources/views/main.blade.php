@@ -9,9 +9,12 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
+        <!-- Recaptcha -->
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> 
+      
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7Q5jQEy9IIUrGP0nChvEH7rXwo9dnEHE" type="text/javascript"></script>
         <!-- Styles -->
         <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">     -->
         <style>

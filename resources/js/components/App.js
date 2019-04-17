@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home';
-import Agents from '../Agents/Agents';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import PostJobProfile from '../Agents/PostJobProfile';
+import Home from '../container/Home';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
+import PostJobProfile from '../container/PostJobProfile';
+import SignIn from '../container/SignIn';
+import AgentsOccupation from '../container/AgentsOccupation/AgentsOccupation';
+import Register from '../container/Register/Register';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../i18n/index';
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path="/agents" exact component={Agents} />
-                    <Route path="/post_job" exact component={PostJobProfile} />
-                    {/* <Route path="/signup" component={Signup} />                                                                    
-                    <Route path="/signin" component={Signin} /> */}
-                </Switch>
-            </BrowserRouter>
+            <div>
+            <I18nextProvider i18n={i18n}>
+              <Switch>
+                  <Route exact path='/' component={Home} />
+                  <Route path='/post_job' component={PostJobProfile} />
+                  <Route path='/login' component={SignIn} />
+                  <Route path='/agents_occupations' component={AgentsOccupation} />
+                  <Route path='/register' component={Register} />
+              </Switch>
+            </I18nextProvider>
+
+            </div>
+          </BrowserRouter>
         );
+       
     }
 }
 

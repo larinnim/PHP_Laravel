@@ -29,6 +29,9 @@ import Menu from '@material-ui/core/Menu';
 import Navbar from '../components/Navbar';
 import Calendar from './Calendar';
 import Settings from './Settings';
+import Button from '@material-ui/core/Button';
+import hashHistory from 'react-router';
+import { Sidebar } from 'semantic-ui-react';
 
 const drawerWidth = 240;
 
@@ -48,6 +51,12 @@ const styles = theme => ({
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
+  appBar_home: {
+    marginLeft: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - 0px)`,
+    },
+  },
   menuButton: {
     marginRight: 20,
     [theme.breakpoints.up('sm')]: {
@@ -62,14 +71,35 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+  main_Tarefazz: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    color: 'white',
+    lineHeight: 1.75,
+    fontWeight: 500,
+    textDecoration: 'unset',
+    textTransform: 'uppercase',
+  },
+  flexGrow10: {
+    flexGrow: 10,
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: 60,
+    },
+  },
 });
 
-class ResponsiveDrawer extends React.Component {
+class SidebarComponent extends React.Component {
   state = {
     mobileOpen: false,
     tabs: [
         {id: 0,  name: 'Calendar', show: false},
         {id: 1, name: 'Settings', show: false}
+    ], 
+    home_tabs: [
+        {id: 0,  name: 'Find an Ally', show: false},
+        {id: 1, name: 'Job Bank', show: false},
+        {id: 2, name: 'Register', show: false},
+        {id: 3, name: 'Login', show: false, href: '/login'},
+        {id: 4, name: 'Logout', show: false, href: '/logout'}
     ]
   };
 
@@ -77,29 +107,33 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  handleClickTab = (tabIndex, id) => {
+  handleClickTab = (id) => {
 
-      const tab_found = {...this.state.tabs[id]};
-      console.log(tab_found);
-      tab_found.show = true;
+      const tab_found = {...this.state.home_tabs[id]};
+      window.location = tab_found.href;
+      // tab_found.show = true;
 
-      const tabs = [...this.state.tabs];
-      tabs[id] = tab_found;
-      this.state.tabs.map((tabs, index) => (
-          index == id ? tabs.show = true : tabs.show = false
-      ))
+      // const tabs = [...this.state.tabs];
+      // tabs[id] = tab_found;
+      // this.state.tabs.map((tabs, index) => (
+      //     index == id ? tabs.show = true : tabs.show = false
+      // ))
         
-      this.setState(state => ({ tabs: tabs}));
+      // this.setState(state => ({ tabs: tabs}));
     };
 
+    handleClickNav = href => {
+      window.location = href;
+    };
 
   render() {
-    const { classes, theme } = this.props;
-
+    const { classes, theme, isLoggedIn } = this.props;
+    
+    console.log('Props' + this.props);
     const drawer = (
       <div>
         {/* <div className={classes.toolbar} /> */}
-        <Divider />
+        {/* <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
@@ -107,15 +141,37 @@ class ResponsiveDrawer extends React.Component {
               <ListItemText primary={text} />
             </ListItem>
           ))}   
-        </List>
+        </List> */}
+         {this.props.origin == 'home'?  
+         null :
+          <Card >
+                <CardMedia src="profile.png">
+                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
+                    <p>Sebastiao Silva</p>
+                </CardMedia>
+            </Card> 
+        }
         <Divider />
         <List>
-          {this.state.tabs.map((tabs, index) => (
+            {this.props.origin == 'home'?   
+             this.state.home_tabs.map((tabs, index) => (
             <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>
-          ))}
+          )) :  
+          this.state.tabs.map((tabs, index) => (
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
+              <ListItemText primary={tabs.name} />
+            </ListItem>))
+            }
+          {/* {this.state.tabs.map((tabs, index) => (
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
+              <ListItemText primary={tabs.name} />
+            </ListItem>
+          ))} */}
         </List>
     
       </div>
@@ -125,7 +181,9 @@ class ResponsiveDrawer extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         {/* <PrimarySearchAppBar/> */}
-        <AppBar position="fixed" style={{ background: 'black' }} className={classes.appBar}>
+    
+   
+        <AppBar position="fixed" style={{ background: 'black' }} className="appBar">
         <Toolbar>
         <IconButton
               color="inherit"
@@ -135,24 +193,19 @@ class ResponsiveDrawer extends React.Component {
             >
               <MenuIcon />
         </IconButton>
-          {/* <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-              Responsive drawer
-            </Typography> */}
-             <Typography variant="h6" color="inherit" className="center-align" noWrap>
-                Tarefazz
-            </Typography>
-            <Navbar/>
-          {/* </Toolbar> */}
-          </Toolbar>
+        <a href="/" color="inherit" className={`${classes.flexGrow10} ${classes.main_Tarefazz}`}  >Tarefazz</a>
+        {/* <Button onClick={() => this.handleClickNav('/')} color="inherit" className={classes.flexGrow10}>Tarefazz</Button> */}
+        {/* <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
+          Tarefazz
+        </Typography> */}
+        <Hidden xsDown >
+          <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
+          <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
+          <Button onClick={() => this.handleClickNav('/register')} color="inherit">Register</Button>
+          {this.props.isLoggedIn ? <Button onClick={() => this.handleClickNav('/logout')} color="inherit">Logout</Button> : <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>}
+          <Navbar/>
+        </Hidden>
+        </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -167,31 +220,22 @@ class ResponsiveDrawer extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
-            <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card>
+         
               {drawer}
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >        
-            <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card>
-            {drawer}
-            </Drawer>
+         {this.props.origin == 'home' ? null :
+             <Drawer
+             classes={{
+               paper: classes.drawerPaper,
+             }}
+             variant="permanent"
+             open
+           >        
+           {drawer}
+           </Drawer>
+          }
           </Hidden>
         </nav>
         <main className={classes.content}>
@@ -205,7 +249,7 @@ class ResponsiveDrawer extends React.Component {
   }
 }
 
-ResponsiveDrawer.propTypes = {
+SidebarComponent.propTypes = {
   classes: PropTypes.object.isRequired,
   // Injected by the documentation to work in an iframe.
   // You won't need it on your project.
@@ -213,4 +257,4 @@ ResponsiveDrawer.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles, { withTheme: true })(SidebarComponent);

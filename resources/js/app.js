@@ -13,14 +13,21 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
 require('./components/App');
-require('./components/Home');
+require('./container/Home');
 require('./components/Navbar');
 require('./components/Calendar');
+require('./components/Dropzone');
 require('./components/Settings');
 require('./components/Sidebar');
-require('./Agents/PostJobProfile');
-require('./Agents/Agents');
+require('./components/NavApp');
+require('./components/Cards');
+require('./components/Snackbar');
+require('./container/PostJobProfile');
+require('./container/SignIn');
+require('./container/AgentsOccupation/AgentsOccupation');
+require('./container/Register/Register');
+
+
 
 
