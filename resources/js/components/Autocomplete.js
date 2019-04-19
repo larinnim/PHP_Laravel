@@ -13,6 +13,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import axios from 'axios';
 
 const styles = theme => ({
   root: {
@@ -171,6 +172,7 @@ class Autocomplete extends React.Component {
     let url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
       axios.get(url)
         .then(response => {
+          console.log('Response form the database');
           console.log(response.data);
           response.data.length > 0 ? window.location = "/agents_occupations?q=" +  encodeURI(this.state.single.value) : '';
         })

@@ -39,7 +39,7 @@ class LoginController extends Controller
             return response()->json($validator->errors());
         }
         $credentials = $request->only('email', 'password');
-        \Log::alert($request->all());
+        \Log::alert(request(['email', 'password']));
         \Log::alert(auth()->attempt(request(['email', 'password'])));
         \Log::alert(JWTAuth::attempt($credentials));
 

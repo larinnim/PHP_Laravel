@@ -10,9 +10,9 @@ class Home extends React.Component {
       <div>
           <SidebarComponent origin="home"/>
           {/* <ResponsiveDrawer origin="home"/> */}
-          <Layout>
+          {/* <Layout> */}
             <Autocomplete />
-          </Layout>
+          {/* </Layout> */}
       </div>
     );
   }

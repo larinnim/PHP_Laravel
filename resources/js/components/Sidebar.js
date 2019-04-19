@@ -94,7 +94,7 @@ class SidebarComponent extends React.Component {
         {id: 0,  name: 'Calendar', show: false},
         {id: 1, name: 'Settings', show: false}
     ], 
-    home_tabs: [
+    nav_tabs: [
         {id: 0,  name: 'Find an Ally', show: false},
         {id: 1, name: 'Job Bank', show: false},
         {id: 2, name: 'Register', show: false},
@@ -108,18 +108,8 @@ class SidebarComponent extends React.Component {
   };
 
   handleClickTab = (id) => {
-
-      const tab_found = {...this.state.home_tabs[id]};
+      const tab_found = {...this.state.nav_tabs[id]};
       window.location = tab_found.href;
-      // tab_found.show = true;
-
-      // const tabs = [...this.state.tabs];
-      // tabs[id] = tab_found;
-      // this.state.tabs.map((tabs, index) => (
-      //     index == id ? tabs.show = true : tabs.show = false
-      // ))
-        
-      // this.setState(state => ({ tabs: tabs}));
     };
 
     handleClickNav = href => {
@@ -132,46 +122,32 @@ class SidebarComponent extends React.Component {
     console.log('Props' + this.props);
     const drawer = (
       <div>
-        {/* <div className={classes.toolbar} /> */}
-        {/* <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}   
-        </List> */}
-         {this.props.origin == 'home'?  
-         null :
-          <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card> 
+         {this.props.isLoggedIn ?
+         <Card >
+          <CardMedia src="profile.png">
+              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
+              <p>Sebastiao Silva</p>
+          </CardMedia>
+        </Card> :
+         null 
         }
         <Divider />
         <List>
-            {this.props.origin == 'home'?   
-             this.state.home_tabs.map((tabs, index) => (
-            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
-                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
-              <ListItemText primary={tabs.name} />
-            </ListItem>
-          )) :  
+          {this.props.isLoggedIn ?
           this.state.tabs.map((tabs, index) => (
             <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>))
-            }
-          {/* {this.state.tabs.map((tabs, index) => (
+          :  
+          this.state.nav_tabs.map((tabs, index) => (
             <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>
-          ))} */}
+          )) 
+          
+            }
         </List>
     
       </div>
@@ -179,10 +155,7 @@ class SidebarComponent extends React.Component {
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        {/* <PrimarySearchAppBar/> */}
-    
-   
+        <CssBaseline />    
         <AppBar position="fixed" style={{ background: 'black' }} className="appBar">
         <Toolbar>
         <IconButton
@@ -194,10 +167,6 @@ class SidebarComponent extends React.Component {
               <MenuIcon />
         </IconButton>
         <a href="/" color="inherit" className={`${classes.flexGrow10} ${classes.main_Tarefazz}`}  >Tarefazz</a>
-        {/* <Button onClick={() => this.handleClickNav('/')} color="inherit" className={classes.flexGrow10}>Tarefazz</Button> */}
-        {/* <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
-          Tarefazz
-        </Typography> */}
         <Hidden xsDown >
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
@@ -208,7 +177,6 @@ class SidebarComponent extends React.Component {
         </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -220,12 +188,11 @@ class SidebarComponent extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
-         
               {drawer}
             </Drawer>
           </Hidden>
-          <Hidden xsDown implementation="css">
-         {this.props.origin == 'home' ? null :
+          <Hidden smUp implementation="css">
+          {this.props.isLoggedIn ?  
              <Drawer
              classes={{
                paper: classes.drawerPaper,
@@ -235,6 +202,8 @@ class SidebarComponent extends React.Component {
            >        
            {drawer}
            </Drawer>
+           :
+           null
           }
           </Hidden>
         </nav>
