@@ -88,11 +88,12 @@ p, div {
     padding: 	0.938em;
     border: none;
     border-radius: 4px;
-    background-color: #22223B;
+    background-color: #03a9f4;
     color: #fefefe;
   }
   button:hover {
-    background-color: #4A4E69;
+    border-color: purple;
+    /* background-color: #4A4E69; */
     color: #fefefe;
   }
   

@@ -17,6 +17,8 @@ import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import * as actions from '../../store/actions/index';
 import {Redirect} from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom'
 
 const styles = theme => ({
   main: {
@@ -73,6 +75,10 @@ class SignIn extends React.Component  {
     });
   }
 
+  handleForgotPassword = (event) => {
+    this.props.history.push('/recoverPass');
+  }
+
   handleCheckboxChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
@@ -115,6 +121,17 @@ class SignIn extends React.Component  {
               control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
               label="Remember me"
             />
+            <Link
+              // component={ForgotPassword}
+              component="button"
+              variant="body2"
+              onClick={this.handleForgotPassword}
+              // onClick={() => {
+              //   alert("I'm a button.");
+              // }}
+            >
+              Forgot password?
+            </Link>
             <Button
               type="submit"
               fullWidth

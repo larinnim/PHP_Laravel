@@ -5,6 +5,7 @@ import SignIn from './container/Auth/SignIn';
 import Logout from './container/Auth/Logout';
 import AgentsOccupation from './container/AgentsOccupation/AgentsOccupation';
 import Register from './container/Auth/Register/Register';
+import ForgotPass from './container/Auth/ForgotPass';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/index';
 import {connect} from 'react-redux';
@@ -22,6 +23,7 @@ class App extends Component {
             <Route path="/agents_occupations" component={withRouter(AgentsOccupation)}/>
             <Route path="/register" component={withRouter(Register)}/>
             <Route path="/logout" component={withRouter(Logout)} />
+            <Route path="/recoverPass" component={(ForgotPass)}/>
             <Redirect to="/" />
           </Switch>
         );
