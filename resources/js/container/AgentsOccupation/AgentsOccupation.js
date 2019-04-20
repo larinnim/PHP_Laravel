@@ -12,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FilledInput from '@material-ui/core/FilledInput';
 import Typography from '@material-ui/core/Typography';
 import Dropzone from '../../components/Dropzone';
+import {connect} from 'react-redux';
 
 const divStyle = {
   display: 'flex',
@@ -25,25 +26,39 @@ const mov_right = {
 }
 
 class AgentsOccupation extends React.Component {
+  _isMounted = false;
+
   state = {
     users: [],
     imgSrc: ''
  };
 
  componentDidMount() {
+  this._isMounted = true;
   const values = queryString.parse(this.props.location.search)
   let url = '/api/occupations/agents?q=' + encodeURI(values.q);
-  axios.get(url)
-    .then(response => {
-      response.data = response.data.sort((a, b) => (a.hourly_rate - b.hourly_rate))
-      this.setState({users: response.data});
-    })
-    axios.get('/api/getImage')
-    .then(response => {
-      this.setState({imgSrc: response.data});
-      console.log(response);
-    })
-    .catch(error => console.log(error));
+      axios.get(url)
+      .then(response => {
+        response.data = response.data.sort((a, b) => (a.hourly_rate - b.hourly_rate))
+        if (this._isMounted) {
+          this.setState({        
+            users: response.data
+          });
+        }
+      })
+
+      axios.get('/api/getImage')
+      .then(response => {
+        if (this._isMounted) {
+          this.setState({imgSrc: response.data});
+        }
+        console.log(response);
+      })
+      .catch(error => console.log(error));
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   sortByPriceAsc() {
@@ -79,9 +94,7 @@ class AgentsOccupation extends React.Component {
     render() {
       return (
         <div>
-            <SidebarComponent origin="home"/>
-
-            {/* <ResponsiveDrawer origin="home"/> */}
+            <SidebarComponent isLoggedIn={this.props.auth}/>
             <div style={topbar}>
               <Hidden smDown>
                 <Typography>
@@ -125,5 +138,10 @@ class AgentsOccupation extends React.Component {
     }
 }
 
+const mapStateToProps = state => {
+  return { 
+    auth: state.auth.auth,
+   };
+};
 
-export default AgentsOccupation;
+export default  connect( mapStateToProps, null ) (AgentsOccupation);

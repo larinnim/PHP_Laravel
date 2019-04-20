@@ -32,6 +32,7 @@ import Settings from './Settings';
 import Button from '@material-ui/core/Button';
 import hashHistory from 'react-router';
 import { Sidebar } from 'semantic-ui-react';
+import {Redirect} from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -92,14 +93,15 @@ class SidebarComponent extends React.Component {
     mobileOpen: false,
     tabs: [
         {id: 0,  name: 'Calendar', show: false},
-        {id: 1, name: 'Settings', show: false}
+        {id: 1, name: 'Settings', show: false},
+        {id: 2, name: 'Logout', show: false, href: '/logout'}
     ], 
-    home_tabs: [
+    nav_tabs: [
         {id: 0,  name: 'Find an Ally', show: false},
         {id: 1, name: 'Job Bank', show: false},
-        {id: 2, name: 'Register', show: false},
+        {id: 2, name: 'Register', show: false, href: '/register'},
         {id: 3, name: 'Login', show: false, href: '/login'},
-        {id: 4, name: 'Logout', show: false, href: '/logout'}
+        // {id: 4, name: 'Logout', show: false, href: '/logout'}
     ]
   };
 
@@ -108,18 +110,9 @@ class SidebarComponent extends React.Component {
   };
 
   handleClickTab = (id) => {
-
-      const tab_found = {...this.state.home_tabs[id]};
-      window.location = tab_found.href;
-      // tab_found.show = true;
-
-      // const tabs = [...this.state.tabs];
-      // tabs[id] = tab_found;
-      // this.state.tabs.map((tabs, index) => (
-      //     index == id ? tabs.show = true : tabs.show = false
-      // ))
-        
-      // this.setState(state => ({ tabs: tabs}));
+      const tab_found = {...this.state.nav_tabs[id]};
+      console.log('Tab found'+tab_found);
+      // window.location = tab_found.href;
     };
 
     handleClickNav = href => {
@@ -132,46 +125,32 @@ class SidebarComponent extends React.Component {
     console.log('Props' + this.props);
     const drawer = (
       <div>
-        {/* <div className={classes.toolbar} /> */}
-        {/* <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}   
-        </List> */}
-         {this.props.origin == 'home'?  
-         null :
-          <Card >
-                <CardMedia src="profile.png">
-                    <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
-                    <p>Sebastiao Silva</p>
-                </CardMedia>
-            </Card> 
+         {this.props.isLoggedIn ?
+         <Card >
+          <CardMedia src="profile.png">
+              <img src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg" style={{ borderRadius: 100 }} />
+              <p>Sebastiao Silva</p>
+          </CardMedia>
+        </Card> :
+         null 
         }
         <Divider />
         <List>
-            {this.props.origin == 'home'?   
-             this.state.home_tabs.map((tabs, index) => (
-            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
-                <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
-              <ListItemText primary={tabs.name} />
-            </ListItem>
-          )) :  
+          {this.props.isLoggedIn ?
           this.state.tabs.map((tabs, index) => (
-            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickNav(tabs.href)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>))
-            }
-          {/* {this.state.tabs.map((tabs, index) => (
-            <ListItem button key={tabs.id} onClick={(event) => this.handleClickTab(event, tabs.id)}>
+          :  
+          this.state.nav_tabs.map((tabs, index) => (
+            <ListItem button key={tabs.id} onClick={(event) => this.handleClickNav(tabs.href)}>
                 <ListItemIcon>{index === 0 ? <CalendarToday /> : index === 1 ? <SettingsIcon/>:<MailIcon/>}</ListItemIcon>
               <ListItemText primary={tabs.name} />
             </ListItem>
-          ))} */}
+          )) 
+          
+            }
         </List>
     
       </div>
@@ -179,10 +158,7 @@ class SidebarComponent extends React.Component {
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
-        {/* <PrimarySearchAppBar/> */}
-    
-   
+        <CssBaseline />    
         <AppBar position="fixed" style={{ background: 'black' }} className="appBar">
         <Toolbar>
         <IconButton
@@ -194,21 +170,16 @@ class SidebarComponent extends React.Component {
               <MenuIcon />
         </IconButton>
         <a href="/" color="inherit" className={`${classes.flexGrow10} ${classes.main_Tarefazz}`}  >Tarefazz</a>
-        {/* <Button onClick={() => this.handleClickNav('/')} color="inherit" className={classes.flexGrow10}>Tarefazz</Button> */}
-        {/* <Typography variant="h6" color="inherit" className={classes.flexGrow10} noWrap>
-          Tarefazz
-        </Typography> */}
         <Hidden xsDown >
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Find an Ally</Button>
           <Button onClick={() => this.handleClickNav('/')} color="inherit">Job Bank</Button>
-          <Button onClick={() => this.handleClickNav('/register')} color="inherit">Register</Button>
+          {this.props.isLoggedIn ? null : <Button onClick={() => this.handleClickNav('/register')} color="inherit">Register</Button>}
           {this.props.isLoggedIn ? <Button onClick={() => this.handleClickNav('/logout')} color="inherit">Logout</Button> : <Button onClick={() => this.handleClickNav('/login')} color="inherit">Login</Button>}
           <Navbar/>
         </Hidden>
         </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -220,12 +191,11 @@ class SidebarComponent extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
-         
               {drawer}
             </Drawer>
           </Hidden>
-          <Hidden xsDown implementation="css">
-         {this.props.origin == 'home' ? null :
+          <Hidden smUp implementation="css">
+          {this.props.isLoggedIn ?  
              <Drawer
              classes={{
                paper: classes.drawerPaper,
@@ -235,6 +205,8 @@ class SidebarComponent extends React.Component {
            >        
            {drawer}
            </Drawer>
+           :
+           null
           }
           </Hidden>
         </nav>

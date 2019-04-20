@@ -1,33 +1,68 @@
+import React, { Component } from 'react';
+import Home from './container/Home';
+import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import ResponseReset from './container/Auth/ResponseReset';
+import SignIn from './container/Auth/SignIn';
+import Logout from './container/Auth/Logout';
+import AgentsOccupation from './container/AgentsOccupation/AgentsOccupation';
+import Register from './container/Auth/Register/Register';
+import ForgotPass from './container/Auth/ForgotPass';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/index';
+import {connect} from 'react-redux';
+import * as actions from './store/actions/index';
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
- */
+class App extends Component {
+    componentDidMount () {
+        this.props.onTryAutoSignup();
+    }
+    render () {
+        let routes = (
+          <Switch>
+            <Route path="/login" component={withRouter(SignIn)} />
+            <Route path="/" exact component={withRouter(Home)} />
+            <Route path="/agents_occupations" component={withRouter(AgentsOccupation)}/>
+            <Route path="/register" component={withRouter(Register)}/>
+            <Route path="/logout" component={withRouter(Logout)} />
+            <Route path="/recoverPass" component={withRouter(ForgotPass)}/>
+            <Route path="/response-password-reset" component={withRouter(ResponseReset)}/>
+            <Redirect to="/" />
+          </Switch>
+        );
+    
+        // if ( this.props.isAuthenticated ) {
+        //   routes = (
+        //     <Switch>
+        //       <Route path="/login" component={withRouter(SignIn)} />
+        //       {/* <Route path="/checkout" component={Checkout} />
+        //       <Route path="/orders" component={Orders} /> */}
+        //       <Route path="/logout" component={withRouter(Logout)} />
+        //       <Route path="/" exact component={withRouter(Home)} />
+        //      {/* <Redirect to="/" component={withRouter(Home)}/> */}
+        //     </Switch>
+        //   );
+        // }
+    
+        return (
+          <div>
+            <I18nextProvider i18n={i18n}>
+                {routes}
+            </I18nextProvider>
+          </div>
+        );
+      }
+}
 
-require('./bootstrap');
-
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-require('./components/App');
-require('./container/Home');
-require('./components/Navbar');
-require('./components/Calendar');
-require('./components/Dropzone');
-require('./components/Settings');
-require('./components/Sidebar');
-require('./components/NavApp');
-require('./components/Cards');
-require('./components/Snackbar');
-require('./container/PostJobProfile');
-require('./container/SignIn');
-require('./container/AgentsOccupation/AgentsOccupation');
-require('./container/Register/Register');
-
-
-
+const mapStateToProps = state => {
+    return {
+      isAuthenticated: state.auth.token !== null
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      onTryAutoSignup: () => dispatch( actions.authCheckState() )
+    };
+  };
+export default connect( mapStateToProps, mapDispatchToProps )( App );
 
