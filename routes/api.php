@@ -28,9 +28,11 @@ Route::post('/register_store', 'RegisterController@store');
 Route::post('/logged_in', 'LoginController@login');
 
  // Password Reset Routes...
- Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
- Route::post('password/email', 'Auth\ForgotPasswordController@sendEmail')->name('password.email');
- Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
- Route::post('password/reset', 'ResetPasswordController@reset');
+//  Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+ Route::post('password/email', 'Auth\ForgotPasswordController@sendEmail');
+ Route::post('password/reset', 'Auth\ResetPasswordController@process');
+
+//  Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
+//  Route::post('password/reset', 'ResetPasswordController@reset');
 
 

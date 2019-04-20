@@ -21,23 +21,42 @@ export const authFail = (error) => {
 };
 
 
-export const forgotPassword = (email) => {
+export const forgotPassword = (email, password = null, token = null) => {
     return dispatch => {
         dispatch(forgotStart());
         const formData = new FormData();
         formData.append("email", email);
-        axios
-        .post("/api/password/email", formData)
-        .then(response => {
-        console.log("IN FORGOT PASSWORD");
-        return response;
-        })
-        .then(json => {
-            console.log(json.data);
-        })
-        .catch(error => {
-            console.log(error);
-            dispatch(forgotFail(error));
-        });
+        formData.append("password", password);
+        formData.append("token", token);
+        console.log('The value of password is:' + password);
+        if(password != null){
+                axios
+            .post("/api/password/reset", formData)
+            .then(response => {
+            return response;
+            })
+            .then(json => {
+                console.log(json.data);
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(forgotFail(error));
+            });
+        }
+        else{
+            axios
+            .post("/api/password/email", formData)
+            .then(response => {
+            console.log("IN FORGOT PASSWORD");
+            return response;
+            })
+            .then(json => {
+                console.log(json.data);
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(forgotFail(error));
+            });
+        }
     };
 };
