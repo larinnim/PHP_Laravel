@@ -16,6 +16,7 @@ import SidebarComponent from '../../components/Sidebar';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import * as actions from '../../store/actions/index';
+import {Redirect} from 'react-router-dom';
 
 const styles = theme => ({
   main: {
@@ -77,63 +78,22 @@ class SignIn extends React.Component  {
   };
 
   handleSubmit =  (event) => {
-    var self = this;
     event.preventDefault();
     this.props.onSign(this.state.email, this.state.password);
-    // const formData = new FormData();
-    // console.log(this.state.email)
-    // console.log(this.state.password)
-
-    // formData.append("email", this.state.email);
-    // formData.append("password", this.state.password);
-    // formData.append("remember", this.state.remember);
-
-    // axios
-    // .post("/api/logged_in", formData)
-    // .then(response => {
-    //   console.log(response);
-    //   return response;
-    // })
-    // .then(json => {
-    //   if (json.data.success) {
-    //     alert("Login Successful!");
-
-    //     let userData = {
-    //       name: json.data.user.name,
-    //       id: json.data.user.id,
-    //       email: json.data.user.email,
-    //       token: json.data.user.auth_token,
-    //       timestamp: new Date().toString()
-    //     };
-
-    //     let appState = {
-    //       isLoggedIn: true,
-    //       user: userData
-    //     };
-    //     // save app state with user date in local storage
-    //     localStorage["appState"] = JSON.stringify(appState);
-    //     this.setState({
-    //       isLoggedIn: appState.isLoggedIn,
-    //       user: appState.user
-    //     });
-    //   } else alert("Login Failed!");
-    // })
-    // .catch(error => {
-    //   alert(`An Error Occured! ${error}`);
-    //   $("#login-form button")
-    //     .removeAttr("disabled")
-    //     .html("Login");
-    // });
-    
   }
+  
   render() {
     const { classes } = this.props;
 
+    let authRedirect = null;
+    if (this.props.auth) {
+        authRedirect = <Redirect to='/'/>
+    }
+
     return (
       <main className={classes.main}>
+        {authRedirect}
         <SidebarComponent isLoggedIn={this.props.auth} />
-
-        {/* <ResponsiveDrawer origin="home" isLoggedIn={this.state.isLoggedIn} /> */}
         <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
@@ -143,7 +103,6 @@ class SignIn extends React.Component  {
             Sign in
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
-          {/* <form className={classes.form} onSubmit={this.props.onSign}> */}
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
@@ -177,15 +136,17 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 const mapStateToProps = state => {
-  console.log(state.auth.auth)
-  return { auth: state.auth.auth };
+  console.log(state.auth.token);
+  return { 
+    auth: state.auth.auth,
+    
+    // authRedirectPath: state.auth.authRedirectPath
+   };
 };
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
   return {
     onSign: (email, password) => dispatch(actions.auth(email, password)) //Dispatch function will be available on the onSign prop
-
-    // onSign: () => dispatch({type: actionTypes.AUTHENTICATION}) //Dispatch function will be available on the onSign prop
   };
 };
 

@@ -19,6 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Rating  from 'material-ui-rating';
 import GoogleMaps from './GoogleMaps';
 import Moment from 'react-moment';
+import './Cards.css';
 
 const styles = theme => ({
   card: {
@@ -38,7 +39,15 @@ const styles = theme => ({
   },
   actions: {
     display: 'flex',
-  },    
+  },  
+  rating_display: {
+    width: 20,
+    display: 'inline-flex',
+  },  
+  rating_text: {
+    minWidth: 100,
+    marginTop: 10,
+  },
   avatar: {
     backgroundColor: red[500],
   },
@@ -107,14 +116,15 @@ const styles = theme => ({
           {/* <IconButton aria-label="Add to favorites">
             <FavoriteIcon />
           </IconButton> */}
+                     <span className={classes.rating_text}>({total_rating} ratings)</span> 
+
           <Rating
             value={rating}
             max={5}
             onChange={(value) => console.log(`Rated with value ${value}`)}
+            // style={{ backgroundColor: 'black' }}
+            classes={{root: 'rating_display'}}
           />
-          <div>
-            ({total_rating} ratings)
-          </div>
           {/* <IconButton
             className={classnames(classes.expand, {
               [classes.expandOpen]: this.state.expanded,

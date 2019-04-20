@@ -2,21 +2,23 @@ import React from 'react';
 import SidebarComponent from '../components/Sidebar';
 import Layout from '../components/Layout/Layout';
 import Autocomplete from '../components/Autocomplete';
+import {connect} from 'react-redux';
 
 class Home extends React.Component {
 
   render() {
     return (
       <div>
-          <SidebarComponent origin="home"/>
-          {/* <ResponsiveDrawer origin="home"/> */}
-          {/* <Layout> */}
-            <Autocomplete />
-          {/* </Layout> */}
+          <SidebarComponent isLoggedIn={this.props.auth}/>
+          <Autocomplete />
       </div>
     );
   }
 }
 
-
-export default Home;
+const mapStateToProps = state => {
+  return { 
+    auth: state.auth.auth,
+   };
+};
+export default  connect( mapStateToProps, null )( Home );

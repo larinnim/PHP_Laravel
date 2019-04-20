@@ -40,6 +40,7 @@ export const checkAuthTimeout = (expirationTime) => {
 };
 
 export const authCheckState = () => {
+    console.log(localStorage.getItem('token'));
     return dispatch => {
         const token = localStorage.getItem('token');
         if(!token){
@@ -47,13 +48,13 @@ export const authCheckState = () => {
         }
         else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
-            if(expirationDate > new Date()){
+            if(expirationDate <= new Date()){
                 dispatch(logout());
             }
             else {
                 const userId = localStorage.getItem('userId');
                 dispatch(authSuccess(token, userId));
-                dispatch(checkAuthTimeout(expirationDate.getSeconds() - new Date().getSeconds()));
+                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
         }
     };
@@ -68,19 +69,19 @@ export const auth = (email, password) => {
         axios
         .post("/api/logged_in", formData)
         .then(response => {
-        console.log(response);
+        console.log("Arinaaaaa");
         return response;
         })
         .then(json => {
             const expirationDate = new Date (new Date().getTime() + json.data.expires * 1000);
         if (json.data.success) {
-            dispatch(authSuccess(json.data.user.token, json.data.user.id));
-            dispatch(checkAuthTimeout(json.data.expires))
+            console.log(json.data);
             localStorage.setItem('token', json.data.user.token);
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('userId', json.data.user.id);
+            dispatch(authSuccess(json.data.user.token, json.data.user.id));
+            dispatch(checkAuthTimeout(json.data.expires))
         }
-        else console.log("Login Failed!");
         })
         .catch(error => {
             console.log(error);

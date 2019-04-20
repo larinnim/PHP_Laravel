@@ -156,6 +156,7 @@ const components = {
 };
 
 class Autocomplete extends React.Component {
+  _isMounted = false;
   state = {
     single: null,
     suggestions: [],
@@ -172,23 +173,31 @@ class Autocomplete extends React.Component {
     let url = '/api/occupations/agents?q=' + encodeURI(this.state.single.value);
       axios.get(url)
         .then(response => {
-          console.log('Response form the database');
-          console.log(response.data);
-          response.data.length > 0 ? window.location = "/agents_occupations?q=" +  encodeURI(this.state.single.value) : '';
+          if(this._isMounted){
+            response.data.length > 0 ? window.location = "/agents_occupations?q=" +  encodeURI(this.state.single.value) : '';
+          }
         })
         .catch(error => console.log(error));
   };
 
   componentDidMount () {
-        axios.get('/api/occupations').then(response => {
-          this.setState({
-            suggestions: response.data.map(suggestion => ({
-                value: suggestion.occupation,
-                label: suggestion.occupation,
-              }))
-          })
+    this._isMounted = true;
+
+    axios.get('/api/occupations').then(response => {
+      if (this._isMounted) {
+        this.setState({
+          suggestions: response.data.map(suggestion => ({
+              value: suggestion.occupation,
+              label: suggestion.occupation,
+            }))
         })
       }
+    })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const { classes, theme } = this.props;

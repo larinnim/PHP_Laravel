@@ -341,7 +341,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = state => {
-  return { auth: state.auth };
+  return { auth: state.auth.auth };
 };
 
 export default connect(mapStateToProps) (withTranslation('common')(Register));
