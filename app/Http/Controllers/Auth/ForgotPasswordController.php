@@ -9,6 +9,8 @@ use App\User;
 use Response;
 use Mail;
 use App\Mail\ResetPasswordMail;
+use Carbon\Carbon;
+use DB;
 
 class ForgotPasswordController extends Controller
 {
@@ -41,11 +43,11 @@ class ForgotPasswordController extends Controller
             return $this->failedResponse();
         }
 
-        $this->send($request->email);
+        $user = DB::table('users')->where('email', $request->email)->first();
+
+        $this->send($request->email, $user->name);
         return $this->successResponse();
 
-        \Log::alert($request->all());
-        return $request->all();
     }
 
     public function validateEmail($email){
@@ -64,8 +66,39 @@ class ForgotPasswordController extends Controller
         ], 200);
     }
 
-    public function send($email)
+    public function send($email, $name)
     {
-        Mail::to($email)->send(new ResetPasswordMail);
+        $token = $this->createToken($email);
+        \Log::alert($token);
+        Mail::to($email)->send(new ResetPasswordMail($token, $name));
     }
+
+    public function createToken($email)
+    {
+        $oldToken = DB::table('password_resets')->where('email', $email)->first();
+        if($oldToken){
+            return $oldToken->token;
+        }
+        $token = str_random(60);
+        \Log::alert($token);
+        DB::table('password_resets')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+        // $token->saveToken($token, $email);
+        \Log::alert($token);
+
+        return $token;
+    }
+
+    // public function saveToken($token, $email)
+    // {
+    //     \Log::alert($token);
+    //     DB::table('password_resets')->insert([
+    //         'email' => $email,
+    //         'token' => $token,
+    //         'created_at' => Carbon::now()
+    //     ]);
+    // }
 }

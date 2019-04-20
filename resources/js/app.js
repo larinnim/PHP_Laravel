@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Home from './container/Home';
 import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import ResponseReset from './container/Auth/ResponseReset';
 import SignIn from './container/Auth/SignIn';
 import Logout from './container/Auth/Logout';
 import AgentsOccupation from './container/AgentsOccupation/AgentsOccupation';
@@ -24,6 +25,7 @@ class App extends Component {
             <Route path="/register" component={withRouter(Register)}/>
             <Route path="/logout" component={withRouter(Logout)} />
             <Route path="/recoverPass" component={withRouter(ForgotPass)}/>
+            <Route path="/response-password-reset" component={withRouter(ResponseReset)}/>
             <Redirect to="/" />
           </Switch>
         );
