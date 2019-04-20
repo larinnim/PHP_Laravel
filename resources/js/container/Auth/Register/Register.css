@@ -94,7 +94,7 @@ p, div {
   button:hover {
     border-color: purple;
     /* background-color: #4A4E69; */
-    color: #fefefe;
+    /* color: #fefefe; */
   }
   
   .error {

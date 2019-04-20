@@ -23,7 +23,7 @@ class App extends Component {
             <Route path="/agents_occupations" component={withRouter(AgentsOccupation)}/>
             <Route path="/register" component={withRouter(Register)}/>
             <Route path="/logout" component={withRouter(Logout)} />
-            <Route path="/recoverPass" component={(ForgotPass)}/>
+            <Route path="/recoverPass" component={withRouter(ForgotPass)}/>
             <Redirect to="/" />
           </Switch>
         );

@@ -8,11 +8,13 @@ import { I18nextProvider } from 'react-i18next';
 
 import App from './App';
 import authReducer from './store/reducers/auth';
+import forgotReducer from './store/reducers/forgotPassword';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    forgotPassword: forgotReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

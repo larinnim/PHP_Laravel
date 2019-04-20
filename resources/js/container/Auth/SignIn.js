@@ -76,6 +76,10 @@ class SignIn extends React.Component  {
   }
 
   handleForgotPassword = (event) => {
+    this.setState({
+      email: '',
+      password: ''
+    });
     this.props.history.push('/recoverPass');
   }
 
