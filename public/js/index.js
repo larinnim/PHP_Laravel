@@ -27353,6 +27353,213 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/cookie/index.js":
+/*!**************************************!*\
+  !*** ./node_modules/cookie/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+
+
+/**
+ * Module exports.
+ * @public
+ */
+
+exports.parse = parse;
+exports.serialize = serialize;
+
+/**
+ * Module variables.
+ * @private
+ */
+
+var decode = decodeURIComponent;
+var encode = encodeURIComponent;
+var pairSplitRegExp = /; */;
+
+/**
+ * RegExp to match field-content in RFC 7230 sec 3.2
+ *
+ * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
+ * field-vchar   = VCHAR / obs-text
+ * obs-text      = %x80-FF
+ */
+
+var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+
+/**
+ * Parse a cookie header.
+ *
+ * Parse the given cookie header string into an object
+ * The object has the various cookies as keys(names) => values
+ *
+ * @param {string} str
+ * @param {object} [options]
+ * @return {object}
+ * @public
+ */
+
+function parse(str, options) {
+  if (typeof str !== 'string') {
+    throw new TypeError('argument str must be a string');
+  }
+
+  var obj = {}
+  var opt = options || {};
+  var pairs = str.split(pairSplitRegExp);
+  var dec = opt.decode || decode;
+
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i];
+    var eq_idx = pair.indexOf('=');
+
+    // skip things that don't look like key=value
+    if (eq_idx < 0) {
+      continue;
+    }
+
+    var key = pair.substr(0, eq_idx).trim()
+    var val = pair.substr(++eq_idx, pair.length).trim();
+
+    // quoted values
+    if ('"' == val[0]) {
+      val = val.slice(1, -1);
+    }
+
+    // only assign once
+    if (undefined == obj[key]) {
+      obj[key] = tryDecode(val, dec);
+    }
+  }
+
+  return obj;
+}
+
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize the a name value pair into a cookie string suitable for
+ * http headers. An optional options object specified cookie parameters.
+ *
+ * serialize('foo', 'bar', { httpOnly: true })
+ *   => "foo=bar; httpOnly"
+ *
+ * @param {string} name
+ * @param {string} val
+ * @param {object} [options]
+ * @return {string}
+ * @public
+ */
+
+function serialize(name, val, options) {
+  var opt = options || {};
+  var enc = opt.encode || encode;
+
+  if (typeof enc !== 'function') {
+    throw new TypeError('option encode is invalid');
+  }
+
+  if (!fieldContentRegExp.test(name)) {
+    throw new TypeError('argument name is invalid');
+  }
+
+  var value = enc(val);
+
+  if (value && !fieldContentRegExp.test(value)) {
+    throw new TypeError('argument val is invalid');
+  }
+
+  var str = name + '=' + value;
+
+  if (null != opt.maxAge) {
+    var maxAge = opt.maxAge - 0;
+    if (isNaN(maxAge)) throw new Error('maxAge should be a Number');
+    str += '; Max-Age=' + Math.floor(maxAge);
+  }
+
+  if (opt.domain) {
+    if (!fieldContentRegExp.test(opt.domain)) {
+      throw new TypeError('option domain is invalid');
+    }
+
+    str += '; Domain=' + opt.domain;
+  }
+
+  if (opt.path) {
+    if (!fieldContentRegExp.test(opt.path)) {
+      throw new TypeError('option path is invalid');
+    }
+
+    str += '; Path=' + opt.path;
+  }
+
+  if (opt.expires) {
+    if (typeof opt.expires.toUTCString !== 'function') {
+      throw new TypeError('option expires is invalid');
+    }
+
+    str += '; Expires=' + opt.expires.toUTCString();
+  }
+
+  if (opt.httpOnly) {
+    str += '; HttpOnly';
+  }
+
+  if (opt.secure) {
+    str += '; Secure';
+  }
+
+  if (opt.sameSite) {
+    var sameSite = typeof opt.sameSite === 'string'
+      ? opt.sameSite.toLowerCase() : opt.sameSite;
+
+    switch (sameSite) {
+      case true:
+        str += '; SameSite=Strict';
+        break;
+      case 'lax':
+        str += '; SameSite=Lax';
+        break;
+      case 'strict':
+        str += '; SameSite=Strict';
+        break;
+      default:
+        throw new TypeError('option sameSite is invalid');
+    }
+  }
+
+  return str;
+}
+
+/**
+ * Try decoding a string using a decoding function.
+ *
+ * @param {string} str
+ * @param {function} decode
+ * @private
+ */
+
+function tryDecode(str, decode) {
+  try {
+    return decode(str);
+  } catch (e) {
+    return str;
+  }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/create-emotion/dist/index.esm.js":
 /*!*******************************************************!*\
   !*** ./node_modules/create-emotion/dist/index.esm.js ***!
@@ -100799,6 +101006,183 @@ function symbolObservablePonyfill(root) {
 
 /***/ }),
 
+/***/ "./node_modules/universal-cookie/es6/Cookies.js":
+/*!******************************************************!*\
+  !*** ./node_modules/universal-cookie/es6/Cookies.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cookie */ "./node_modules/cookie/index.js");
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cookie__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./node_modules/universal-cookie/es6/utils.js");
+
+
+// We can't please Rollup and TypeScript at the same time
+// Only way to make both of them work
+var objectAssign = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
+var Cookies = /** @class */ (function () {
+    function Cookies(cookies) {
+        this.changeListeners = [];
+        this.TESTING_ONETWO = 2;
+        this.cookies = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["parseCookies"])(cookies);
+        this.HAS_DOCUMENT_COOKIE = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["hasDocumentCookie"])();
+    }
+    Cookies.prototype._updateBrowserValues = function () {
+        if (!this.HAS_DOCUMENT_COOKIE) {
+            return;
+        }
+        this.cookies = cookie__WEBPACK_IMPORTED_MODULE_0__["parse"](document.cookie);
+    };
+    Cookies.prototype._emitChange = function (params) {
+        for (var i = 0; i < this.changeListeners.length; ++i) {
+            this.changeListeners[i](params);
+        }
+    };
+    Cookies.prototype.get = function (name, options) {
+        if (options === void 0) { options = {}; }
+        this._updateBrowserValues();
+        return Object(_utils__WEBPACK_IMPORTED_MODULE_1__["readCookie"])(this.cookies[name], options);
+    };
+    Cookies.prototype.getAll = function (options) {
+        if (options === void 0) { options = {}; }
+        this._updateBrowserValues();
+        var result = {};
+        for (var name_1 in this.cookies) {
+            result[name_1] = Object(_utils__WEBPACK_IMPORTED_MODULE_1__["readCookie"])(this.cookies[name_1], options);
+        }
+        return result;
+    };
+    Cookies.prototype.set = function (name, value, options) {
+        var _a;
+        if (typeof value === 'object') {
+            value = JSON.stringify(value);
+        }
+        this.cookies = objectAssign({}, this.cookies, (_a = {}, _a[name] = value, _a));
+        if (this.HAS_DOCUMENT_COOKIE) {
+            document.cookie = cookie__WEBPACK_IMPORTED_MODULE_0__["serialize"](name, value, options);
+        }
+        this._emitChange({ name: name, value: value, options: options });
+    };
+    Cookies.prototype.remove = function (name, options) {
+        var finalOptions = (options = objectAssign({}, options, {
+            expires: new Date(1970, 1, 1, 0, 0, 1),
+            maxAge: 0
+        }));
+        this.cookies = objectAssign({}, this.cookies);
+        delete this.cookies[name];
+        if (this.HAS_DOCUMENT_COOKIE) {
+            document.cookie = cookie__WEBPACK_IMPORTED_MODULE_0__["serialize"](name, '', finalOptions);
+        }
+        this._emitChange({ name: name, value: undefined, options: options });
+    };
+    Cookies.prototype.addChangeListener = function (callback) {
+        this.changeListeners.push(callback);
+    };
+    Cookies.prototype.removeChangeListener = function (callback) {
+        var idx = this.changeListeners.indexOf(callback);
+        if (idx >= 0) {
+            this.changeListeners.splice(idx, 1);
+        }
+    };
+    return Cookies;
+}());
+/* harmony default export */ __webpack_exports__["default"] = (Cookies);
+
+
+/***/ }),
+
+/***/ "./node_modules/universal-cookie/es6/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/universal-cookie/es6/index.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Cookies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Cookies */ "./node_modules/universal-cookie/es6/Cookies.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (_Cookies__WEBPACK_IMPORTED_MODULE_0__["default"]);
+
+
+/***/ }),
+
+/***/ "./node_modules/universal-cookie/es6/utils.js":
+/*!****************************************************!*\
+  !*** ./node_modules/universal-cookie/es6/utils.js ***!
+  \****************************************************/
+/*! exports provided: hasDocumentCookie, cleanCookies, parseCookies, isParsingCookie, readCookie */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasDocumentCookie", function() { return hasDocumentCookie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cleanCookies", function() { return cleanCookies; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseCookies", function() { return parseCookies; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isParsingCookie", function() { return isParsingCookie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "readCookie", function() { return readCookie; });
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cookie */ "./node_modules/cookie/index.js");
+/* harmony import */ var cookie__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cookie__WEBPACK_IMPORTED_MODULE_0__);
+
+function hasDocumentCookie() {
+    // Can we get/set cookies on document.cookie?
+    return typeof document === 'object' && typeof document.cookie === 'string';
+}
+function cleanCookies() {
+    document.cookie.split(';').forEach(function (c) {
+        document.cookie = c
+            .replace(/^ +/, '')
+            .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
+}
+function parseCookies(cookies) {
+    if (typeof cookies === 'string') {
+        return cookie__WEBPACK_IMPORTED_MODULE_0__["parse"](cookies);
+    }
+    else if (typeof cookies === 'object' && cookies !== null) {
+        return cookies;
+    }
+    else {
+        return {};
+    }
+}
+function isParsingCookie(value, doNotParse) {
+    if (typeof doNotParse === 'undefined') {
+        // We guess if the cookie start with { or [, it has been serialized
+        doNotParse =
+            !value || (value[0] !== '{' && value[0] !== '[' && value[0] !== '"');
+    }
+    return !doNotParse;
+}
+function readCookie(value, options) {
+    if (options === void 0) { options = {}; }
+    var cleanValue = cleanupCookieValue(value);
+    if (isParsingCookie(cleanValue, options.doNotParse)) {
+        try {
+            return JSON.parse(cleanValue);
+        }
+        catch (e) {
+            // At least we tried
+        }
+    }
+    // Ignore clean value if we failed the deserialization
+    // It is not relevant anymore to trim those values
+    return value;
+}
+function cleanupCookieValue(value) {
+    // express prepend j: before serializing a cookie
+    if (value && value[0] === 'j' && value[1] === ':') {
+        return value.substr(2);
+    }
+    return value;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/value-equal/index.js":
 /*!*******************************************!*\
   !*** ./node_modules/value-equal/index.js ***!
@@ -101112,7 +101496,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _i18n_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./i18n/index */ "./resources/js/i18n/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _store_actions_index__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./store/actions/index */ "./resources/js/store/actions/index.js");
+<<<<<<< HEAD
 /* harmony import */ var _hoc_Layout_Layout__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./hoc/Layout/Layout */ "./resources/js/hoc/Layout/Layout.js");
+=======
+/* harmony import */ var universal_cookie__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! universal-cookie */ "./node_modules/universal-cookie/es6/index.js");
+>>>>>>> cc48f5e0bb783daf69e7ee33c38b3e122c798351
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -101145,6 +101533,10 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+<<<<<<< HEAD
+=======
+var cookies = new universal_cookie__WEBPACK_IMPORTED_MODULE_13__["default"]();
+>>>>>>> cc48f5e0bb783daf69e7ee33c38b3e122c798351
 
 var App =
 /*#__PURE__*/
@@ -103513,6 +103905,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Navigation_Sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../components/Navigation/Sidebar */ "./resources/js/components/Navigation/Sidebar.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _store_actions_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../store/actions/index */ "./resources/js/store/actions/index.js");
+/* harmony import */ var _components_Snackbar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/Snackbar */ "./resources/js/components/Snackbar.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -103532,6 +103925,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -103601,12 +103995,22 @@ function (_React$Component) {
         noValidate: true
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "submit"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Reset Password")))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Reset Password")))), this.props.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Snackbar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        variant: 'info',
+        message: this.props.message,
+        open: true
+      }) : null);
     }
   }]);
 
   return ForgotPass;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    message: state.forgotPassword.message
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   //receive the dispatch function as an argument
@@ -103618,7 +104022,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(null, mapDispatchToProps)(ForgotPass));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(ForgotPass));
 
 /***/ }),
 
@@ -104203,6 +104607,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_11__);
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! query-string */ "./node_modules/query-string/index.js");
 /* harmony import */ var query_string__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(query_string__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _components_Snackbar__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../components/Snackbar */ "./resources/js/components/Snackbar.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -104222,6 +104627,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -104398,7 +104804,11 @@ function (_React$Component) {
         className: "checkmark"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "reset_phrase"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Your password was successfully reset!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "If you did not make this change, contact our support team."))) : null);
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Your password was successfully reset!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "If you did not make this change, contact our support team."))) : null, this.props.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Snackbar__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        variant: this.props.variant ? this.props.variant : 'error',
+        message: this.props.message,
+        open: true
+      }) : null);
     }
   }], [{
     key: "getDerivedStateFromProps",
@@ -104413,13 +104823,14 @@ function (_React$Component) {
   }]);
 
   return ResponseReset;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // const mapStateToProps = state => {
-//     console.log(state.auth.token);
-//     return { 
-//       auth: state.auth.auth,
-//     };
-//   };
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    message: state.forgotPassword.message,
+    variant: state.forgotPassword.variant
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   //receive the dispatch function as an argument
@@ -104431,7 +104842,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(null, mapDispatchToProps)(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_9___default()(styles)(ResponseReset))); // export default connect(mapStateToProps, mapDispatchToProps) (ResponseReset);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_9___default()(styles)(ResponseReset))); // export default connect(mapStateToProps, mapDispatchToProps) (ResponseReset);
 
 /***/ }),
 
@@ -104666,14 +105077,11 @@ function (_React$Component) {
           onChange: this.handleCheckboxChange('remember')
         }),
         label: "Remember me"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_19___default.a // component={ForgotPassword}
-      , {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_19___default.a, {
+        type: "button",
         component: "button",
         variant: "body2",
-        onClick: this.handleForgotPassword // onClick={() => {
-        //   alert("I'm a button.");
-        // }}
-
+        onClick: this.handleForgotPassword
       }, "Forgot password?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
         type: "submit",
         fullWidth: true,
@@ -104695,8 +105103,7 @@ SignIn.propTypes = {
 var mapStateToProps = function mapStateToProps(state) {
   console.log(state.auth.token);
   return {
-    auth: state.auth.auth // authRedirectPath: state.auth.authRedirectPath
-
+    auth: state.auth.auth
   };
 };
 
@@ -105053,8 +105460,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var i18next__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! i18next */ "./node_modules/i18next/dist/es/index.js");
 /* harmony import */ var i18next_browser_languagedetector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! i18next-browser-languagedetector */ "./node_modules/i18next-browser-languagedetector/index.js");
 /* harmony import */ var i18next_browser_languagedetector__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(i18next_browser_languagedetector__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var universal_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! universal-cookie */ "./node_modules/universal-cookie/es6/index.js");
 
 
+
+var cookies = new universal_cookie__WEBPACK_IMPORTED_MODULE_2__["default"]();
 var languages = {
   pt: __webpack_require__(/*! ./locale/pt.json */ "./resources/js/i18n/locale/pt.json"),
   en: __webpack_require__(/*! ./locale/en.json */ "./resources/js/i18n/locale/en.json")
@@ -105087,6 +105497,9 @@ var options = {
     nsMode: 'default'
   }
 };
+cookies.set('lang', window.localStorage.i18nextLng, {
+  path: '/'
+});
 i18next__WEBPACK_IMPORTED_MODULE_0__["default"].use(i18next_browser_languagedetector__WEBPACK_IMPORTED_MODULE_1___default.a).init(options);
 /* harmony default export */ __webpack_exports__["default"] = (i18next__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -105099,7 +105512,7 @@ i18next__WEBPACK_IMPORTED_MODULE_0__["default"].use(i18next_browser_languagedete
 /*! exports provided: register, pricing, default */
 /***/ (function(module) {
 
-module.exports = {"register":{"fullname":"Full Name","postal_codeCA":"Invalid Canadian Postal Code","password_set":"Password must be eight characters in length","confirm_password_error":"The passwords doesn't match"},"pricing":{"title":"Prix"}};
+module.exports = {"register":{"fullname":"Full Name","postal_codeCA":"Invalid Canadian Postal Code","password_set":"Password must be eight characters in length","confirm_password_error":"The passwords doesn't match","password_updated":"Password Successfully Changed","token_email_invalid":"Token or Email are invalid"},"pricing":{"title":"Prix"}};
 
 /***/ }),
 
@@ -105110,7 +105523,7 @@ module.exports = {"register":{"fullname":"Full Name","postal_codeCA":"Invalid Ca
 /*! exports provided: register, pricing, default */
 /***/ (function(module) {
 
-module.exports = {"register":{"fullname":"Nome Completo","fullname_error":"Nome completo deve ter no mínimo 8 caracteres!","email_invalido":"Email inválido","email_exist":"Email já existe","cep":"CEP","password":"Senha","confirm_password":"Confirmar Senha","confirm_password_error":"Senhas não conferem","create":"Registrar","required_field":"Campo Obrigatório","postal_codeBR":"CEP brasileiro inválido","password_set":"Senha deve ter no mínimo 8 caracteres","activity_mate":"Aliado","activity_postJob":"Postar Tarefas","activity_title":"Como você quer se registrar?","blank_fields":"Por favor, verifique os campos obrigatórios"},"pricing":{"title":"Prix"}};
+module.exports = {"register":{"fullname":"Nome Completo","fullname_error":"Nome completo deve ter no mínimo 8 caracteres!","email_invalido":"Email inválido","email_exist":"Email já existe","cep":"CEP","password":"Senha","confirm_password":"Confirmar Senha","confirm_password_error":"Senhas não conferem","create":"Registrar","required_field":"Campo Obrigatório","postal_codeBR":"CEP brasileiro inválido","password_set":"Senha deve ter no mínimo 8 caracteres","activity_mate":"Aliado","activity_postJob":"Postar Tarefas","activity_title":"Como você quer se registrar?","blank_fields":"Por favor, verifique os campos obrigatórios","forgot_password_email":"Reset mail enviado com sucesso, por favor, verifique seu email","password_updated":"Senha alterada com sucesso","token_email_invalid":"Token ou Email inválidos"},"pricing":{"title":"Prix"}};
 
 /***/ }),
 
@@ -105270,7 +105683,6 @@ var auth = function auth(email, password) {
     formData.append("email", email);
     formData.append("password", password);
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/logged_in", formData).then(function (response) {
-      console.log("Arinaaaaa");
       return response;
     }).then(function (json) {
       var expirationDate = new Date(new Date().getTime() + json.data.expires * 1000);
@@ -105315,9 +105727,11 @@ var forgotStart = function forgotStart() {
     type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["FORGOT_START"]
   };
 };
-var forgotSuccess = function forgotSuccess() {
+var forgotSuccess = function forgotSuccess(message, variant) {
   return {
-    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["FORGOT_SUCCESS"]
+    type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["FORGOT_SUCCESS"],
+    message: message,
+    variant: variant
   };
 };
 var authFail = function authFail(error) {
@@ -105339,19 +105753,28 @@ var forgotPassword = function forgotPassword(email) {
 
     if (password != null) {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/password/reset", formData).then(function (response) {
+        console.log('Responseee' + response.data.success);
+        console.log('Responseee' + response.data.error); // dispatch(forgotSuccess(response.data.error || response.data.success ));
+
+        if (response.data.error) {
+          dispatch(forgotSuccess(response.data.error, 'error'));
+        }
+
+        if (response.data.success) {
+          dispatch(forgotSuccess(response.data.success, 'success'));
+        } // console.log('MESSSSSS'+response.data.success)
+        // dispatch(forgotSuccess(response.data.success));
+
+
         return response;
-      }).then(function (json) {
-        console.log(json.data);
       })["catch"](function (error) {
         console.log(error);
         dispatch(forgotFail(error));
       });
     } else {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/api/password/email", formData).then(function (response) {
-        console.log("IN FORGOT PASSWORD");
+        dispatch(forgotSuccess(response.data.success));
         return response;
-      }).then(function (json) {
-        console.log(json.data);
       })["catch"](function (error) {
         console.log(error);
         dispatch(forgotFail(error));
@@ -105478,6 +105901,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var initialState = {
+  message: '',
+  variant: '',
   error: null
 };
 
@@ -105488,7 +105913,11 @@ var forgotStart = function forgotStart(state, action) {
 };
 
 var forgotSuccess = function forgotSuccess(state, action) {
+  console.log('THE STATE IS' + state);
+  console.log('THE ACTION IS' + action);
   return Object(_utility__WEBPACK_IMPORTED_MODULE_1__["updateObject"])(state, {
+    message: action.message,
+    variant: action.variant,
     error: null
   });
 };

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component } from "react";
 import Home from "./container/Home/Home";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
@@ -12,6 +13,22 @@ import i18n from "./i18n/index";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 import Layout from "./hoc/Layout/Layout";
+import React, { Component } from 'react';
+import Home from './container/Home';
+import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
+import ResponseReset from './container/Auth/ResponseReset';
+import SignIn from './container/Auth/SignIn';
+import Logout from './container/Auth/Logout';
+import AgentsOccupation from './container/AgentsOccupation/AgentsOccupation';
+import Register from './container/Auth/Register/Register';
+import ForgotPass from './container/Auth/ForgotPass';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n/index';
+import {connect} from 'react-redux';
+import * as actions from './store/actions/index';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class App extends Component {
     componentDidMount() {

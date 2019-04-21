@@ -13,7 +13,5 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'success' => 'Reset mail sent successfully, please check your inbox',
+    'success' => 'Reset mail enviado com sucesso, por favor, verifique seu email',
 ];

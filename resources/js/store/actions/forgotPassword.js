@@ -7,9 +7,11 @@ export const forgotStart = () => {
     };
 };
 
-export const forgotSuccess = () => {
+export const forgotSuccess = (message, variant) => {
     return {
         type: actionTypes.FORGOT_SUCCESS,
+        message: message,
+        variant: variant
     };
 };
 
@@ -33,11 +35,21 @@ export const forgotPassword = (email, password = null, token = null) => {
                 axios
             .post("/api/password/reset", formData)
             .then(response => {
-            return response;
-            })
-            .then(json => {
-                console.log(json.data);
-            })
+                console.log('Responseee'+ response.data.success)
+                console.log('Responseee'+ response.data.error)
+
+                // dispatch(forgotSuccess(response.data.error || response.data.success ));
+
+                if(response.data.error){
+                    dispatch(forgotSuccess(response.data.error, 'error'));
+                }
+                if(response.data.success){
+                    dispatch(forgotSuccess(response.data.success, 'success'));
+                }
+                // console.log('MESSSSSS'+response.data.success)
+                // dispatch(forgotSuccess(response.data.success));
+                return response;
+                })
             .catch(error => {
                 console.log(error);
                 dispatch(forgotFail(error));
@@ -47,11 +59,8 @@ export const forgotPassword = (email, password = null, token = null) => {
             axios
             .post("/api/password/email", formData)
             .then(response => {
-            console.log("IN FORGOT PASSWORD");
-            return response;
-            })
-            .then(json => {
-                console.log(json.data);
+                dispatch(forgotSuccess(response.data.success));
+                return response;
             })
             .catch(error => {
                 console.log(error);

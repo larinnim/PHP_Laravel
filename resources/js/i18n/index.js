@@ -1,5 +1,7 @@
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 const languages = {
     pt: require('./locale/pt.json'),
@@ -39,6 +41,8 @@ const options = {
     nsMode: 'default'
   },
 };
+
+cookies.set('lang', window.localStorage.i18nextLng, { path: '/' });
 
 i18n
 .use(LanguageDetector)
