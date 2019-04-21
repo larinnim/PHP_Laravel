@@ -104738,7 +104738,7 @@ function (_React$Component) {
         className: classes.main
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Navigation_Sidebar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         isLoggedIn: this.props.auth
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_11___default.a, {
+      }), !this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_11___default.a, {
         component: "h1",
         variant: "h5"
       }, "Reset Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -104793,13 +104793,13 @@ function (_React$Component) {
         color: "primary",
         className: classes.submit,
         onClick: this.props.onSign
-      }, "Reset Password")), this.state.showSuccess ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Reset Password"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "check"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "checkmark"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "reset_phrase"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Your password was successfully reset!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "If you did not make this change, contact our support team."))) : null, this.props.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Snackbar__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Your password was successfully reset!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "If you did not make this change, contact our support team."))), this.props.message ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Snackbar__WEBPACK_IMPORTED_MODULE_13__["default"], {
         variant: this.props.variant ? this.props.variant : 'error',
         message: this.props.message,
         open: true
@@ -104811,6 +104811,14 @@ function (_React$Component) {
       var params = new URLSearchParams(props.location.search);
       var token = params.get('token');
       console.log('inside getDerivate' + token);
+
+      if (props.variant == 'success') {
+        return {
+          token: token,
+          showSuccess: true
+        };
+      }
+
       return {
         token: token
       };
@@ -105984,8 +105992,8 @@ var updateObject = function updateObject(oldObject, updatedProperties) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/js/index.js */"./resources/js/index.js");
-module.exports = __webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/js/index.js */"./resources/js/index.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
 
 
 /***/ })

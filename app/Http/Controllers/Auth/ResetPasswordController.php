@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use App\User;
 use DB;
+use DateTime;
 
 class ResetPasswordController extends Controller
 {
@@ -42,9 +43,17 @@ class ResetPasswordController extends Controller
 
     public function process(Request $request)
     {
-        \Log::alert('AQUIIIII SUCESSOOO 222222');
+        $tokenTTL = 30;
+
+        $createdToken = $this->getPasswordResetTableRow($request)->value('created_at');
+        $minutesDifference = round(abs((new DateTime())->getTimestamp() - strtotime($createdToken)) / 60);
+       
+        if($minutesDifference > $tokenTTL){
+           return $this->tokenNotFoundResponse();
+        }
 
         return $this->getPasswordResetTableRow($request)->count() > 0 ? $this->changePassword($request) : $this->tokenNotFoundResponse();
+    
     }
 
     private function getPasswordResetTableRow($request)
@@ -59,17 +68,9 @@ class ResetPasswordController extends Controller
 
     private function changePassword(Request $request)
     {
-        \Log::alert('AQUIIIII SUCESSOOO');
-
         $user = User::whereEmail($request->email);
         $user->update(['password' => bcrypt($request->password)]);
         $this->getPasswordResetTableRow($request)->delete();
-        \Log::alert('AQUIIIII SUCESSOOO');
-
         return response()->json(['success' => 'register.password_updated'], 201);
-
-        // return response()->json(['success' => 'Password Successfully Changed'], 201);
-
-        \Log::alert($user);
     }
 }

@@ -14,6 +14,8 @@ use DB;
 use Lang;
 use Cookie;
 use Config;
+use JWTFactory;
+use JWTAuth;
 
 class ForgotPasswordController extends Controller
 {
@@ -83,7 +85,7 @@ class ForgotPasswordController extends Controller
         if($oldToken){
             return $oldToken->token;
         }
-        $token = str_random(60);
+        $token = str_random(60);        
         DB::table('password_resets')->insert([
             'email' => $email,
             'token' => $token,

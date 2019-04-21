@@ -1,17 +1,16 @@
 @component('mail::message')
-# Password Reset Request
+# {{ __('email.email_h1_title')}}
 
-Hi {{$name}},
+{{ __('email.greeting')}} {{$name}},
 
-You recently requested to reset your password for your Tarefazz account. Click the button below to reset it.
+{{ __('email.explaining')}}
 
 @component('mail::button', ['url' => 'http://localhost:8888/response-password-reset?token='. json_decode(json_encode($token), true)])
-Reset Password
+{{ __('email.reset_button')}}
 @endcomponent
 
-If you did not request a password reset, please ignore this email or reply to let us know. This password is only valid 
-for the next 30 minutes.
+{{ __('email.not_requested')}}
 
-Thanks,<br>
-{{ config('app.name') }} Team
+{{ __('email.thanks')}}<br>
+{{ __('email.equipe_name')}}
 @endcomponent
