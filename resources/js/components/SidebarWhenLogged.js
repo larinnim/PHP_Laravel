@@ -23,6 +23,11 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import ExitToApp from "@material-ui/icons/ExitToAppOutlined";
 import Link from '@material-ui/core/Link';
+import Calendar from "./Navigation/Calendar";
+import Settings from "./Navigation/Settings";
+import Radio from '@material-ui/core/Radio';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -87,6 +92,40 @@ const styles = theme => ({
     color:'white',
     fontSize: 'x-large'
   },
+  number_circle:{
+    background:"#f50057 ",
+    borderRadius:"0.8em",
+    MozBorderRadius:"0.8em",
+    WebkitBorderRadius:"0.8em",
+    color:"#ffffff",
+    display:"inline-block",
+    fontWeight:"bold",
+    lineHeight:"1.6em",
+    marginRight:"5px",
+    textAlign:"center",
+    width:"1.6em"
+  },
+  upgradePlan:{
+    float: "right",
+    display: "inline-block",
+    height: "auto",
+    width: "auto",
+    margin: "20px 40px 0 16px",
+    boxSizing: "border-box",
+    border: "transparent",
+    borderRadius: "60px",
+    fontFamily: "'Raleway', sans-serif",
+    fontSize: "14px",
+    fontWeight: "500",
+    textTransform: "uppercase",
+    letterSpacing: "0.2em",
+    color: "#ffffff",
+    backgroundColor: "#f50057",
+    cursor: "pointer",
+    outline: "none",
+    textAlign: 'center',
+  },
+
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
@@ -96,7 +135,7 @@ const styles = theme => ({
   },
 });
 
-class PersistentDrawerLeft extends React.Component {
+class SidebarWhenLogged extends React.Component {
   state = {
     open: false,
     tabs: [
@@ -123,8 +162,28 @@ class PersistentDrawerLeft extends React.Component {
       return element.show ? tabs[index].show = false : null
     })}
     tabs[id].show = true;                  //new value
-    this.setState({ tabs });  
+    this.setState({ open: false, tabs });  
   };
+
+  renderSwitch(param) {
+    switch(param.name) {
+      case 'Profile':
+        return 'Profile';
+      case 'Messages':
+        return 'Messages';
+      case 'Settings':
+      return <Settings key={param.id} />;
+        // return 'Settings';
+      case 'Calendar':
+        return <Calendar key={param.id} />;
+        // return 'Calendar';
+      case 'Logout':
+        window.location = '/logout';
+        // return 'Logout';
+      default:
+        return 'Profile';
+    }
+  }
 
   render() {
     const { classes, theme } = this.props;
@@ -175,12 +234,44 @@ class PersistentDrawerLeft extends React.Component {
                       style={{ borderRadius: 100 }}
                   />
                   <p>Sebastiao Silva</p>
+                  <div>
+                  <FormControlLabel
+              value="Mate"
+              checked={true}
+              control={<Radio color="primary" />}
+              label="Mate"
+              labelPlacement="start"
+            />
+            <FormControlLabel
+              value="disabled"
+              disabled
+              control={<Radio />}
+              label="Post Job"
+              labelPlacement="start"
+            />
+                  {/* <Radio
+                    // checked={this.state.selectedValue === 'a'}
+                    // onChange={this.handleChange}
+                    value="disabled"
+                    disabled
+                    name="radio-button-demo"
+                    aria-label="A"
+                    label="Mate"
+                  />
+                  <Radio
+                    // checked={this.state.selectedValue === 'b'}
+                    // onChange={this.handleChange}
+                    value="b"
+                    name="radio-button-demo"
+                    aria-label="B"
+                    label="Post Job"
+                  /> */}
+                </div>
               </CardMedia>
             </Card>
           </div>
           <Divider />
           <List>  
-            {/* {['Profile', 'Messages', 'Settings', 'Calendar', 'Logout'].map((text, index) => ( */}
             {tabs.map((item, index) => (
               <ListItem button key={item.id} onClick={this.handleClick.bind(this, item.name, item.id)}>
                      {(() => {
@@ -200,8 +291,10 @@ class PersistentDrawerLeft extends React.Component {
                       }
                     })()}
                 <ListItemText primary={item.name} />
+                {index == 1 ?  <span className={classes.number_circle}>10</span>: null}
               </ListItem>
             ))}
+            <span className={classes.upgradePlan}>Become a Post Job</span>
           </List>
         </Drawer>
         <main
@@ -210,39 +303,19 @@ class PersistentDrawerLeft extends React.Component {
           })}
         >
           <div className={classes.drawerHeader} />
-          <Typography paragraph>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent
-            elementum facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in
-            hendrerit gravida rutrum quisque non tellus. Convallis convallis tellus id interdum
-            velit laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing.
-            Amet nisl suscipit adipiscing bibendum est ultricies integer quis. Cursus euismod quis
-            viverra nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo.
-            Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus
-            at augue. At augue eget arcu dictum varius duis at consectetur lorem. Velit sed
-            ullamcorper morbi tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-          </Typography>
-          <Typography paragraph>
-            Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-            facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-            tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-            consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus
-            sed vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in.
-            In hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-            et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique
-            sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo
-            viverra maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam
-            ultrices sagittis orci a.
-          </Typography>
+
+          { tabs.map((element, index) => {
+            return element.show ? this.renderSwitch(element) : null
+          })}
         </main>
       </div>
     );
   }
 }
 
-PersistentDrawerLeft.propTypes = {
+SidebarWhenLogged.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawerLeft);
+export default withStyles(styles, { withTheme: true })(SidebarWhenLogged);
