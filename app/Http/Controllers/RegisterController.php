@@ -10,6 +10,7 @@ use JWTAuth;
 use Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -38,37 +39,86 @@ class RegisterController extends Controller
     {
         $user = new User;
 
-        \Log::alert(Input::get('name'));
         $user->name = Input::get('name');
         $user->email = Input::get('email');
         $user->postal_code = Input::get('postal_code');
-        // $key = getenv('GOOGLE_API');
-        // $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$user->postal_code_users&key=$key");
-        // $output= json_decode($geocode);
-        // $user->latitude = $output->results[0]->geometry->location->lat;
-        // $user->longitude  = $output->results[0]->geometry->location->lng;
-        // $address_components = $output->results[0]->address_components;
+        $user->total_rating = 0;
+        $user->rating = 0;
+        $user->member_since = Carbon::now();
+        $user->mate = Input::get('mate');
+        $user->post_job = Input::get('post_job');
+
+        \Log::alert( Input::get('mate'));
+        \Log::alert(Input::get('post_job'));
+
+
+        $key = getenv('GOOGLE_API');
+        $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".Input::get('postal_code')."&key=".$key);
+        $output= json_decode($geocode);
+        \Log::alert($output->results);
+
+        $user->latitude = $output->results[0]->geometry->location->lat;
+        $user->longitude  = $output->results[0]->geometry->location->lng;
+        $address_components = $output->results[0]->address_components;
         $user->password = Hash::make(Input::get('password'));
 
-        Log::alert(request());
+        $geoResults = [];
+
+        foreach($output->results as $result){
+            $geoResult = [];    
+            foreach ($result->address_components as $address) {
+                if ($address->types[0] == 'country') {
+                    $geoResult['country'] = $address->long_name;
+                }
+                if ($address->types[0] == 'administrative_area_level_1') {
+                    $geoResult['state'] = $address->long_name;
+                }
+                if ($address->types[0] == 'administrative_area_level_2') {
+                    $geoResult['city'] = $address->long_name;
+                }
+                if ($address->types[0] == 'political') {
+                    $geoResult['address'] = $address->long_name;
+                }
+                if ($address->types[0] == 'locality') {
+                    $geoResult['city'] = $address->long_name;
+                }
+                if ($address->types[0] == 'postal_code') {
+                    $geoResult['postal_code'] = $address->long_name;
+                }       
+                if ($address->types[0] == 'route') {
+                    $geoResult['route'] = $address->long_name;
+                }       
+            }
+            $geoResults[] = $geoResult;
+        }
+
+        $user->country  = $geoResult['country'];
+        $user->state  = $geoResult['state'];
+        $user->city  = $geoResult['city'];
+        $user->address = $geoResult['address'];
 
         $this->validate(request(), [
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        
-        Log::alert(request(['name', 'email', 'password', 'postal_code', 'mate', 'post_job']));
+
         $email = request(['email']);
 
         $isExists = \App\User::where('email', $email)->first();
+
         if($isExists){
             return response()->json(array("exists" => true));
         }
+
         else{
-            // $user = User::create(request(['name', 'email', bcrypt('password'), 'postal_code', 'mate', 'post_job']));
-            // $user = User::first();
-            $token = JWTAuth::fromUser($user);
+            // grab credentials from the request
+            $credentials = [$user->email, $user->password];
+            $token = str_random(60);        
+
+            // Input::only('email', 'password');
+            // $token = JWTAuth::attempt($credentials); 
+            // $token = JWTAuth::fromUser($user);
             $user->token = $token;
             $user->save();
             $user = User::first();  
