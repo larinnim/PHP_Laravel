@@ -1,7 +1,7 @@
 
 import React from 'react';
 import './Register/Register.css';
-import SidebarComponent from '../../components/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Grid from '@material-ui/core/Grid';

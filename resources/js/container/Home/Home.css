@@ -1,0 +1,22 @@
+.Cover_Home {
+    position: fixed;
+    max-width: 70%;
+    height: 80%;
+    left: 0;
+    top: 0;
+    z-index: 0; /*this will let autocomplete be on the top of cover*/
+    background: white;
+    transition: transform 0.3s ease-out;
+}
+
+.Autocomplete_Home {
+    margin-top: 10%;
+    width: 500px;
+    max-width: 70%;
+    height: 100%;
+    z-index: 200;
+    background: white;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+}

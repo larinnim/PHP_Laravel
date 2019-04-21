@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnMatePostJob extends Migration
+class CreateOccupations extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddColumnMatePostJob extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table) {
-            $table->boolean('mate');	
-            $table->boolean('post_job');	
+        Schema::create('occupations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('occupation', 255);
+            $table->timestamps();
         });
     }
 
@@ -26,6 +27,6 @@ class AddColumnMatePostJob extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('occupations');
     }
 }
