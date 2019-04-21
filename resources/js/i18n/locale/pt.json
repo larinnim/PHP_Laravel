@@ -15,7 +15,10 @@
     "activity_mate": "Aliado",
     "activity_postJob": "Postar Tarefas",
     "activity_title": "Como você quer se registrar?",
-    "blank_fields": "Por favor, verifique os campos obrigatórios"
+    "blank_fields": "Por favor, verifique os campos obrigatórios",
+    "forgot_password_email": "Reset mail enviado com sucesso, por favor, verifique seu email",
+    "password_updated": "Senha alterada com sucesso",
+    "token_email_invalid": "Token ou Email inválidos"
   },
   "pricing": {
     "title": "Prix"

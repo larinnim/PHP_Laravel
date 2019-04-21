@@ -12,6 +12,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import queryString from 'query-string';
+import SnackbarComponent from '../../components/Snackbar';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
@@ -161,23 +162,24 @@ class ResponseReset extends React.Component {
                     </div>
                 </div>
                 : null}
+                {this.props.message ? <SnackbarComponent variant={this.props.variant ? this.props.variant : 'error'} message={this.props.message} open={true}/> : null}
             </div>
         );
     }
 }
 
-// const mapStateToProps = state => {
-//     console.log(state.auth.token);
-//     return { 
-//       auth: state.auth.auth,
-//     };
-//   };
+const mapStateToProps = state => {
+    return { 
+      message: state.forgotPassword.message,
+      variant: state.forgotPassword.variant,
+    };
+  };
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
     return {
         onForgotPassword: (email, password, token) => dispatch(actions.forgotPassword(email, password, token)) //Dispatch function will be available on the onSign prop
     };
   };
-  export default connect(null, mapDispatchToProps) (withStyles(styles)(ResponseReset));
+  export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(ResponseReset));
 
 // export default connect(mapStateToProps, mapDispatchToProps) (ResponseReset);

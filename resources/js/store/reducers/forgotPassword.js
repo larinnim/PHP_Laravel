@@ -2,6 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
+    message: '',
+    variant: '',
     error: null,
 };
 
@@ -10,7 +12,12 @@ const forgotStart = ( state, action ) => {
 };
 
 const forgotSuccess = (state, action) => {
+    console.log('THE STATE IS'+ state);
+    console.log('THE ACTION IS'+ action);
+
     return updateObject( state, { 
+        message: action.message,
+        variant: action.variant,
         error: null,
      });
 };

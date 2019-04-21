@@ -11,6 +11,9 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n/index';
 import {connect} from 'react-redux';
 import * as actions from './store/actions/index';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 class App extends Component {
     componentDidMount () {

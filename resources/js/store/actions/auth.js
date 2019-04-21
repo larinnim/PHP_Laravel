@@ -69,7 +69,6 @@ export const auth = (email, password) => {
         axios
         .post("/api/logged_in", formData)
         .then(response => {
-        console.log("Arinaaaaa");
         return response;
         })
         .then(json => {

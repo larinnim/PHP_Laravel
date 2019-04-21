@@ -126,13 +126,10 @@ class SignIn extends React.Component  {
               label="Remember me"
             />
             <Link
-              // component={ForgotPassword}
+              type="button"
               component="button"
               variant="body2"
               onClick={this.handleForgotPassword}
-              // onClick={() => {
-              //   alert("I'm a button.");
-              // }}
             >
               Forgot password?
             </Link>
@@ -156,13 +153,12 @@ class SignIn extends React.Component  {
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = state => {
   console.log(state.auth.token);
   return { 
     auth: state.auth.auth,
-    
-    // authRedirectPath: state.auth.authRedirectPath
-   };
+    };
 };
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
