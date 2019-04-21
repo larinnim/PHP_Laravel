@@ -23,6 +23,8 @@ import Calendar from "./Calendar";
 import Settings from "./Settings";
 import Button from "@material-ui/core/Button";
 import styles from "./Sidebar_Style";
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+
 
 class Sidebar extends Component {
     state = {
@@ -63,6 +65,12 @@ class Sidebar extends Component {
         }
         const drawer = (
             <div>
+                <div>
+                    <IconButton onClick={this.handleDrawerToggle}>
+                        <ChevronLeftIcon /> 
+                    </IconButton>
+                    <Divider />
+                </div>
                 {this.props.isLoggedIn ? (
                     <Card>
                         <CardMedia src="profile.png">
@@ -223,7 +231,7 @@ class Sidebar extends Component {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     {this.state.tabs.map((tabs, index) =>
-                        tabs.show == true && tabs.name == "Calendar" ? (
+                        tabs.show == true && tabs.name == "show" ? (
                             <Calendar key={tabs.id} />
                         ) : tabs.show == true && tabs.name == "Settings" ? (
                             <Settings key={tabs.id} />

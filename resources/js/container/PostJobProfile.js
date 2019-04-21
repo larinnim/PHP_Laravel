@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import SidebarComponent from '../components/Sidebar';
-
+import SidebarComponent from '../components/Navigation/Sidebar';
+import PersistentDrawerLeft from '../components/ClippedDrawer';
 
 export default class PostJobProfile extends Component{
     state = {
@@ -14,7 +14,8 @@ export default class PostJobProfile extends Component{
       render() {
         return (
             <div>
-                    <SidebarComponent/>
+                <PersistentDrawerLeft />
+                    {/* <SidebarComponent/> */}
             </div>
         );
       } 
