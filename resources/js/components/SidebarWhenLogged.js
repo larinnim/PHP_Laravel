@@ -31,6 +31,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import axios from 'axios';
+import { throws } from 'assert';
 
 const drawerWidth = 240;
 
@@ -125,7 +127,9 @@ const styles = theme => ({
     outline: "none",
     textAlign: 'center',
   },
-
+  make_uppercase: {
+    textTransform:"capitalize"
+  },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
@@ -133,6 +137,7 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  
 });
 
 class SidebarWhenLogged extends React.Component {
@@ -145,6 +150,15 @@ class SidebarWhenLogged extends React.Component {
       { id: 3, name: "Calendar", show: false},
       { id: 4, name: "Logout", show: false}
     ],
+    user: [{
+      name: '',
+      post_job: false,
+      mate: false,
+    }],
+    //   name = '',
+    //   post_job =  '',
+    //   mate = '',
+    // // ],
   };
 
   handleDrawerOpen = () => {
@@ -185,11 +199,22 @@ class SidebarWhenLogged extends React.Component {
     }
   }
 
+  componentDidMount () {
+    axios.get('/api/userInfo?id=35').then(response => {
+        const post_job_value = response.data.post_job ? true : false;
+        const mate_value = response.data.mate ? true : false;
+        const userData = [...this.state.user];
+        userData.name = response.data.name;
+        userData.post_job = post_job_value;
+        userData.mate = mate_value;
+        this.setState({user: userData});
+    })
+  }
+
   render() {
     const { classes, theme } = this.props;
-    const { open, tabs } = this.state;
-
-    return (
+    const { open, tabs, user } = this.state;
+    return (  
       <div className={classes.root}>
         <CssBaseline />
         <AppBar
@@ -233,39 +258,22 @@ class SidebarWhenLogged extends React.Component {
                       src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg"
                       style={{ borderRadius: 100 }}
                   />
-                  <p>Sebastiao Silva</p>
+                  <p className={classes.make_uppercase}>{user.name}</p>
                   <div>
-                  <FormControlLabel
-              value="Mate"
-              checked={true}
-              control={<Radio color="primary" />}
-              label="Mate"
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="disabled"
-              disabled
-              control={<Radio />}
-              label="Post Job"
-              labelPlacement="start"
-            />
-                  {/* <Radio
-                    // checked={this.state.selectedValue === 'a'}
-                    // onChange={this.handleChange}
-                    value="disabled"
-                    disabled
-                    name="radio-button-demo"
-                    aria-label="A"
-                    label="Mate"
-                  />
-                  <Radio
-                    // checked={this.state.selectedValue === 'b'}
-                    // onChange={this.handleChange}
-                    value="b"
-                    name="radio-button-demo"
-                    aria-label="B"
-                    label="Post Job"
-                  /> */}
+                <FormControlLabel
+                value="Mate"
+                checked={user.mate === true}
+                control={<Radio color="primary" />}
+                label="Mate"
+                labelPlacement="start"
+                />
+                <FormControlLabel
+                value="post_job"
+                checked={user.post_job === true}
+                control={<Radio color="primary"/>}
+                label="Post Job"
+                labelPlacement="start"
+              />
                 </div>
               </CardMedia>
             </Card>
