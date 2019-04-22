@@ -1,0 +1,3 @@
+.Cover img {
+    height: 100%; /* this will be 100% of the available space in parent div*/
+}

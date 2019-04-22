@@ -1,7 +1,7 @@
 
 import React from 'react';
 import './Register/Register.css';
-import SidebarComponent from '../../components/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import queryString from 'query-string';
+import SnackbarComponent from '../../components/Snackbar';
 
 const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
@@ -101,9 +102,16 @@ class ResponseReset extends React.Component {
         const params = new URLSearchParams(props.location.search); 
         const token = params.get('token');
         console.log('inside getDerivate' + token);
+        if(props.variant == 'success'){
+            return {
+                token: token,
+                showSuccess: true
+            };
+        }
         return {
-            token: token
+            token: token,
         };
+        
     }
 
     render(){
@@ -117,41 +125,44 @@ class ResponseReset extends React.Component {
         return (
             <div className={classes.main}>
                 <SidebarComponent isLoggedIn={this.props.auth}/>
-                <Typography component="h1" variant="h5">
-                    Reset Password
-                </Typography>
-                <form className={classes.form} onSubmit={this.handleSubmit}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email Address</InputLabel>
-                        <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
-                        {errors.email ?
-                        <span className='error'>Please type a valid email</span>: null}
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <Input name="password" type="password" id="password" autoComplete="current-password"  onChange={this.handleInputChange}/>
-                        {errors.password ?
-                        <span className='error'>Password deve ter no minimo 8 caracteres</span> : null}
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Confirm Password</InputLabel>
-                        <Input name="confirmPassword" type="password" id="confirmPassword" autoComplete="current-password"  onChange={this.handleInputChange}/>
-                        {errors.confirm_password ?
-                            <span className='error'>Passo diferentes</span> : null}
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={this.props.onSign}
-                        >
+                {!this.state.showSuccess ? 
+                <div>
+                    <Typography component="h1" variant="h5">
                         Reset Password
-                    </Button>
-                 </form>
-                 {this.state.showSuccess ? 
-                 <div>
+                    </Typography>
+                    <form className={classes.form} onSubmit={this.handleSubmit}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="email">Email Address</InputLabel>
+                            <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
+                            {errors.email ?
+                            <span className='error'>Please type a valid email</span>: null}
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input name="password" type="password" id="password" autoComplete="current-password"  onChange={this.handleInputChange}/>
+                            {errors.password ?
+                            <span className='error'>Password deve ter no minimo 8 caracteres</span> : null}
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Confirm Password</InputLabel>
+                            <Input name="confirmPassword" type="password" id="confirmPassword" autoComplete="current-password"  onChange={this.handleInputChange}/>
+                            {errors.confirm_password ?
+                                <span className='error'>Passo diferentes</span> : null}
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={this.props.onSign}
+                            >
+                            Reset Password
+                        </Button>
+                    </form>
+                </div>
+                :
+                <div>
                     <div className="check">
                         <div className="checkmark"></div>
                     </div>
@@ -160,24 +171,25 @@ class ResponseReset extends React.Component {
                         <h5>If you did not make this change, contact our support team.</h5>
                     </div>
                 </div>
-                : null}
+                }
+                {this.props.message ? <SnackbarComponent variant={this.props.variant ? this.props.variant : 'error'} message={this.props.message} open={true}/> : null}
             </div>
         );
     }
 }
 
-// const mapStateToProps = state => {
-//     console.log(state.auth.token);
-//     return { 
-//       auth: state.auth.auth,
-//     };
-//   };
+const mapStateToProps = state => {
+    return { 
+      message: state.forgotPassword.message,
+      variant: state.forgotPassword.variant,
+    };
+  };
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
     return {
         onForgotPassword: (email, password, token) => dispatch(actions.forgotPassword(email, password, token)) //Dispatch function will be available on the onSign prop
     };
   };
-  export default connect(null, mapDispatchToProps) (withStyles(styles)(ResponseReset));
+  export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(ResponseReset));
 
 // export default connect(mapStateToProps, mapDispatchToProps) (ResponseReset);

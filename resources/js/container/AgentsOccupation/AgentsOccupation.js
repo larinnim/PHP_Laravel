@@ -1,6 +1,6 @@
 import React from 'react';
 import Cards from '../../components/Cards';
-import SidebarComponent from '../../components/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar';
 import GoogleMaps from '../../components/GoogleMaps';
 import './AgentsOccupation.css';
 import Hidden from '@material-ui/core/Hidden';

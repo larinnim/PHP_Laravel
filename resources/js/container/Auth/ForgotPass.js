@@ -1,9 +1,10 @@
 
 import React from 'react';
 import './Register/Register.css';
-import SidebarComponent from '../../components/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
+import SnackbarComponent from '../../components/Snackbar';
 
 class ForgotPass extends React.Component {
     constructor(props) {
@@ -13,7 +14,7 @@ class ForgotPass extends React.Component {
         }
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -24,7 +25,6 @@ class ForgotPass extends React.Component {
           });
       }
 
-      
     handleSubmit =  (event) => {
         console.log('email value' + this.state.email)
         event.preventDefault();
@@ -32,6 +32,7 @@ class ForgotPass extends React.Component {
       }
 
     render(){
+
         return (
             <div className='wrapper'>
                 <SidebarComponent isLoggedIn={this.props.auth}/>
@@ -48,15 +49,22 @@ class ForgotPass extends React.Component {
                     </div>
                     </form>
                 </div>    
+                {this.props.message ? <SnackbarComponent variant={'info'} message={this.props.message} open={true}/>: null}
           </div>
-    
         );
     }
 }
+
+const mapStateToProps = state => {
+    return { 
+        message: state.forgotPassword.message,
+      };
+  };
+
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
     return {
         onForgotPassword: (email) => dispatch(actions.forgotPassword(email)) //Dispatch function will be available on the onSign prop
     };
   };
 
-  export default connect(null, mapDispatchToProps)(ForgotPass);
+  export default connect(mapStateToProps, mapDispatchToProps)(ForgotPass);

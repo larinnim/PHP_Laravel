@@ -11,6 +11,11 @@ use Mail;
 use App\Mail\ResetPasswordMail;
 use Carbon\Carbon;
 use DB;
+use Lang;
+use Cookie;
+use Config;
+use JWTFactory;
+use JWTAuth;
 
 class ForgotPasswordController extends Controller
 {
@@ -61,15 +66,16 @@ class ForgotPasswordController extends Controller
     }
 
     public function successResponse() {
+
+        app()->setLocale(Cookie::get('lang'));
         return response()->json([
-            'data' => 'Reset mail sent successfully, please check your inbox'
+            'success' => 'register.forgot_password_email'
         ], 200);
     }
 
     public function send($email, $name)
     {
         $token = $this->createToken($email);
-        \Log::alert($token);
         Mail::to($email)->send(new ResetPasswordMail($token, $name));
     }
 
@@ -79,26 +85,12 @@ class ForgotPasswordController extends Controller
         if($oldToken){
             return $oldToken->token;
         }
-        $token = str_random(60);
-        \Log::alert($token);
+        $token = str_random(60);        
         DB::table('password_resets')->insert([
             'email' => $email,
             'token' => $token,
             'created_at' => Carbon::now()
         ]);
-        // $token->saveToken($token, $email);
-        \Log::alert($token);
-
         return $token;
     }
-
-    // public function saveToken($token, $email)
-    // {
-    //     \Log::alert($token);
-    //     DB::table('password_resets')->insert([
-    //         'email' => $email,
-    //         'token' => $token,
-    //         'created_at' => Carbon::now()
-    //     ]);
-    // }
 }

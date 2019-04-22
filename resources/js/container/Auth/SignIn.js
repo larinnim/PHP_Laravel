@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import SidebarComponent from '../../components/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
 import * as actions from '../../store/actions/index';
@@ -126,13 +126,10 @@ class SignIn extends React.Component  {
               label="Remember me"
             />
             <Link
-              // component={ForgotPassword}
+              type="button"
               component="button"
               variant="body2"
               onClick={this.handleForgotPassword}
-              // onClick={() => {
-              //   alert("I'm a button.");
-              // }}
             >
               Forgot password?
             </Link>
@@ -156,13 +153,12 @@ class SignIn extends React.Component  {
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = state => {
   console.log(state.auth.token);
   return { 
     auth: state.auth.auth,
-    
-    // authRedirectPath: state.auth.authRedirectPath
-   };
+    };
 };
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
