@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import SnackbarComponent from "../../../components/Snackbar";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
+import { SocialIcon } from 'react-social-icons';
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -253,6 +254,7 @@ class Register extends Component {
                 <div className="form-wrapper">
                     <h2>Create Account</h2>
                     <form onSubmit={this.handleSubmit} noValidate>
+                    <SocialIcon network="linkedin" url={'/login/linkedin'} />
                         <div className="fullName">
                             <label htmlFor="fullName">
                                 {t("register.fullname")}

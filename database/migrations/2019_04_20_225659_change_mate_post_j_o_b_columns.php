@@ -14,8 +14,9 @@ class ChangeMatePostJOBColumns extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('mate')->nullable()->change();	
-            $table->boolean('post_job')->nullable()->change();	
+            $table->string('avatar')->nullable();
+            $table->string('provider', 20)->nullable();
+            $table->string('provider_id')->nullable();	
         });
     }
 

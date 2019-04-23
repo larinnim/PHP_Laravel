@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use JWTAuth;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,7 +19,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'mate', 'post_job', 'token', 'city', 'state', 'country', 'address', 'phone_number', 'horly_rate', 'professions', 'total_rating', 'latitude', 'longitude', 'rating'
+        'name', 'email', 'password', 'mate', 'post_job', 'token', 'city', 'state', 'country', 'address', 'phone_number', 'horly_rate', 'professions', 'total_rating', 'latitude', 'longitude', 'rating',
+        'avatar', 'provider_id', 'provider',
     ];
 
     /**

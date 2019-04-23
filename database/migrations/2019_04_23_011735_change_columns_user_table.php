@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOccupations extends Migration
+class ChangeColumnsUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,7 @@ class CreateOccupations extends Migration
      */
     public function up()
     {
-        Schema::create('occupations', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('occupation', 255);
-            $table->timestamps();
-        });
+        //
     }
 
     /**
@@ -27,6 +23,6 @@ class CreateOccupations extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occupations');
+        //
     }
 }

@@ -19,6 +19,7 @@ import * as actions from '../../store/actions/index';
 import {Redirect} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom'
+import { SocialIcon } from 'react-social-icons';
 
 const styles = theme => ({
   main: {
@@ -125,6 +126,18 @@ class SignIn extends React.Component  {
               control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
               label="Remember me"
             />
+            <div>
+            <Typography component="h5" variant="h5">
+              Login with
+            </Typography>
+            <SocialIcon network="facebook" url={'api/login/facebook'}/>
+            <SocialIcon network="twitter"/>
+            <SocialIcon network="instagram"/>
+            <SocialIcon network="google"/>
+            <SocialIcon network="linkedin" url={'api/login/linkedin'} />
+
+            </div>
+
             <Link
               type="button"
               component="button"
