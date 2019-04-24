@@ -107928,14 +107928,8 @@ function (_React$Component) {
         url: 'api/login/facebook',
         onClick: this.props.onSignSocial
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
-        network: "instagram"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
         network: "google",
         url: 'api/login/google',
-        onClick: this.props.onSignSocial
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
-        network: "linkedin",
-        url: 'api/login/linkedin',
         onClick: this.props.onSignSocial
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_19___default.a, {
         type: "button",

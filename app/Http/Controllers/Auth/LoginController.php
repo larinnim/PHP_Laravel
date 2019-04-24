@@ -27,11 +27,8 @@ class LoginController extends Controller
     |
     */
     protected $providers = [
-        'github',
         'facebook',
-        'linkedin',
         'google',
-        'twitter'
     ];
     // use AuthenticatesUsers;
 
@@ -92,18 +89,15 @@ class LoginController extends Controller
 
     public function socialLogin($driver)
     {
-        \Log::alert($driver);
         if( ! $this->isProviderAllowed($driver) ) {
-            \Log::alert('NO DRIVER');
-
+          
             return $this->sendFailedResponse("{$driver} is not currently supported");
         }
 
         try {
-            \Log::alert('HERE');
-
             return Socialite::driver($driver)->stateless()->redirect();
         } catch (Exception $e) {
+      
             // You should show something simple fail message
             return $this->sendFailedResponse($e->getMessage());
         }
@@ -118,7 +112,6 @@ class LoginController extends Controller
     public function handleProviderCallback(Request $request, $driver )
     {
 
-        \Log::alert('DRIVER:'.$driver);
         if (!$request->has('code') || $request->has('denied')) {
             return redirect('/');}
 

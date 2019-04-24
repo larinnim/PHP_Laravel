@@ -55,10 +55,4 @@ return [
         'client_secret' => env('GOOGLE_SECRET'),
         'redirect' => env('GOOGLE_URL'),
     ],
-
-    'linkedin' => [
-        'client_id' => env('Linkedin_ID'),
-        'client_secret' => env('Linkedin_SECRET'),
-        'redirect' => env('Linkedin_URL'),
-    ],
 ];
