@@ -1,0 +1,21 @@
+.Suggestions {
+    position: absolute;
+    text-align: center;
+    top: 35%;
+    /* left: 10%; */
+    width: 100%;
+}
+
+.Suggestion1 {
+    display: inline-block;
+    margin: 0;
+    color: white;
+    padding: 1%;
+    font-size: 100%;
+}
+
+.Suggestion2 {
+    display: inline-block;
+    margin: 0;
+    color: white;
+}
