@@ -34,7 +34,11 @@ Route::post('uploadImage', 'AWS3@store');
  Route::post('password/email', 'Auth\ForgotPasswordController@sendEmail');
  Route::post('password/reset', 'Auth\ResetPasswordController@process');
 //Social Login Laravel
-Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google|github|bitbucket');
-Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|github|bitbucket');
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google|github|bitbucket');
+    Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|github|bitbucket');
+    Route::get('/authinf','Auth\LoginController@reactAuthInfo');
+});
+
 
 

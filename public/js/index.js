@@ -107837,6 +107837,12 @@ function (_React$Component) {
       _this.props.onSign(_this.state.email, _this.state.password);
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleSubmitSocial", function (event) {
+      event.preventDefault();
+
+      _this.props.onSignSocial();
+    });
+
     _this.state = {
       email: '',
       password: '',
@@ -107919,16 +107925,18 @@ function (_React$Component) {
         variant: "h5"
       }, "Login with"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
         network: "facebook",
-        url: 'api/login/facebook'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
-        network: "twitter"
+        url: 'api/login/facebook',
+        onClick: this.props.onSignSocial
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
         network: "instagram"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
-        network: "google"
+        network: "google",
+        url: 'api/login/google',
+        onClick: this.props.onSignSocial
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_social_icons__WEBPACK_IMPORTED_MODULE_20__["SocialIcon"], {
         network: "linkedin",
-        url: 'api/login/linkedin'
+        url: 'api/login/linkedin',
+        onClick: this.props.onSignSocial
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_19___default.a, {
         type: "button",
         component: "button",
@@ -107964,6 +107972,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     onSign: function onSign(email, password) {
       return dispatch(_store_actions_index__WEBPACK_IMPORTED_MODULE_17__["auth"](email, password));
+    },
+    //Dispatch function will be available on the onSign prop
+    onSignSocial: function onSignSocial() {
+      return dispatch(_store_actions_index__WEBPACK_IMPORTED_MODULE_17__["authSocial"]());
     } //Dispatch function will be available on the onSign prop
 
   };
@@ -108522,7 +108534,7 @@ var FORGOT_FAIL = 'FORGOT_FAIL';
 /*!********************************************!*\
   !*** ./resources/js/store/actions/auth.js ***!
   \********************************************/
-/*! exports provided: authStart, authSuccess, authFail, logout, checkAuthTimeout, authCheckState, auth */
+/*! exports provided: authStart, authSuccess, authFail, logout, checkAuthTimeout, authCheckState, authSocial, auth */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -108533,12 +108545,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkAuthTimeout", function() { return checkAuthTimeout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authCheckState", function() { return authCheckState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authSocial", function() { return authSocial; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "auth", function() { return auth; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actionTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actionTypes */ "./resources/js/store/actions/actionTypes.js");
+/* harmony import */ var universal_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! universal-cookie */ "./node_modules/universal-cookie/es6/index.js");
 
 
+
+var cookies = new universal_cookie__WEBPACK_IMPORTED_MODULE_2__["default"]();
 var authStart = function authStart() {
   return {
     type: _actionTypes__WEBPACK_IMPORTED_MODULE_1__["AUTH_START"]
@@ -108590,6 +108606,17 @@ var authCheckState = function authCheckState() {
         dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
       }
     }
+  };
+};
+var authSocial = function authSocial() {
+  return function (dispatch) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/authinf').then(function (res) {
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token);
+        var expirationDate = new Date(new Date().getTime() + res.data.expires_in * 1000);
+        localStorage.setItem('expirationDate', expirationDate);
+      }
+    });
   };
 };
 var auth = function auth(email, password) {
@@ -108705,7 +108732,7 @@ var forgotPassword = function forgotPassword(email) {
 /*!*********************************************!*\
   !*** ./resources/js/store/actions/index.js ***!
   \*********************************************/
-/*! exports provided: auth, logout, authCheckState, forgotPassword */
+/*! exports provided: auth, logout, authCheckState, authSocial, forgotPassword */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -108716,6 +108743,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["logout"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "authCheckState", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["authCheckState"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "authSocial", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["authSocial"]; });
 
 /* harmony import */ var _forgotPassword__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./forgotPassword */ "./resources/js/store/actions/forgotPassword.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "forgotPassword", function() { return _forgotPassword__WEBPACK_IMPORTED_MODULE_1__["forgotPassword"]; });

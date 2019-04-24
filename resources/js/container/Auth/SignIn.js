@@ -92,6 +92,11 @@ class SignIn extends React.Component  {
     event.preventDefault();
     this.props.onSign(this.state.email, this.state.password);
   }
+
+  handleSubmitSocial =  (event) => {
+    event.preventDefault();
+    this.props.onSignSocial();
+  }
   
   render() {
     const { classes } = this.props;
@@ -130,11 +135,10 @@ class SignIn extends React.Component  {
             <Typography component="h5" variant="h5">
               Login with
             </Typography>
-            <SocialIcon network="facebook" url={'api/login/facebook'}/>
-            <SocialIcon network="twitter"/>
+            <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
             <SocialIcon network="instagram"/>
-            <SocialIcon network="google"/>
-            <SocialIcon network="linkedin" url={'api/login/linkedin'} />
+            <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+            <SocialIcon network="linkedin" url={'api/login/linkedin'} onClick={this.props.onSignSocial}/>
 
             </div>
 
@@ -176,7 +180,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
   return {
-    onSign: (email, password) => dispatch(actions.auth(email, password)) //Dispatch function will be available on the onSign prop
+    onSign: (email, password) => dispatch(actions.auth(email, password)), //Dispatch function will be available on the onSign prop
+    onSignSocial: () => dispatch(actions.authSocial()) //Dispatch function will be available on the onSign prop
   };
 };
 

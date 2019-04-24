@@ -8,6 +8,8 @@ use JWTFactory;
 use JWTAuth;
 use Laravel\Socialite\Facades\Socialite;
 use \App\User;
+use Cookie;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +29,7 @@ class LoginController extends Controller
     protected $providers = [
         'github',
         'facebook',
+        'linkedin',
         'google',
         'twitter'
     ];
@@ -51,7 +54,6 @@ class LoginController extends Controller
     private function getToken($email, $password)
     {
         $token = null;
-        //$credentials = $request->only('email', 'password');
         try {
             if (!$token = JWTAuth::attempt( ['email'=>$email, 'password'=>$password])) {
                 return response()->json([
@@ -68,20 +70,8 @@ class LoginController extends Controller
         }
         return $token;
     }
-    public function login(Request $request)
+    public function login(Request $request, $token = null)
     {
-        // $user = \App\User::where('email', $request->email)->get()->first();
-        // if ($user && \Hash::check($request->password, $user->password)) // The passwords match...
-        // {
-        //     $token = self::getToken($request->email, $request->password);
-        //     $user->auth_token = $token;
-        //     $user->save();
-        //     $response = ['success'=>true, 'data'=>['id'=>$user->id,'auth_token'=>$user->auth_token,'name'=>$user->name, 'email'=>$user->email]];           
-        // }
-        // else 
-        //   $response = ['success'=>false, 'data'=>'Record doesnt exists'];
-      
-        // return response()->json($response, 201);
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
             'password'=> 'required'
@@ -104,6 +94,8 @@ class LoginController extends Controller
     {
         \Log::alert($driver);
         if( ! $this->isProviderAllowed($driver) ) {
+            \Log::alert('NO DRIVER');
+
             return $this->sendFailedResponse("{$driver} is not currently supported");
         }
 
@@ -125,11 +117,9 @@ class LoginController extends Controller
      */
     public function handleProviderCallback(Request $request, $driver )
     {
-        \Log::alert($request->has('code') );
-        \Log::alert($request->has('denied'));
 
+        \Log::alert('DRIVER:'.$driver);
         if (!$request->has('code') || $request->has('denied')) {
-            \Log::alert('here');
             return redirect('/');}
 
         try {
@@ -150,11 +140,12 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendSuccessResponse()
+    protected function sendSuccessResponse($token)
     {
         return redirect('/');
-    }
 
+    }
+    
     /**
      * Send a failed response with a msg
      *
@@ -163,7 +154,7 @@ class LoginController extends Controller
      */
     protected function sendFailedResponse($msg = null)
     {
-        return redirect()->route('/')
+        return redirect('/')
             ->withErrors(['msg' => $msg ?: 'Unable to login, try with another provider to login.']);
     }
 
@@ -197,8 +188,7 @@ class LoginController extends Controller
 
         // login the user
         Auth::login($user, true);
-
-        return $this->sendSuccessResponse();
+        return $this->sendSuccessResponse($providerUser->token);
     }
 
     /**
@@ -210,5 +200,27 @@ class LoginController extends Controller
     private function isProviderAllowed($driver)
     {
         return in_array($driver, $this->providers) && config()->has("services.{$driver}");
+    }
+
+    public function reactAuthInfo()
+    {
+ 
+        if(Auth::user() && Auth::user()->token){
+            if(Auth::user()->provider == 'facebook'){
+                $token_info = file_get_contents('https://graph.facebook.com/oauth/access_token_info?client_id='.env('FB_ID').'&access_token='.Auth::user()->token);
+                $token_info = json_decode($token_info, true);
+            }
+
+            if(Auth::user()->provider == 'google'){
+                $token_info = file_get_contents('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token='.Auth::user()->token);
+                $token_info = json_decode($token_info, true);
+            }
+
+            return response()->json([
+                'token' => Auth::user()->token,
+                'expires_in' => $token_info['expires_in']
+            ]);
+        }
+
     }
 }

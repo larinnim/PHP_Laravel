@@ -1,5 +1,8 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 export const authStart = () => {
     return {
@@ -58,6 +61,19 @@ export const authCheckState = () => {
             }
         }
     };
+};
+
+export const authSocial = () => {
+    return dispatch => {
+        axios.get('/api/authinf')
+        .then(res => {
+            if(res.data.token){
+                localStorage.setItem('token', res.data.token);
+                const expirationDate = new Date (new Date().getTime() + res.data.expires_in * 1000);
+                localStorage.setItem('expirationDate', expirationDate);
+            }
+        });
+    }
 };
 
 export const auth = (email, password) => {
