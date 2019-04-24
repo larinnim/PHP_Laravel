@@ -6,7 +6,7 @@ import './AgentsOccupation.css';
 import Hidden from '@material-ui/core/Hidden';
 import axios from 'axios';
 import queryString from 'query-string'
-import Autocomplete from '../../components/Autocomplete';
+import Autocomplete from '../../components/InputFields/Autocomplete';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FilledInput from '@material-ui/core/FilledInput';
