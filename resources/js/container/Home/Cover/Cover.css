@@ -1,3 +1,7 @@
 .Cover img {
-    height: 100%; /* this will be 100% of the available space in parent div*/
+    height: 100%;
+}
+.Cover {
+    overflow: auto; /*can change to hidden to not let scroll*/
+    z-index: 0;
 }

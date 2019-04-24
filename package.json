@@ -12,7 +12,7 @@
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
         "axios": "^0.18.0",
-        "bootstrap": "^4.0.0",
+        "bootstrap": "^4.3.1",
         "cross-env": "^5.1",
         "jquery": "^3.4.0",
         "laravel-mix": "^4.0.15",
@@ -39,6 +39,7 @@
         "moment": "^2.24.0",
         "query-string": "^6.4.2",
         "react-autosuggest": "^9.4.3",
+        "react-bootstrap": "^1.0.0-beta.8",
         "react-datepicker": "^2.4.0",
         "react-day-picker": "^7.3.0",
         "react-i18next": "^10.8.1",

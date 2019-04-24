@@ -2,7 +2,7 @@ const drawerWidth = 240;
 export default theme => ({
     root: {
         display: "flex",
-        // height: 0 //this is respnsible for letting cover
+        height: 0 //this must be zero for cover to fit properly
     },
     drawer: {
         [theme.breakpoints.up("sm")]: {
