@@ -214,6 +214,7 @@ class LoginController extends Controller
                 'expires_in' => $token_info['expires_in']
             ]);
         }
-
     }
+
+   
 }

@@ -33,6 +33,10 @@ class Sidebar extends Component {
         ]
     };
 
+    handleDrawerClose = () => {
+        this.setState({ mobileOpen: false });
+      };
+
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
     };
@@ -56,7 +60,7 @@ class Sidebar extends Component {
         const drawer = (
             <div>
                 <div>
-                    <IconButton onClick={this.handleDrawerToggle}>
+                    <IconButton onClick={this.handleDrawerClose}>
                         <ChevronLeftIcon /> 
                     </IconButton>
                     <Divider />

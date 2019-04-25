@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use JWTFactory;
 use JWTAuth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -34,5 +35,15 @@ class LoginController extends Controller
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
         return response()->json(compact('token', 'expires', 'success', 'user'));
+    }
+
+    public function getUserData($token)
+    {
+        $user = User::where('token','=',$token)->first();
+        return response()
+            ->json(['user' => $user]);
+        \Log::alert('in user get data'. $token);
+        \Log::alert($user);
+
     }
 }

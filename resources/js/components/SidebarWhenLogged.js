@@ -33,6 +33,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import axios from 'axios';
 import { throws } from 'assert';
+import {connect} from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -141,8 +142,11 @@ const styles = theme => ({
 });
 
 class SidebarWhenLogged extends React.Component {
-  state = {
-    open: false,
+  _isMounted = false;
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
     tabs: [
       { id: 0, name: "Profile", show: true},
       { id: 1, name: "Messages", show: false},
@@ -154,12 +158,15 @@ class SidebarWhenLogged extends React.Component {
       name: '',
       post_job: false,
       mate: false,
+      email: '',
+      postal_code: '',
+      address: '',
+      city: '',
+      country: '',
+      phone_number: ''
     }],
-    //   name = '',
-    //   post_job =  '',
-    //   mate = '',
-    // // ],
-  };
+    }
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -186,10 +193,13 @@ class SidebarWhenLogged extends React.Component {
       case 'Messages':
         return 'Messages';
       case 'Settings':
-      return <Settings key={param.id} />;
+      return <Settings key={param.id} user={this.state.user} />;
+      // return <Settings key={param.id} />;
         // return 'Settings';
       case 'Calendar':
-        return <Calendar key={param.id} />;
+      return <Calendar key={param.id} />;
+
+        // return <Calendar key={param.id} />;
         // return 'Calendar';
       case 'Logout':
         window.location = '/logout';
@@ -200,15 +210,40 @@ class SidebarWhenLogged extends React.Component {
   }
 
   componentDidMount () {
-    axios.get('/api/userInfo?id=35').then(response => {
-        const post_job_value = response.data.post_job ? true : false;
-        const mate_value = response.data.mate ? true : false;
+    this._isMounted = true;
+    // axios.get('/api/getUserData/' + token)
+    //     .then(res => {
+    //        const post_job_value = response.data.post_job ? true : false;
+    //       const mate_value = response.data.mate ? true : false;
+    //       const userData = [...this.state.user];
+    //       userData.name = response.data.name;
+    //       userData.post_job = post_job_value;
+    //       userData.mate = mate_value;
+    //       if (this._isMounted) {
+    //         this.setState({user: userData});
+    //       }
+    //      });
+    axios.get('/api/userInfo/' + this.props.token).then(response => {
+        const user = response.data.user;
+        const post_job_value = user.post_job ? true : false;
+        const mate_value = user.mate ? true : false;
         const userData = [...this.state.user];
-        userData.name = response.data.name;
-        userData.post_job = post_job_value;
-        userData.mate = mate_value;
-        this.setState({user: userData});
+        userData.name = user.name,
+        userData.email = user.email,
+        userData.postal_code = user.postal_code,
+        userData.address = user.address,
+        userData.city = user.city,
+        userData.country = user.country,
+        userData.phone_number= user.phone_number
+
+        if (this._isMounted) {
+          this.setState({user: userData});
+        }
     })
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -326,4 +361,11 @@ SidebarWhenLogged.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(SidebarWhenLogged);
+const mapStateToProps = state => {
+  console.log(state);
+  return { 
+    token: state.auth.token,
+    };
+};
+
+export default connect(mapStateToProps, null) (withStyles(styles, { withTheme: true })(SidebarWhenLogged));

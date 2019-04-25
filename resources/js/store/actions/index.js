@@ -2,7 +2,8 @@ export {
     auth,
     logout,
     authCheckState,
-    authSocial
+    authSocial,
+    getUserData
 } from './auth';
 
 export {

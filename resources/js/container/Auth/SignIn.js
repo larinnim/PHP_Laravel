@@ -51,6 +51,13 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
   },
+  social_div:{
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+  },
+  social_icon:{
+    right: 20
+  },
 });
 
 class SignIn extends React.Component  {
@@ -103,7 +110,7 @@ class SignIn extends React.Component  {
 
     let authRedirect = null;
     if (this.props.auth) {
-        authRedirect = <Redirect to='/'/>
+        authRedirect = <Redirect to='/postjob_profile'/>
     }
 
     return (
@@ -118,6 +125,11 @@ class SignIn extends React.Component  {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <div className={classes.social_div}>
+              <SocialIcon className={classes.social_icon} network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+              <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+          </div>
+            ------------------ or ------------------
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -131,13 +143,6 @@ class SignIn extends React.Component  {
               control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
               label="Remember me"
             />
-            <div>
-              <Typography component="h5" variant="h5">
-                Login with
-              </Typography>
-              <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
-              <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
-            </div>
 
             <Link
               type="button"
@@ -169,7 +174,7 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state.auth.token);
+  console.log(state.auth.token);  
   return { 
     auth: state.auth.auth,
     };

@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Dropzone from '../../components/Dropzone';
+import {connect} from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions/index';
 
 const styles = theme => ({
   container: {
@@ -42,12 +46,15 @@ const currencies = [
 ];
 
 class Settings extends React.Component {
-  state = {
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'Cat in the Hat',
+      age: '',
+      multiline: 'Controlled',
+      currency: 'EUR',
+    }
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -56,7 +63,7 @@ class Settings extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -71,9 +78,20 @@ class Settings extends React.Component {
         />
 
         <TextField
-          id="outlined-uncontrolled"
-          label="Uncontrolled"
-          defaultValue="foo"
+          required
+          id="nome"
+          label="Full Name"
+          defaultValue={user.name}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+        />
+
+        <TextField
+          disabled
+          id="email"
+          label="Email"
+          defaultValue={user.email}
           className={classes.textField}
           margin="normal"
           variant="outlined"
@@ -81,23 +99,96 @@ class Settings extends React.Component {
 
         <TextField
           required
-          id="outlined-required"
-          label="Required"
-          defaultValue="Hello World"
+          id="cep"
+          label="CEP"
+          defaultValue={user.postal_code}
           className={classes.textField}
           margin="normal"
           variant="outlined"
         />
 
         <TextField
-          error
-          id="outlined-error"
-          label="Error"
-          defaultValue="Hello World"
+          id="password"
+          label="Password"
+          className={classes.textField}
+          type="password"
+          autoComplete="current-password"
+          margin="normal"
+          variant="outlined"
+        />
+
+        <TextField
+          id="confirm-password"
+          label="Confirm Password"
+          className={classes.textField}
+          type="password"
+          autoComplete="current-password"
+          margin="normal"
+          variant="outlined"
+        />
+
+        <TextField
+          required
+          id="phone"
+          label="Phone Number"
+          defaultValue={user.phone_number}
           className={classes.textField}
           margin="normal"
           variant="outlined"
         />
+
+        <TextField
+        required
+        id="address"
+        label="Address"
+        defaultValue=""
+        className={user.address}
+        margin="normal"
+        variant="outlined"
+        />
+
+        <TextField
+        required
+        id="city"
+        label="City"
+        defaultValue={user.city}
+        className={classes.textField}
+        margin="normal"
+        variant="outlined"
+        />
+        <TextField
+        required
+        id="state"
+        label="State"
+        defaultValue={user.state}
+        className={classes.textField}
+        margin="normal"
+        variant="outlined"
+        />
+
+        <TextField
+        required
+        id="country"
+        label="Country"
+        defaultValue={user.country}
+        className={classes.textField}
+        margin="normal"
+        variant="outlined"
+        />
+
+        <div>
+          <Dropzone />
+        </div>
+
+    {/* <TextField
+      error
+      id="outlined-error"
+      label="Error"
+      defaultValue="Hello World"
+      className={classes.textField}
+      margin="normal"
+      variant="outlined"
+    />
 
         <TextField
           disabled
@@ -116,16 +207,6 @@ class Settings extends React.Component {
           type="email"
           name="email"
           autoComplete="email"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
           margin="normal"
           variant="outlined"
         />
@@ -291,7 +372,7 @@ class Settings extends React.Component {
           defaultValue="Bare"
           margin="normal"
           variant="outlined"
-        />
+        /> */}
       </form>
     );
   }
@@ -301,4 +382,16 @@ Settings.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Settings);
+const mapStateToProps = state => {
+  return { 
+    auth: state.auth.userData,
+    };
+};
+
+const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
+  return {
+    userData: () => dispatch(actions.getUserData()) //Dispatch function will be available on the onSign prop
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Settings));
