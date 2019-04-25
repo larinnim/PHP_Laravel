@@ -17,22 +17,29 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+//Database Request Routes...
 Route::get('occupations', 'OccupationController@index');
 Route::get('occupations/agents', 'OccupationController@agentOccupation');
+Route::get('occupations/agents', 'OccupationController@agentOccupation');
+Route::get('userInfo/{id}', 'UserController@getUserInfo');
 
+
+// AWS Routes...
 Route::get('getImage', 'AWS3@index');
 Route::post('uploadImage', 'AWS3@store');
 
-Route::post('/register_store', 'RegisterController@store');
-// Route::middleware('jwt.auth')->get('logged_in', 'LoginController@login');
-Route::post('/logged_in', 'LoginController@login');
-
- // Password Reset Routes...
-//  Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+ // Authentication Routes...
+ Route::post('/logged_in', 'LoginController@login');
+ Route::post('/register_store', 'RegisterController@store');
  Route::post('password/email', 'Auth\ForgotPasswordController@sendEmail');
  Route::post('password/reset', 'Auth\ResetPasswordController@process');
+ Route::get('/getUserData/{token}', 'LoginController@getUserData');
+//Social Login Laravel
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google|github|bitbucket|Instagram');
+    Route::get('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|github|bitbucket|Instagram');
+    Route::get('/authinf','Auth\LoginController@reactAuthInfo');
+});
 
-//  Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
-//  Route::post('password/reset', 'ResetPasswordController@reset');
 
 

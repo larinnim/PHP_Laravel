@@ -102,9 +102,16 @@ class ResponseReset extends React.Component {
         const params = new URLSearchParams(props.location.search); 
         const token = params.get('token');
         console.log('inside getDerivate' + token);
+        if(props.variant == 'success'){
+            return {
+                token: token,
+                showSuccess: true
+            };
+        }
         return {
-            token: token
+            token: token,
         };
+        
     }
 
     render(){
@@ -118,41 +125,44 @@ class ResponseReset extends React.Component {
         return (
             <div className={classes.main}>
                 <SidebarComponent isLoggedIn={this.props.auth}/>
-                <Typography component="h1" variant="h5">
-                    Reset Password
-                </Typography>
-                <form className={classes.form} onSubmit={this.handleSubmit}>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="email">Email Address</InputLabel>
-                        <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
-                        {errors.email ?
-                        <span className='error'>Please type a valid email</span>: null}
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Password</InputLabel>
-                        <Input name="password" type="password" id="password" autoComplete="current-password"  onChange={this.handleInputChange}/>
-                        {errors.password ?
-                        <span className='error'>Password deve ter no minimo 8 caracteres</span> : null}
-                    </FormControl>
-                    <FormControl margin="normal" required fullWidth>
-                        <InputLabel htmlFor="password">Confirm Password</InputLabel>
-                        <Input name="confirmPassword" type="password" id="confirmPassword" autoComplete="current-password"  onChange={this.handleInputChange}/>
-                        {errors.confirm_password ?
-                            <span className='error'>Passo diferentes</span> : null}
-                    </FormControl>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={this.props.onSign}
-                        >
+                {!this.state.showSuccess ? 
+                <div>
+                    <Typography component="h1" variant="h5">
                         Reset Password
-                    </Button>
-                 </form>
-                 {this.state.showSuccess ? 
-                 <div>
+                    </Typography>
+                    <form className={classes.form} onSubmit={this.handleSubmit}>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="email">Email Address</InputLabel>
+                            <Input id="email" name="email" autoComplete="email" autoFocus onChange={this.handleInputChange}/>
+                            {errors.email ?
+                            <span className='error'>Please type a valid email</span>: null}
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <Input name="password" type="password" id="password" autoComplete="current-password"  onChange={this.handleInputChange}/>
+                            {errors.password ?
+                            <span className='error'>Password deve ter no minimo 8 caracteres</span> : null}
+                        </FormControl>
+                        <FormControl margin="normal" required fullWidth>
+                            <InputLabel htmlFor="password">Confirm Password</InputLabel>
+                            <Input name="confirmPassword" type="password" id="confirmPassword" autoComplete="current-password"  onChange={this.handleInputChange}/>
+                            {errors.confirm_password ?
+                                <span className='error'>Passo diferentes</span> : null}
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={this.props.onSign}
+                            >
+                            Reset Password
+                        </Button>
+                    </form>
+                </div>
+                :
+                <div>
                     <div className="check">
                         <div className="checkmark"></div>
                     </div>
@@ -161,7 +171,7 @@ class ResponseReset extends React.Component {
                         <h5>If you did not make this change, contact our support team.</h5>
                     </div>
                 </div>
-                : null}
+                }
                 {this.props.message ? <SnackbarComponent variant={this.props.variant ? this.props.variant : 'error'} message={this.props.message} open={true}/> : null}
             </div>
         );

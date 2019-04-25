@@ -11,7 +11,14 @@ export const authSuccess = (token, userId) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
-        userId: userId
+        userId: userId,
+    };
+};
+
+export const userData = (user) => {
+    return {
+        type: actionTypes.USER_DATA_SUCCESS,
+        userData: user,
     };
 };
 
@@ -40,7 +47,7 @@ export const checkAuthTimeout = (expirationTime) => {
 };
 
 export const authCheckState = () => {
-    console.log(localStorage.getItem('token'));
+
     return dispatch => {
         const token = localStorage.getItem('token');
         if(!token){
@@ -60,6 +67,28 @@ export const authCheckState = () => {
     };
 };
 
+export const getUserData = () => {
+    return dispatch => {
+    axios.get('/api/getUserData/' + token)
+        .then(res => {
+            dispatch(userData(res.data.user));
+        });
+    }
+}
+
+export const authSocial = () => {
+    return dispatch => {
+        axios.get('/api/authinf')
+        .then(res => {
+            if(res.data.token){
+                localStorage.setItem('token', res.data.token);
+                const expirationDate = new Date (new Date().getTime() + res.data.expires_in * 1000);
+                localStorage.setItem('expirationDate', expirationDate);
+            }
+        });
+    }
+};
+
 export const auth = (email, password) => {
     return dispatch => {
         dispatch(authStart());
@@ -74,7 +103,6 @@ export const auth = (email, password) => {
         .then(json => {
             const expirationDate = new Date (new Date().getTime() + json.data.expires * 1000);
         if (json.data.success) {
-            console.log(json.data);
             localStorage.setItem('token', json.data.user.token);
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('userId', json.data.user.id);

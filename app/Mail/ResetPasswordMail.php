@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Cookie;
+use Lang;
 
 class ResetPasswordMail extends Mailable
 {
@@ -30,7 +32,9 @@ class ResetPasswordMail extends Mailable
      */
     public function build()
     {
+        app()->setLocale(Cookie::get('lang'));
         return $this->markdown('email.passwordReset')
+        ->subject(Lang::get('email.email_title'))
         ->with([
             'token' => $this->token,
             'name' => $this->name

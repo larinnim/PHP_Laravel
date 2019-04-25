@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Occupation;
 use App\User;
 
-use Log;
-
 class OccupationController extends Controller
 {
     public function index()

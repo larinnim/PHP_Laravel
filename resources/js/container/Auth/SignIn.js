@@ -19,6 +19,7 @@ import * as actions from '../../store/actions/index';
 import {Redirect} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom'
+import { SocialIcon } from 'react-social-icons';
 
 const styles = theme => ({
   main: {
@@ -49,6 +50,13 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+  },
+  social_div:{
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+  },
+  social_icon:{
+    right: 20
   },
 });
 
@@ -91,13 +99,18 @@ class SignIn extends React.Component  {
     event.preventDefault();
     this.props.onSign(this.state.email, this.state.password);
   }
+
+  handleSubmitSocial =  (event) => {
+    event.preventDefault();
+    this.props.onSignSocial();
+  }
   
   render() {
     const { classes } = this.props;
 
     let authRedirect = null;
     if (this.props.auth) {
-        authRedirect = <Redirect to='/'/>
+        authRedirect = <Redirect to='/postjob_profile'/>
     }
 
     return (
@@ -112,6 +125,11 @@ class SignIn extends React.Component  {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <div className={classes.social_div}>
+              <SocialIcon className={classes.social_icon} network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+              <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+          </div>
+            ------------------ or ------------------
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -125,6 +143,7 @@ class SignIn extends React.Component  {
               control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
               label="Remember me"
             />
+
             <Link
               type="button"
               component="button"
@@ -155,7 +174,7 @@ SignIn.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state.auth.token);
+  console.log(state.auth.token);  
   return { 
     auth: state.auth.auth,
     };
@@ -163,7 +182,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an argument
   return {
-    onSign: (email, password) => dispatch(actions.auth(email, password)) //Dispatch function will be available on the onSign prop
+    onSign: (email, password) => dispatch(actions.auth(email, password)), //Dispatch function will be available on the onSign prop
+    onSignSocial: () => dispatch(actions.authSocial()) //Dispatch function will be available on the onSign prop
   };
 };
 
