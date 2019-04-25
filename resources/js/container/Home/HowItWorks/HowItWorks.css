@@ -33,9 +33,9 @@
 }
 
 .animation-timeline-photo-1 {
-    /* flex: none;
+    flex: none;
     background-position: center;
-    background-repeat: no-repeat; */
+    background-repeat: no-repeat;
     background-size: 50%;
     border-radius: 50%;
     height: 70px;

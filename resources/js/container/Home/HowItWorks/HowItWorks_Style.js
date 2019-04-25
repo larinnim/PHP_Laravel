@@ -7,7 +7,8 @@ export default theme => ({
     },
     paper: {
         padding: theme.spacing.unit * 2,
-        textAlign: "center"
+        textAlign: "center",
+        // backgroundColor: "grey"
     },
     grids: {
         marginTop: 10
@@ -31,12 +32,30 @@ export default theme => ({
     },
     titles: {
         textAlign: "left",
-        paddingLeft: "2%"
+        paddingLeft: "0 !important"
+    },
+    principalTitles: {
+        fontSize: 30,
+        color: "orange"
+    },
+    principalTitlesTextBox: {
+        marginTop: "3%",
+        marginBottom: 0
     },
     card: {
         maxWidth: 345
     },
     media: {
         height: 200
+    },
+    button: {
+        color: "white",
+        backgroundColor: "orange"
+    },
+    alignButton: {
+        justifyContent: "center"
+    },
+    alignItems: {
+        textAlign: "center"
     }
 });

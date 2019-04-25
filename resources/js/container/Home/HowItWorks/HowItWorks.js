@@ -25,8 +25,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import photoCardAlly from "../../../../img/Cards/ally.png";
 import photoCardJobBank from "../../../../img/Cards/job_bank.png";
-import photoCardPostJob from "../../../../img/Cards/post_job.png";
-import photoCardFindAlly from "../../../../img/Cards/find_ally.png";
+import photoCardPostJob from "../../../../img/Cards/cards_post_job.png";
+import photoCardFindAlly from "../../../../img/Cards/cards_find_ally.png";
 import "./HowItWorks.css";
 
 function HowItWorks(props) {
@@ -35,7 +35,7 @@ function HowItWorks(props) {
         <div className={classes.grids}>
             <div className={classes.root}>
                 <Grid container spacing={40}>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
                                 <CardMedia
@@ -48,28 +48,31 @@ function HowItWorks(props) {
                                         gutterBottom
                                         variant="h5"
                                         component="h2"
+                                        classes={{ root: classes.alignItems }}
                                     >
-                                        Became an Ally
+                                        Become an Ally
                                     </Typography>
                                     <Typography component="p">
-                                        Lizards are a widespread group of
-                                        squamate reptiles, with over 6,000
-                                        species, ranging across all continents
-                                        except Antarctica
+                                        Looking for a job or second income?
+                                        BECOME AN ALLY to put yourself available
+                                        to perform jobs that you have experience
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Learn More
+                            <CardActions
+                                classes={{ root: classes.alignButton }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    classes={{ root: classes.button }}
+                                >
+                                    Sign Up For Free
                                 </Button>
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
                                 <CardMedia
@@ -82,28 +85,31 @@ function HowItWorks(props) {
                                         gutterBottom
                                         variant="h5"
                                         component="h2"
+                                        classes={{ root: classes.alignItems }}
                                     >
                                         Job Bank
                                     </Typography>
                                     <Typography component="p">
-                                        Lizards are a widespread group of
-                                        squamate reptiles, with over 6,000
-                                        species, ranging across all continents
-                                        except Antarctica
+                                        Already an ALLY and think you can do any
+                                        of the posted jobs? Use JOB BANK to
+                                        browse thousands of contracting jobs
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Learn More
+                            <CardActions
+                                classes={{ root: classes.alignButton }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    classes={{ root: classes.button }}
+                                >
+                                    Sign Up For Free
                                 </Button>
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
                                 <CardMedia
@@ -116,28 +122,32 @@ function HowItWorks(props) {
                                         gutterBottom
                                         variant="h5"
                                         component="h2"
+                                        classes={{ root: classes.alignItems }}
                                     >
                                         Post Job
                                     </Typography>
                                     <Typography component="p">
-                                        Lizards are a widespread group of
-                                        squamate reptiles, with over 6,000
-                                        species, ranging across all continents
-                                        except Antarctica
+                                        Can't miss that wedding party? POST JOB
+                                        to find a last minute ALLY to baby sit
+                                        your kids and pets while you enjoy a
+                                        night out
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Learn More
+                            <CardActions
+                                classes={{ root: classes.alignButton }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    classes={{ root: classes.button }}
+                                >
+                                    Sign Up For Free
                                 </Button>
                             </CardActions>
                         </Card>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} md={3}>
                         <Card className={classes.card}>
                             <CardActionArea>
                                 <CardMedia
@@ -150,23 +160,26 @@ function HowItWorks(props) {
                                         gutterBottom
                                         variant="h5"
                                         component="h2"
+                                        classes={{ root: classes.alignItems }}
                                     >
                                         Find an Ally
                                     </Typography>
                                     <Typography component="p">
-                                        Lizards are a widespread group of
-                                        squamate reptiles, with over 6,000
-                                        species, ranging across all continents
-                                        except Antarctica
+                                        Need help with that plumbing? FIND an
+                                        ALLY can help you finding an experienced
+                                        ALLY to help with your needs
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Learn More
+                            <CardActions
+                                classes={{ root: classes.alignButton }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    classes={{ root: classes.button }}
+                                >
+                                    Sign Up For Free
                                 </Button>
                             </CardActions>
                         </Card>
@@ -182,8 +195,20 @@ function HowItWorks(props) {
                                         className="animation-timeline-photo-1"
                                     />
                                 </Grid>
-                                <Grid item xs={9} className={classes.titles}>
-                                    <h5 className="card-title">Need a job?</h5>
+                                <Grid
+                                    item
+                                    xs={9}
+                                    className={`${classes.principalTitles} ${
+                                        classes.titles
+                                    }`}
+                                >
+                                    <h5
+                                        className={
+                                            classes.principalTitlesTextBox
+                                        }
+                                    >
+                                        Need a job?
+                                    </h5>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={40}>
@@ -201,7 +226,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={9} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card2-text-animation-timeline">
+                                    <h5 className="display-hide-card2-text-animation-timeline">
                                         Register as an Ally
                                     </h5>
                                 </Grid>
@@ -231,7 +256,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card3-text-animation-timeline">
+                                    <h5 className="display-hide-card3-text-animation-timeline">
                                         Search the job bank
                                     </h5>
                                 </Grid>
@@ -268,7 +293,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card5-text-animation-timeline">
+                                    <h5 className="display-hide-card5-text-animation-timeline">
                                         Contact who wants your help
                                     </h5>
                                 </Grid>
@@ -296,8 +321,20 @@ function HowItWorks(props) {
                                         className="animation-timeline-photo-1"
                                     />
                                 </Grid>
-                                <Grid item xs={9} className={classes.titles}>
-                                    <h5 className="card-title">Need help?</h5>
+                                <Grid
+                                    item
+                                    xs={9}
+                                    className={`${classes.principalTitles} ${
+                                        classes.titles
+                                    }`}
+                                >
+                                    <h5
+                                        className={
+                                            classes.principalTitlesTextBox
+                                        }
+                                    >
+                                        Need help?
+                                    </h5>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={40}>
@@ -315,7 +352,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={9} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card2-text-animation-timeline">
+                                    <h5 className="display-hide-card2-text-animation-timeline">
                                         Register as Post Job
                                     </h5>
                                 </Grid>
@@ -345,7 +382,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card3-text-animation-timeline">
+                                    <h5 className="display-hide-card3-text-animation-timeline">
                                         Post a job describing your needs
                                     </h5>
                                 </Grid>
@@ -382,7 +419,7 @@ function HowItWorks(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={4} className={classes.titles}>
-                                    <h5 className="card-title display-hide-card5-text-animation-timeline">
+                                    <h5 className="display-hide-card5-text-animation-timeline">
                                         Ally will contact you
                                     </h5>
                                 </Grid>
