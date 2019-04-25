@@ -1,0 +1,7 @@
+.Cover img {
+    height: 100%;
+}
+.Cover {
+    overflow: auto; /*can change to hidden to not let scroll*/
+    z-index: 0;
+}
