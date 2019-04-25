@@ -38,7 +38,8 @@ class Sidebar extends Component {
             { id: 2, name: "Register", show: false, href: "/register" },
             { id: 3, name: "Login", show: false, href: "/login" }
             // {id: 4, name: 'Logout', show: false, href: '/logout'}
-        ]
+        ],
+        scroll: false
     };
 
     handleDrawerToggle = () => {
@@ -53,14 +54,37 @@ class Sidebar extends Component {
         window.location = href;
     };
 
+    componentDidMount() {
+        window.addEventListener("scroll", this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("scroll", this.handleScroll);
+    }
+
+    handleScroll = event => {
+        let scrollTop = window.scrollY;
+        console.log(scrollTop);
+        if (scrollTop > 428) {
+            this.setState({ scroll: true });
+        } else {
+            this.setState({ scroll: false });
+        }
+    };
+
     render() {
+        console.log("Scroll");
+        console.log(this.state.scroll);
         const { classes, theme, isLoggedIn } = this.props;
         console.log("Sidebar Props");
         console.log(this.props);
-        let isHomePage = { root: classes.appBar };
-        if (this.props.currentRoute === "/") {
+        let isHomePage = null;
+        if (this.props.currentRoute != "/" || this.state.scroll) {
+            isHomePage = { root: classes.appBar };
+        } else {
             isHomePage = { root: classes.appBar_home };
         }
+
         const drawer = (
             <div>
                 {this.props.isLoggedIn ? (

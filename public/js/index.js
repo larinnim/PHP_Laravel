@@ -27512,7 +27512,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes bounce {\n    0% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    3% {\n        -webkit-transform: scale(0.8);\n        border: 4px solid orange;\n    }\n    5% {\n        -webkit-transform: scale(1.5);\n        border: 4px solid orange;\n    }\n    8% {\n        -webkit-transform: scale(0.9);\n        border: 4px solid orange;\n    }\n    10% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    29% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    30% {\n        border: 4px solid #dadfe2;\n    }\n    100% {\n        -webkit-transform: scale(1);\n        border: 4px solid #dadfe2;\n    }\n}\n\n.animation-timeline-photo-1 {\n    /* flex: none;\n    background-position: center;\n    background-repeat: no-repeat; */\n    background-size: 50%;\n    border-radius: 50%;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-iteration-count: infinite;\n}\n\n@-webkit-keyframes timeline-travel-animation-1 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-1 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n.height-timeline {\n    height: 50px;\n    margin-bottom: 0;\n}\n\n.animation-timeline-photo-2 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 2s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card2-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text2;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 2s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text2 {\n    5% {\n        opacity: 1;\n    }\n    70% {\n        opacity: 1;\n    }\n    71% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n@-webkit-keyframes timeline-travel-animation-2 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-2 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n.timeline-travel_horizontal-right {\n    /* margin-bottom: 10px; */\n    padding: 0;\n    float: left;\n    -webkit-animation: timeline-travel-horizontal 10s ease-in-out 3s infinite;\n            animation: timeline-travel-horizontal 10s ease-in-out 3s infinite;\n}\n\n@-webkit-keyframes timeline-travel-horizontal {\n    0% {\n        width: 1px;\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    9% {\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    10% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n    100% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n}\n\n@keyframes timeline-travel-horizontal {\n    0% {\n        width: 1px;\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    9% {\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    10% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n    100% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n}\n\n@-webkit-keyframes timeline-travel-animation-3 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-3 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n.animation-timeline-photo-3 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 4s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card3-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text3;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 4s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text3 {\n    5% {\n        opacity: 1;\n    }\n    50% {\n        opacity: 1;\n    }\n    51% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n.animation-timeline-photo-4 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 4s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.timeline-travel1 {\n    float: left;\n    padding-left: 76%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 1s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 1s infinite;\n}\n.timeline-travel2 {\n    float: left;\n    padding-left: 76%;\n    -webkit-animation: timeline-travel-animation-2 10s ease-in-out 3s infinite;\n            animation: timeline-travel-animation-2 10s ease-in-out 3s infinite;\n}\n.timeline-travel3 {\n    float: left;\n    padding-left: 30%;\n    -webkit-animation: timeline-travel-animation-3 10s ease-in-out 3s infinite;\n            animation: timeline-travel-animation-3 10s ease-in-out 3s infinite;\n}\n.timeline-travel4 {\n    float: left;\n    padding-left: 33%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n}\n.timeline-travel5 {\n    float: left;\n    padding-left: 30%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n}\n\n.animation-timeline-photo-5 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 6s;\n    -webkit-animation-iteration-count: infinite;\n}\n.animation-timeline-photo-6 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 6s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card5-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text5;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 6s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text5 {\n    5% {\n        opacity: 1;\n    }\n    30% {\n        opacity: 1;\n    }\n    31% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n.test {\n    text-align: center;\n    vertical-align: middle;\n}\n\n.noMarginUl {\n    margin-top: 0;\n    margin-bottom: 0;\n    padding-left: 0;\n}\n\n.timeline-horizontal-width {\n    width: 135%;\n}\n", ""]);
+exports.push([module.i, "@-webkit-keyframes bounce {\n    0% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    3% {\n        -webkit-transform: scale(0.8);\n        border: 4px solid orange;\n    }\n    5% {\n        -webkit-transform: scale(1.5);\n        border: 4px solid orange;\n    }\n    8% {\n        -webkit-transform: scale(0.9);\n        border: 4px solid orange;\n    }\n    10% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    29% {\n        -webkit-transform: scale(1);\n        border: 4px solid orange;\n    }\n    30% {\n        border: 4px solid #dadfe2;\n    }\n    100% {\n        -webkit-transform: scale(1);\n        border: 4px solid #dadfe2;\n    }\n}\n\n.animation-timeline-photo-1 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-iteration-count: infinite;\n}\n\n@-webkit-keyframes timeline-travel-animation-1 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-1 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n.height-timeline {\n    height: 50px;\n    margin-bottom: 0;\n}\n\n.animation-timeline-photo-2 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 2s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card2-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text2;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 2s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text2 {\n    5% {\n        opacity: 1;\n    }\n    70% {\n        opacity: 1;\n    }\n    71% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n@-webkit-keyframes timeline-travel-animation-2 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-2 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n.timeline-travel_horizontal-right {\n    /* margin-bottom: 10px; */\n    padding: 0;\n    float: left;\n    -webkit-animation: timeline-travel-horizontal 10s ease-in-out 3s infinite;\n            animation: timeline-travel-horizontal 10s ease-in-out 3s infinite;\n}\n\n@-webkit-keyframes timeline-travel-horizontal {\n    0% {\n        width: 1px;\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    9% {\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    10% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n    100% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n}\n\n@keyframes timeline-travel-horizontal {\n    0% {\n        width: 1px;\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    9% {\n        border-top: 10px dotted orange;\n        height: 100%;\n    }\n    10% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n    100% {\n        width: 100%;\n        border-top: 10px dotted #dadfe2;\n        height: 10px;\n    }\n}\n\n@-webkit-keyframes timeline-travel-animation-3 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n\n@keyframes timeline-travel-animation-3 {\n    0% {\n        height: 0px;\n        border-right: 10px dotted orange;\n    }\n    9% {\n        border-right: 10px dotted orange;\n    }\n    10% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n    100% {\n        height: 90%;\n        border-right: 10px dotted #dadfe2;\n    }\n}\n.animation-timeline-photo-3 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 4s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card3-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text3;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 4s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text3 {\n    5% {\n        opacity: 1;\n    }\n    50% {\n        opacity: 1;\n    }\n    51% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n.animation-timeline-photo-4 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 4s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.timeline-travel1 {\n    float: left;\n    padding-left: 76%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 1s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 1s infinite;\n}\n.timeline-travel2 {\n    float: left;\n    padding-left: 76%;\n    -webkit-animation: timeline-travel-animation-2 10s ease-in-out 3s infinite;\n            animation: timeline-travel-animation-2 10s ease-in-out 3s infinite;\n}\n.timeline-travel3 {\n    float: left;\n    padding-left: 30%;\n    -webkit-animation: timeline-travel-animation-3 10s ease-in-out 3s infinite;\n            animation: timeline-travel-animation-3 10s ease-in-out 3s infinite;\n}\n.timeline-travel4 {\n    float: left;\n    padding-left: 33%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n}\n.timeline-travel5 {\n    float: left;\n    padding-left: 30%;\n    -webkit-animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n            animation: timeline-travel-animation-1 10s ease-in-out 5s infinite;\n}\n\n.animation-timeline-photo-5 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 6s;\n    -webkit-animation-iteration-count: infinite;\n}\n.animation-timeline-photo-6 {\n    flex: none;\n    background-position: center;\n    background-repeat: no-repeat;\n    background-size: 50%;\n    border-radius: 50%;\n    border: 3px solid #dadfe2;\n    height: 70px;\n    width: 70px;\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: bounce;\n    -webkit-animation-delay: 6s;\n    -webkit-animation-iteration-count: infinite;\n}\n\n.display-hide-card5-text-animation-timeline {\n    -webkit-animation-duration: 10s;\n    -webkit-animation-name: display-hide-text5;\n    -webkit-animation-iteration-count: infinite;\n    -webkit-animation-delay: 6s;\n    opacity: 0;\n}\n\n@-webkit-keyframes display-hide-text5 {\n    5% {\n        opacity: 1;\n    }\n    30% {\n        opacity: 1;\n    }\n    31% {\n        opacity: 0;\n    }\n    100% {\n        opacity: 0;\n    }\n}\n\n.test {\n    text-align: center;\n    vertical-align: middle;\n}\n\n.noMarginUl {\n    margin-top: 0;\n    margin-bottom: 0;\n    padding-left: 0;\n}\n\n.timeline-horizontal-width {\n    width: 135%;\n}\n", ""]);
 
 // exports
 
@@ -100757,14 +100757,25 @@ module.exports = "/images/ally.png?c0dd921abcfd3a307207901c33512584";
 
 /***/ }),
 
-/***/ "./resources/img/Cards/find_ally.png":
-/*!*******************************************!*\
-  !*** ./resources/img/Cards/find_ally.png ***!
-  \*******************************************/
+/***/ "./resources/img/Cards/cards_find_ally.png":
+/*!*************************************************!*\
+  !*** ./resources/img/Cards/cards_find_ally.png ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/find_ally.png?46d2f5449d4b7f41954acf6bfe7ec20f";
+module.exports = "/images/cards_find_ally.png?46d2f5449d4b7f41954acf6bfe7ec20f";
+
+/***/ }),
+
+/***/ "./resources/img/Cards/cards_post_job.png":
+/*!************************************************!*\
+  !*** ./resources/img/Cards/cards_post_job.png ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "/images/cards_post_job.png?640cceeeb5d15ccd818736c783e92adb";
 
 /***/ }),
 
@@ -100776,17 +100787,6 @@ module.exports = "/images/find_ally.png?46d2f5449d4b7f41954acf6bfe7ec20f";
 /***/ (function(module, exports) {
 
 module.exports = "/images/job_bank.png?a5d18d13f44b904de7fffdbcf919256c";
-
-/***/ }),
-
-/***/ "./resources/img/Cards/post_job.png":
-/*!******************************************!*\
-  !*** ./resources/img/Cards/post_job.png ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/images/post_job.png?640cceeeb5d15ccd818736c783e92adb";
 
 /***/ }),
 
@@ -102647,7 +102647,8 @@ function (_Component) {
         show: false,
         href: "/login" // {id: 4, name: 'Logout', show: false, href: '/logout'}
 
-      }]
+      }],
+      scroll: false
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleDrawerToggle", function () {
@@ -102666,25 +102667,54 @@ function (_Component) {
       window.location = href;
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleScroll", function (event) {
+      var scrollTop = window.scrollY;
+      console.log(scrollTop);
+
+      if (scrollTop > 428) {
+        _this.setState({
+          scroll: true
+        });
+      } else {
+        _this.setState({
+          scroll: false
+        });
+      }
+    });
+
     return _this;
   }
 
   _createClass(Sidebar, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      window.addEventListener("scroll", this.handleScroll);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener("scroll", this.handleScroll);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
+      console.log("Scroll");
+      console.log(this.state.scroll);
       var _this$props = this.props,
           classes = _this$props.classes,
           theme = _this$props.theme,
           isLoggedIn = _this$props.isLoggedIn;
       console.log("Sidebar Props");
       console.log(this.props);
-      var isHomePage = {
-        root: classes.appBar
-      };
+      var isHomePage = null;
 
-      if (this.props.currentRoute === "/") {
+      if (this.props.currentRoute != "/" || this.state.scroll) {
+        isHomePage = {
+          root: classes.appBar
+        };
+      } else {
         isHomePage = {
           root: classes.appBar_home
         };
@@ -104988,10 +105018,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _img_Cards_ally_png__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_ally_png__WEBPACK_IMPORTED_MODULE_25__);
 /* harmony import */ var _img_Cards_job_bank_png__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../../../../img/Cards/job_bank.png */ "./resources/img/Cards/job_bank.png");
 /* harmony import */ var _img_Cards_job_bank_png__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_job_bank_png__WEBPACK_IMPORTED_MODULE_26__);
-/* harmony import */ var _img_Cards_post_job_png__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../../../img/Cards/post_job.png */ "./resources/img/Cards/post_job.png");
-/* harmony import */ var _img_Cards_post_job_png__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_post_job_png__WEBPACK_IMPORTED_MODULE_27__);
-/* harmony import */ var _img_Cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../../../../img/Cards/find_ally.png */ "./resources/img/Cards/find_ally.png");
-/* harmony import */ var _img_Cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28__);
+/* harmony import */ var _img_Cards_cards_post_job_png__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../../../../img/Cards/cards_post_job.png */ "./resources/img/Cards/cards_post_job.png");
+/* harmony import */ var _img_Cards_cards_post_job_png__WEBPACK_IMPORTED_MODULE_27___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_cards_post_job_png__WEBPACK_IMPORTED_MODULE_27__);
+/* harmony import */ var _img_Cards_cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../../../../img/Cards/cards_find_ally.png */ "./resources/img/Cards/cards_find_ally.png");
+/* harmony import */ var _img_Cards_cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28___default = /*#__PURE__*/__webpack_require__.n(_img_Cards_cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28__);
 /* harmony import */ var _HowItWorks_css__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./HowItWorks.css */ "./resources/js/container/Home/HowItWorks/HowItWorks.css");
 /* harmony import */ var _HowItWorks_css__WEBPACK_IMPORTED_MODULE_29___default = /*#__PURE__*/__webpack_require__.n(_HowItWorks_css__WEBPACK_IMPORTED_MODULE_29__);
 
@@ -105036,7 +105066,8 @@ function HowItWorks(props) {
     spacing: 40
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
-    xs: 3
+    xs: 12,
+    md: 3
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_18___default.a, {
     className: classes.card
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActionArea__WEBPACK_IMPORTED_MODULE_19___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_22___default.a, {
@@ -105046,18 +105077,26 @@ function HowItWorks(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_21___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     gutterBottom: true,
     variant: "h5",
-    component: "h2"
-  }, "Became an Ally"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
+    component: "h2",
+    classes: {
+      root: classes.alignItems
+    }
+  }, "Become an Ally"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     component: "p"
-  }, "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+  }, "Looking for a job or second income? BECOME AN ALLY to put yourself available to perform jobs that you have experience"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, {
+    classes: {
+      root: classes.alignButton
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+    variant: "contained",
     size: "small",
-    color: "primary"
-  }, "Share"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
-    size: "small",
-    color: "primary"
-  }, "Learn More")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    classes: {
+      root: classes.button
+    }
+  }, "Sign Up For Free")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
-    xs: 3
+    xs: 12,
+    md: 3
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_18___default.a, {
     className: classes.card
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActionArea__WEBPACK_IMPORTED_MODULE_19___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_22___default.a, {
@@ -105067,58 +105106,81 @@ function HowItWorks(props) {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_21___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     gutterBottom: true,
     variant: "h5",
-    component: "h2"
+    component: "h2",
+    classes: {
+      root: classes.alignItems
+    }
   }, "Job Bank"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     component: "p"
-  }, "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+  }, "Already an ALLY and think you can do any of the posted jobs? Use JOB BANK to browse thousands of contracting jobs"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, {
+    classes: {
+      root: classes.alignButton
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+    variant: "contained",
     size: "small",
-    color: "primary"
-  }, "Share"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
-    size: "small",
-    color: "primary"
-  }, "Learn More")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    classes: {
+      root: classes.button
+    }
+  }, "Sign Up For Free")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
-    xs: 3
+    xs: 12,
+    md: 3
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_18___default.a, {
     className: classes.card
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActionArea__WEBPACK_IMPORTED_MODULE_19___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_22___default.a, {
     className: classes.media,
-    image: _img_Cards_post_job_png__WEBPACK_IMPORTED_MODULE_27___default.a,
+    image: _img_Cards_cards_post_job_png__WEBPACK_IMPORTED_MODULE_27___default.a,
     title: "Post Job"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_21___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     gutterBottom: true,
     variant: "h5",
-    component: "h2"
+    component: "h2",
+    classes: {
+      root: classes.alignItems
+    }
   }, "Post Job"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     component: "p"
-  }, "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+  }, "Can't miss that wedding party? POST JOB to find a last minute ALLY to baby sit your kids and pets while you enjoy a night out"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, {
+    classes: {
+      root: classes.alignButton
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+    variant: "contained",
     size: "small",
-    color: "primary"
-  }, "Share"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
-    size: "small",
-    color: "primary"
-  }, "Learn More")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    classes: {
+      root: classes.button
+    }
+  }, "Sign Up For Free")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
-    xs: 3
+    xs: 12,
+    md: 3
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_18___default.a, {
     className: classes.card
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActionArea__WEBPACK_IMPORTED_MODULE_19___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_22___default.a, {
     className: classes.media,
-    image: _img_Cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28___default.a,
+    image: _img_Cards_cards_find_ally_png__WEBPACK_IMPORTED_MODULE_28___default.a,
     title: "Find an Ally"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardContent__WEBPACK_IMPORTED_MODULE_21___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     gutterBottom: true,
     variant: "h5",
-    component: "h2"
+    component: "h2",
+    classes: {
+      root: classes.alignItems
+    }
   }, "Find an Ally"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_24___default.a, {
     component: "p"
-  }, "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+  }, "Need help with that plumbing? FIND an ALLY can help you finding an experienced ALLY to help with your needs"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardActions__WEBPACK_IMPORTED_MODULE_20___default.a, {
+    classes: {
+      root: classes.alignButton
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
+    variant: "contained",
     size: "small",
-    color: "primary"
-  }, "Share"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_23___default.a, {
-    size: "small",
-    color: "primary"
-  }, "Learn More"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    classes: {
+      root: classes.button
+    }
+  }, "Sign Up For Free"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
     spacing: 40
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
@@ -105140,9 +105202,9 @@ function HowItWorks(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 9,
-    className: classes.titles
+    className: "".concat(classes.principalTitles, " ").concat(classes.titles)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title"
+    className: classes.principalTitlesTextBox
   }, "Need a job?"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
     spacing: 40
@@ -105168,7 +105230,7 @@ function HowItWorks(props) {
     xs: 9,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card2-text-animation-timeline"
+    className: "display-hide-card2-text-animation-timeline"
   }, "Register as an Ally"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
     spacing: 40
@@ -105208,7 +105270,7 @@ function HowItWorks(props) {
     xs: 4,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card3-text-animation-timeline"
+    className: "display-hide-card3-text-animation-timeline"
   }, "Search the job bank")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 2,
@@ -105254,7 +105316,7 @@ function HowItWorks(props) {
     xs: 4,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card5-text-animation-timeline"
+    className: "display-hide-card5-text-animation-timeline"
   }, "Contact who wants your help")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 2,
@@ -105287,9 +105349,9 @@ function HowItWorks(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 9,
-    className: classes.titles
+    className: "".concat(classes.principalTitles, " ").concat(classes.titles)
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title"
+    className: classes.principalTitlesTextBox
   }, "Need help?"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
     spacing: 40
@@ -105315,7 +105377,7 @@ function HowItWorks(props) {
     xs: 9,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card2-text-animation-timeline"
+    className: "display-hide-card2-text-animation-timeline"
   }, "Register as Post Job"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
     spacing: 40
@@ -105355,7 +105417,7 @@ function HowItWorks(props) {
     xs: 4,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card3-text-animation-timeline"
+    className: "display-hide-card3-text-animation-timeline"
   }, "Post a job describing your needs")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 2,
@@ -105401,7 +105463,7 @@ function HowItWorks(props) {
     xs: 4,
     className: classes.titles
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-    className: "card-title display-hide-card5-text-animation-timeline"
+    className: "display-hide-card5-text-animation-timeline"
   }, "Ally will contact you")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 2,
@@ -105444,7 +105506,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     paper: {
       padding: theme.spacing.unit * 2,
-      textAlign: "center"
+      textAlign: "center" // backgroundColor: "grey"
+
     },
     grids: {
       marginTop: 10
@@ -105468,13 +105531,31 @@ __webpack_require__.r(__webpack_exports__);
     },
     titles: {
       textAlign: "left",
-      paddingLeft: "2%"
+      paddingLeft: "0 !important"
+    },
+    principalTitles: {
+      fontSize: 30,
+      color: "orange"
+    },
+    principalTitlesTextBox: {
+      marginTop: "3%",
+      marginBottom: 0
     },
     card: {
       maxWidth: 345
     },
     media: {
       height: 200
+    },
+    button: {
+      color: "white",
+      backgroundColor: "orange"
+    },
+    alignButton: {
+      justifyContent: "center"
+    },
+    alignItems: {
+      textAlign: "center"
     }
   };
 });
