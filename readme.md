@@ -12,7 +12,7 @@ This company was founded by a couple of Brazilians newcomers in Canada that init
 
 ## Tarefazz Team
 
-As a start-up, Tarefazz wants to help the ones that are just starting the web development career to learn as much as they can. Also, we count with experiences developer that want to share the knowledge and wants to get the most of their life. Tarefazz has one goal: Make the work fun! If you have an appointment or need to take some days off. It's totally up to you! Feel free to make your own schedule.
+As a start-up, Tarefazz wants to help the ones that are just starting the web development career to learn as much as they can. Also, we count with experiences developer that want to share the knowledge and wants to get the most of their life. Tarefazz has one goal: You don't need to work much to work better! If you have an appointment or need to take some days off. It's totally up to you! Feel free to make your own schedule.
 
 ## Contributing
 
