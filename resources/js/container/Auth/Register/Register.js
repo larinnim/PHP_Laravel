@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import SnackbarComponent from "../../../components/Snackbar";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
+import { SocialIcon } from 'react-social-icons';
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -252,6 +253,11 @@ class Register extends Component {
                 <SidebarComponent isLoggedIn={this.props.auth} />
                 <div className="form-wrapper">
                     <h2>Create Account</h2>
+                    <div>
+                        <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+                    </div>
+            ------------------ or ------------------
                     <form onSubmit={this.handleSubmit} noValidate>
                         <div className="fullName">
                             <label htmlFor="fullName">
@@ -450,13 +456,13 @@ class Register extends Component {
                             </div>
                         </div>
                         <div className="recaptcha">
-                            {/* <Recaptcha
-                ref={(el) => {this.captchaDemo = el;}}
-                size="normal"
-                sitekey="6LcmI50UAAAAANmitKM4gr1Qf0HtCHyh4dGKMvkn"
-                onloadCallback={this.onLoadRecaptcha}
-                verifyCallback={this.onCaptchaVerify}
-            /> */}
+                        <Recaptcha
+                            ref={(el) => {this.captchaDemo = el;}}
+                            size="normal"
+                            sitekey="6LcmI50UAAAAANmitKM4gr1Qf0HtCHyh4dGKMvkn"
+                            onloadCallback={this.onLoadRecaptcha}
+                            verifyCallback={this.onCaptchaVerify}
+                        />
                         </div>
                         <div className="submit">
                             <button>{t("register.create")}</button>

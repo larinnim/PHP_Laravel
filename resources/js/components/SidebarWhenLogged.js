@@ -28,6 +28,7 @@ import Settings from "./Navigation/Settings";
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import profilePicture from "../../img/profile.jpg";
 
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -234,7 +235,11 @@ class SidebarWhenLogged extends React.Component {
         userData.address = user.address,
         userData.city = user.city,
         userData.country = user.country,
-        userData.phone_number= user.phone_number
+        userData.state = user.state,
+        userData.phone_number= user.phone_number,
+        userData.avatar= user.avatar,
+        userData.post_job= user.post_job ? true : false,
+        userData.mate= user.mate  ? true : false
 
         if (this._isMounted) {
           this.setState({user: userData});
@@ -285,14 +290,26 @@ class SidebarWhenLogged extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
             </IconButton>
+  
             <Card>
-              <CardMedia src="profile.png" className={classes.margin_left_sidebar}>
-                  <img
+              <CardMedia src="profile.jpg" className={classes.margin_left_sidebar}>
+                  {/* <img
                       src="https://s3.amazonaws.com/uifaces/faces/twitter/ok/128.jpg"
                       style={{ borderRadius: 100 }}
+                  /> */}
+                  {user.avatar ? 
+                    <img
+                      src={user.avatar}
+                      style={{ borderRadius: 100, width: '50%' }}
                   />
+                  : 
+                  <img
+                  src={profilePicture}
+                  style={{ borderRadius: 100, width: '50%' }}
+                  />
+                  }
                   <p className={classes.make_uppercase}>{user.name}</p>
                   <div>
                 <FormControlLabel

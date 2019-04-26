@@ -12,6 +12,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
+import ExitToApp from "@material-ui/icons/ExitToApp";
+import SearchIcon from "@material-ui/icons/Search";
+import HomeIcon from "@material-ui/icons/Home";
+import WorkIcon from "@material-ui/icons/Work";
+import NoteIcon from "@material-ui/icons/NoteAdd";
+import LoginIcon from "@material-ui/icons/LockOpenOutlined";
 import SettingsIcon from "@material-ui/icons/Settings";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -20,97 +26,111 @@ import Navbar from "./Navbar";
 import Button from "@material-ui/core/Button";
 import styles from "./Sidebar_Style";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import PersonOutline from "@material-ui/icons/Person";
 
 
 class Sidebar extends Component {
     state = {
         mobileOpen: false,
-        nav_tabs: [
-            { id: 0, name: "Find an Ally", show: false },
-            { id: 1, name: "Job Bank", show: false },
-            { id: 2, name: "Register", show: false, href: "/register" },
-            { id: 3, name: "Login", show: false, href: "/login" }
-            // {id: 4, name: 'Logout', show: false, href: '/logout'}
+        nav_tabs_logged: [
+            { id: 0, name: "Home", show: false, href: "/"},
+            { id: 1, name: "Find an Ally", show: false },
+            { id: 2, name: "Job Bank", show: false },
+            { id: 3, name: "Register", show: false, href: "/register" },
+            { id: 4, name: "Login", show: false, href: "/login" }
         ],
-        scroll: false
+        nav_tabs_not_logged: [
+            { id: 0, name: "Home", show: false, href: "/"},
+            { id: 1, name: "Find an Ally", show: false },
+            { id: 2, name: "Job Bank", show: false },
+            { id: 3, name: "Profile", show: false, href: "/postjob_profile" },
+            { id: 4, name: "Logout", show: false, href: "/logout" },
+        ]
     };
-
-    handleDrawerClose = () => {
-        this.setState({ mobileOpen: false });
-      };
 
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-    };
-
-    handleClickTab = id => {
-        const tab_found = { ...this.state.nav_tabs[id] };
     };
 
     handleClickNav = href => {
         window.location = href;
     };
 
-    componentDidMount() {
-        window.addEventListener("scroll", this.handleScroll);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
-    }
-
-    handleScroll = event => {
-        let scrollTop = window.scrollY;
-        console.log(scrollTop);
-        if (scrollTop > 428) {
-            this.setState({ scroll: true });
-        } else {
-            this.setState({ scroll: false });
-        }
-    };
-
     render() {
-        console.log("Scroll");
-        console.log(this.state.scroll);
         const { classes, theme, isLoggedIn } = this.props;
         console.log("Sidebar Props");
         console.log(this.props);
-        let isHomePage = null;
-        if (this.props.currentRoute != "/" || this.state.scroll) {
-            isHomePage = { root: classes.appBar };
-        } else {
+        let isHomePage = { root: classes.appBar };
+        if (this.props.currentRoute === "/") {
             isHomePage = { root: classes.appBar_home };
         }
-
         const drawer = (
             <div>
                 <div>
-                    <IconButton onClick={this.handleDrawerClose}>
+
+                    <IconButton onClick={this.handleDrawerToggle}>
                         <ChevronLeftIcon /> 
                     </IconButton>
                     <Divider />
                 </div>
                 <List>
-                    { this.state.nav_tabs.map((tabs, index) => (
+                    {this.props.isLoggedIn ? 
+                      this.state.nav_tabs_not_logged.map((tabs, index) => (
                             <ListItem
-                                button
-                                key={tabs.id}
-                                onClick={event =>
-                                    this.handleClickNav(tabs.href)
-                                }
-                            >
-                                <ListItemIcon>
-                                    {index === 0 ? (
-                                        <CalendarToday />
-                                    ) : index === 1 ? (
-                                        <SettingsIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
+                                     button
+                                     key={tabs.id}
+                                     onClick={event =>
+                                         this.handleClickNav(tabs.href)
+                                     }
+                                 >
+                                {(() => {
+                                    switch(index) {
+                                        case 0:
+                                        return <ListItemIcon><HomeIcon /></ListItemIcon>;
+                                        case 1:
+                                        return <ListItemIcon><SearchIcon /></ListItemIcon>;
+                                        case 2:
+                                        return <ListItemIcon><WorkIcon /></ListItemIcon>;
+                                        case 3:
+                                        return <ListItemIcon><PersonOutline /></ListItemIcon>;
+                                        case 4:
+                                        return <ListItemIcon><ExitToApp /></ListItemIcon>;
+                                        default:
+                                        return null;
+                                    }
+                                })()}
                                 <ListItemText primary={tabs.name} />
-                            </ListItem>
-                        ))}
+                                 </ListItem>
+                             ))
+                             :
+                             this.state.nav_tabs_logged.map((tabs, index) => (
+                                <ListItem
+                                         button
+                                         key={tabs.id}
+                                         onClick={event =>
+                                             this.handleClickNav(tabs.href)
+                                         }
+                                     >
+                                         {(() => {
+                                    switch(index) {
+                                        case 0:
+                                        return <ListItemIcon><HomeIcon /></ListItemIcon>;
+                                        case 1:
+                                        return <ListItemIcon><SearchIcon /></ListItemIcon>;
+                                        case 2:
+                                        return <ListItemIcon><WorkIcon /></ListItemIcon>;
+                                        case 3:
+                                        return <ListItemIcon><NoteIcon /></ListItemIcon>;
+                                        case 4:
+                                        return <ListItemIcon><LoginIcon /></ListItemIcon>;
+                                        default:
+                                        return null;
+                                    }
+                                })()}
+                                         <ListItemText primary={tabs.name} />
+                                     </ListItem>
+                                 ))
+                              }
                 </List>
             </div>
         );
@@ -198,21 +218,32 @@ class Sidebar extends Component {
                             }}
                         >
                             {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden smUp implementation="css">
-                        {this.props.isLoggedIn ? (
-                            <Drawer
+                            {/* <Drawer
                                 classes={{
                                     paper: classes.drawerPaper
                                 }}
-                                variant="permanent"
-                                open
+                                variant="persistent"
+                                open={this.state.mobileOpen}
+                                onClose={this.handleDrawerToggle}
                             >
                                 {drawer}
-                            </Drawer>
-                        ) : null}
+                            </Drawer> */}
+                        </Drawer>
                     </Hidden>
+                    {/* <Hidden smUp implementation="css"> */}
+                        {/* {this.props.isLoggedIn ? ( */}
+                            {/* <Drawer
+                                classes={{
+                                    paper: classes.drawerPaper
+                                }}
+                                variant="persistent"
+                                open={this.state.mobileOpen}
+                                onClose={this.handleDrawerToggle}
+                            >
+                                {drawer}
+                            </Drawer> */}
+                        {/* ) : null} */}
+                    {/* </Hidden> */}
                 </nav>
                 <main className={classes.content}>
                     <div className={classes.toolbar} />

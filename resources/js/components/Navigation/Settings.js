@@ -6,8 +6,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Dropzone from '../../components/Dropzone';
 import {connect} from 'react-redux';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import axios from 'axios';
+
 import * as actionTypes from '../../store/actions/actionTypes';
 import * as actions from '../../store/actions/index';
+
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+const validPostalCodeRegexCA = RegExp(
+  /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
+);
+const validPostalCodeRegexBR = RegExp(/^\d{5}-?\d{3}$/);
+
+const validateForm = errors => {
+  let valid = true;
+  Object.values(errors).forEach(val => val.length > 0 && (valid = false));
+  return valid;
+};
 
 const styles = theme => ({
   container: {
@@ -48,11 +66,121 @@ const currencies = [
 class Settings extends React.Component {
   constructor(props) {
     super(props);
+    console.log('USERRR'+this.props.email);
     this.state = {
-      name: 'Cat in the Hat',
-      age: '',
-      multiline: 'Controlled',
-      currency: 'EUR',
+      name: this.props.user.name,
+      email: this.props.user.email,
+      cep: this.props.user.postal_code,
+      password: this.props.user.password,
+      confirm_password: this.props.user.confirm_password,
+      phone_number: this.props.user.password,
+      city: this.props.user.city,
+      state: this.props.user.state,
+      country: this.props.user.country,
+      address: this.props.user.address,
+      errors: {
+        name: "",
+        email: "",
+        cep: "",
+        password: "",
+        phone_number: "",
+        city: "",
+        state: "",
+        country: "",
+        address: "",
+      },
+      errors_required: {
+        name: false,
+        email: false,
+        cep: false,
+        password: false,
+        confirm_password: false,
+        phone_number: false,
+        city: false,
+        state: false,
+        country: false,
+        address: false,
+      }
+    }
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleEmptyForm() {
+    console.log('handling fromm')
+    let errors_required = this.state.errors_required;
+
+    if (
+        !this.state.name ||
+        !this.state.cep ||
+        !this.state.email ||
+        !this.state.password ||
+        !this.state.state ||
+        !this.state.country ||
+        !this.state.address ||
+        !this.state.phone_number
+    ) {
+        if (!this.state.name) {
+            errors_required.name = true;
+        } if (!this.state.cep) {
+            errors_required.cep = true;
+        }  if (!this.state.email) {
+            errors_required.email = true;
+        }  if (!this.state.password) {
+            errors_required.password = true;
+        }   if (!this.state.confirm_password) {
+          errors_required.confirm_password = true;
+      } if (!this.state.phone_number) {
+          errors_required.phone_number = true;           
+        }  if (!this.state.country) {
+            errors_required.country = true;
+        } if (!this.state.city) {
+          errors_required.city = true;
+      }  if (!this.state.state) {
+          errors_required.state = true;
+      }  if (!this.state.address) {
+        errors_required.address = true;
+    }
+    this.setState({
+      ...errors_required
+    });
+        return false;
+    } else {
+        return true;
+    }
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+        [name]: value
+      });
+  }
+
+  updateProfile(event) {
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append("email", this.state.email);
+    formData.append("cep", this.state.cep);
+    formData.append("password", this.state.password);
+    formData.append("phone_number", this.state.phone_number);
+    formData.append("city", this.state.city);
+    formData.append("state", this.state.state);
+    formData.append("country", this.state.country);
+    formData.append("address", this.state.address);
+
+    if (validateForm(this.state.errors) && this.handleEmptyForm()) {
+      axios
+      .post("/api/updateProfile/"+token, formData)
+      .then(response => {
+        console.log(response)
+      return response;
+      })
+      .catch(error => {
+          console.log(error);
+      });
     }
   }
 
@@ -63,10 +191,16 @@ class Settings extends React.Component {
   };
 
   render() {
+    const {
+      errors,
+      errors_required,
+    } = this.state;
     const { classes, user } = this.props;
 
     return (
-      <form className={classes.container} noValidate autoComplete="off">
+      // <form className={classes.container} noValidate autoComplete="off" onSubmit={e => this.updateProfile(e)}>
+      <form className={classes.container} noValidate autoComplete="off" >
+
         <TextField
           id="outlined-name"
           label="Name"
@@ -75,16 +209,19 @@ class Settings extends React.Component {
           onChange={this.handleChange('name')}
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
           required
+          error={this.state.errors_required.name}
           id="nome"
           label="Full Name"
           defaultValue={user.name}
           className={classes.textField}
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
@@ -95,19 +232,24 @@ class Settings extends React.Component {
           className={classes.textField}
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
           required
+          error={this.state.errors_required.cep}
           id="cep"
           label="CEP"
           defaultValue={user.postal_code}
           className={classes.textField}
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
+          required
+          error={this.state.errors_required.password}
           id="password"
           label="Password"
           className={classes.textField}
@@ -115,9 +257,12 @@ class Settings extends React.Component {
           autoComplete="current-password"
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
+          required
+          error={this.state.errors_required.confirm_password}
           id="confirm-password"
           label="Confirm Password"
           className={classes.textField}
@@ -125,60 +270,81 @@ class Settings extends React.Component {
           autoComplete="current-password"
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
           required
-          id="phone"
+          error={this.state.errors_required.phone_number}
+          id="phone_number"
           label="Phone Number"
+          name="phone_number"
           defaultValue={user.phone_number}
           className={classes.textField}
           margin="normal"
           variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
-        required
-        id="address"
-        label="Address"
-        defaultValue=""
-        className={user.address}
-        margin="normal"
-        variant="outlined"
+          required
+          error={this.state.errors_required.address}
+          id="address"
+          label="Address"
+          defaultValue=""
+          className={user.address}
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
-        required
-        id="city"
-        label="City"
-        defaultValue={user.city}
-        className={classes.textField}
-        margin="normal"
-        variant="outlined"
-        />
-        <TextField
-        required
-        id="state"
-        label="State"
-        defaultValue={user.state}
-        className={classes.textField}
-        margin="normal"
-        variant="outlined"
+          required
+          error={this.state.errors_required.city}
+          id="city"
+          label="City"
+          defaultValue={user.city}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <TextField
-        required
-        id="country"
-        label="Country"
-        defaultValue={user.country}
-        className={classes.textField}
-        margin="normal"
-        variant="outlined"
+          required
+          error={this.state.errors_required.state}
+          id="state"
+          label="State"
+          defaultValue={user.state}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleInputChange}
+        />
+
+        <TextField
+          required
+          error={this.state.errors_required.country}
+          id="country"
+          label="Country"
+          defaultValue={user.country}
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+          onChange={this.handleInputChange}
         />
 
         <div>
           <Dropzone />
         </div>
+        {/* <button>Send data!</button> */}
+        {/* <Button variant="contained"  size="small" className={classes.button}> */}
+
+        <Button variant="contained"  size="small" className={classes.button} onClick={e => this.updateProfile(e)}>
+        {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
+        <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
+        Save
+      </Button>
 
     {/* <TextField
       error
