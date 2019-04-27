@@ -10727,6 +10727,200 @@ var _Input = _interopRequireDefault(__webpack_require__(/*! ./Input */ "./node_m
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/InputAdornment/InputAdornment.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@material-ui/core/InputAdornment/InputAdornment.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _warning = _interopRequireDefault(__webpack_require__(/*! warning */ "./node_modules/warning/warning.js"));
+
+var _Typography = _interopRequireDefault(__webpack_require__(/*! ../Typography */ "./node_modules/@material-ui/core/Typography/index.js"));
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _withFormControlContext = _interopRequireDefault(__webpack_require__(/*! ../FormControl/withFormControlContext */ "./node_modules/@material-ui/core/FormControl/withFormControlContext.js"));
+
+var styles = {
+  /* Styles applied to the root element. */
+  root: {
+    display: 'flex',
+    height: '0.01em',
+    // Fix IE 11 flexbox alignment. To remove at some point.
+    maxHeight: '2em',
+    alignItems: 'center'
+  },
+
+  /* Styles applied to the root element if `variant="filled"`. */
+  filled: {
+    '&$positionStart': {
+      marginTop: 16
+    }
+  },
+
+  /* Styles applied to the root element if `position="start"`. */
+  positionStart: {
+    marginRight: 8
+  },
+
+  /* Styles applied to the root element if `position="end"`. */
+  positionEnd: {
+    marginLeft: 8
+  },
+
+  /* Styles applied to the root element if `disablePointerEvents=true`. */
+  disablePointerEvents: {
+    pointerEvents: 'none'
+  }
+};
+exports.styles = styles;
+
+function InputAdornment(props) {
+  var _classNames;
+
+  var children = props.children,
+      Component = props.component,
+      classes = props.classes,
+      className = props.className,
+      disablePointerEvents = props.disablePointerEvents,
+      disableTypography = props.disableTypography,
+      muiFormControl = props.muiFormControl,
+      position = props.position,
+      variantProp = props.variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["children", "component", "classes", "className", "disablePointerEvents", "disableTypography", "muiFormControl", "position", "variant"]);
+  var variant = variantProp;
+
+  if (variantProp && muiFormControl) {
+     true ? (0, _warning.default)(variantProp !== muiFormControl.variant, 'Material-UI: The `InputAdornment` variant infers the variant property ' + 'you do not have to provide one.') : undefined;
+  }
+
+  if (muiFormControl && !variant) {
+    variant = muiFormControl.variant;
+  }
+
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: (0, _classnames.default)(classes.root, (_classNames = {}, (0, _defineProperty2.default)(_classNames, classes.filled, variant === 'filled'), (0, _defineProperty2.default)(_classNames, classes.positionStart, position === 'start'), (0, _defineProperty2.default)(_classNames, classes.positionEnd, position === 'end'), (0, _defineProperty2.default)(_classNames, classes.disablePointerEvents, disablePointerEvents), _classNames), className)
+  }, other), typeof children === 'string' && !disableTypography ? _react.default.createElement(_Typography.default, {
+    color: "textSecondary"
+  }, children) : children);
+}
+
+ true ? InputAdornment.propTypes = {
+  /**
+   * The content of the component, normally an `IconButton` or string.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * Disable pointer events on the root.
+   * This allows for the content of the adornment to focus the input on click.
+   */
+  disablePointerEvents: _propTypes.default.bool,
+
+  /**
+   * If children is a string then disable wrapping in a Typography component.
+   */
+  disableTypography: _propTypes.default.bool,
+
+  /**
+   * @ignore
+   */
+  muiFormControl: _propTypes.default.object,
+
+  /**
+   * The position this adornment should appear relative to the `Input`.
+   */
+  position: _propTypes.default.oneOf(['start', 'end']),
+
+  /**
+   * The variant to use.
+   * Note: If you are using the `TextField` component or the `FormControl` component
+   * you do not have to set this manually.
+   */
+  variant: _propTypes.default.oneOf(['standard', 'outlined', 'filled'])
+} : undefined;
+InputAdornment.defaultProps = {
+  component: 'div',
+  disablePointerEvents: false,
+  disableTypography: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiInputAdornment'
+})((0, _withFormControlContext.default)(InputAdornment));
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/InputAdornment/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@material-ui/core/InputAdornment/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _InputAdornment.default;
+  }
+});
+
+var _InputAdornment = _interopRequireDefault(__webpack_require__(/*! ./InputAdornment */ "./node_modules/@material-ui/core/InputAdornment/InputAdornment.js"));
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/InputBase/InputBase.js":
 /*!***************************************************************!*\
   !*** ./node_modules/@material-ui/core/InputBase/InputBase.js ***!
@@ -104384,7 +104578,6 @@ function (_Component) {
     value: function componentDidMount() {
       var _this3 = this;
 
-      this._isMounted = true;
       axios__WEBPACK_IMPORTED_MODULE_10___default.a.get("/api/occupations").then(function (response) {
         if (_this3._isMounted) {
           _this3.setState({
@@ -104810,11 +105003,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_icons_Save__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Save__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _store_actions_actionTypes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../store/actions/actionTypes */ "./resources/js/store/actions/actionTypes.js");
-/* harmony import */ var _store_actions_index__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../store/actions/index */ "./resources/js/store/actions/index.js");
+/* harmony import */ var _i18n_index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../i18n/index */ "./resources/js/i18n/index.js");
+/* harmony import */ var react_i18next__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-i18next */ "./node_modules/react-i18next/dist/es/index.js");
+/* harmony import */ var _material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core/InputAdornment */ "./node_modules/@material-ui/core/InputAdornment/index.js");
+/* harmony import */ var _material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core/Select */ "./node_modules/@material-ui/core/Select/index.js");
+/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core/InputLabel */ "./node_modules/@material-ui/core/InputLabel/index.js");
+/* harmony import */ var _material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var _material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core/FormLabel */ "./node_modules/@material-ui/core/FormLabel/index.js");
+/* harmony import */ var _material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/core/FormControl */ "./node_modules/@material-ui/core/FormControl/index.js");
+/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var _material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/core/FormGroup */ "./node_modules/@material-ui/core/FormGroup/index.js");
+/* harmony import */ var _material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var _material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/core/FormControlLabel */ "./node_modules/@material-ui/core/FormControlLabel/index.js");
+/* harmony import */ var _material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/core/Checkbox */ "./node_modules/@material-ui/core/Checkbox/index.js");
+/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _store_actions_actionTypes__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../store/actions/actionTypes */ "./resources/js/store/actions/actionTypes.js");
+/* harmony import */ var _store_actions_index__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../store/actions/index */ "./resources/js/store/actions/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -104847,9 +105056,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
+
+
+
+
+
+
+
+
 var validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 var validPostalCodeRegexCA = RegExp(/([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i);
 var validPostalCodeRegexBR = RegExp(/^\d{5}-?\d{3}$/);
+var validPhoneNumber = RegExp(/^[0-9\b]+$/);
 
 var validateForm = function validateForm(errors) {
   var valid = true;
@@ -104858,6 +105078,17 @@ var validateForm = function validateForm(errors) {
   });
   return valid;
 };
+
+var currencies = [{
+  value: 'BRL',
+  label: 'R$'
+}, {
+  value: 'CAD',
+  label: 'CAD$'
+}, {
+  value: 'USD',
+  label: 'USD$'
+}];
 
 var styles = function styles(theme) {
   return {
@@ -104874,23 +105105,14 @@ var styles = function styles(theme) {
     },
     menu: {
       width: 200
+    },
+    error: {
+      color: "#db2269",
+      marginTop: "5px",
+      display: "relative"
     }
   };
 };
-
-var currencies = [{
-  value: 'USD',
-  label: '$'
-}, {
-  value: 'EUR',
-  label: '€'
-}, {
-  value: 'BTC',
-  label: '฿'
-}, {
-  value: 'JPY',
-  label: '¥'
-}];
 
 var Settings =
 /*#__PURE__*/
@@ -104898,20 +105120,29 @@ function (_React$Component) {
   _inherits(Settings, _React$Component);
 
   function Settings(props) {
+    var _this$state;
+
     var _this;
 
     _classCallCheck(this, Settings);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Settings).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "handleChange", function (name) {
+    _defineProperty(_assertThisInitialized(_this), "handleChangeCheckbox", function (name) {
       return function (event) {
-        _this.setState(_defineProperty({}, name, event.target.value));
+        _this.setState(_defineProperty({}, name, event.target.checked));
       };
     });
 
-    console.log('USERRR' + _this.props.email);
-    _this.state = {
+    _defineProperty(_assertThisInitialized(_this), "handleChangeSelect", function (name) {
+      return function (event) {
+        _this.setState({
+          country: event.target.value
+        });
+      };
+    });
+
+    _this.state = (_this$state = {
       name: _this.props.user.name,
       email: _this.props.user.email,
       cep: _this.props.user.postal_code,
@@ -104922,30 +105153,30 @@ function (_React$Component) {
       state: _this.props.user.state,
       country: _this.props.user.country,
       address: _this.props.user.address,
-      errors: {
-        name: "",
-        email: "",
-        cep: "",
-        password: "",
-        phone_number: "",
-        city: "",
-        state: "",
-        country: "",
-        address: ""
-      },
-      errors_required: {
-        name: false,
-        email: false,
-        cep: false,
-        password: false,
-        confirm_password: false,
-        phone_number: false,
-        city: false,
-        state: false,
-        country: false,
-        address: false
-      }
-    };
+      mate: _this.props.user.mate
+    }, _defineProperty(_this$state, "country", _this.props.user.country), _defineProperty(_this$state, "errors", {
+      name: "",
+      email: "",
+      cep: "",
+      password: "",
+      confirm_password: "",
+      phone_number: "",
+      city: "",
+      state: "",
+      country: "",
+      address: ""
+    }), _defineProperty(_this$state, "errors_required", {
+      name: false,
+      email: false,
+      cep: false,
+      password: false,
+      confirm_password: false,
+      phone_number: false,
+      city: false,
+      state: false,
+      country: false,
+      address: false
+    }), _defineProperty(_this$state, "professions", []), _defineProperty(_this$state, "gilad", true), _defineProperty(_this$state, "jason", false), _defineProperty(_this$state, "antoine", false), _this$state);
     _this.handleInputChange = _this.handleInputChange.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -104997,7 +105228,9 @@ function (_React$Component) {
           errors_required.address = true;
         }
 
-        this.setState(_objectSpread({}, errors_required));
+        this.setState({
+          errors_required: errors_required
+        });
         return false;
       } else {
         return true;
@@ -105009,13 +105242,83 @@ function (_React$Component) {
       var target = event.target;
       var value = target.value;
       var name = target.name;
+      var errors = this.state.errors;
+
+      switch (name) {
+        case "name":
+          errors.name = value.length < 8 ? "Full Name must be 8 characters long!" : "";
+          break;
+
+        case "email":
+          errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+          break;
+
+        case "cep":
+          errors.cep = validPostalCodeRegexCA.test(value) || validPostalCodeRegexBR.test(value) ? "" : "You must enter a Canadian or Brazilian Postal Code!";
+          break;
+
+        case "phone_number":
+          errors.phone_number = validPhoneNumber.test(value) ? "" : "Phone Number should contain only number";
+          break;
+
+        case "password":
+          errors.password = value.length < 8 ? "Password must be 8 characters long!" : "";
+          break;
+
+        case "confirm_password":
+          errors.confirm_password = value == this.state.password ? "" : "The passwords doesn't match";
+          break;
+
+        default:
+          break;
+      }
+
+      this.setState(_defineProperty({
+        errors: errors
+      }, name, value));
       this.setState(_defineProperty({}, name, value));
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this._isMounted = true;
+      axios__WEBPACK_IMPORTED_MODULE_10___default.a.get("/api/occupations").then(function (response) {
+        if (_this2._isMounted) {
+          console.log(response.data);
+
+          _this2.setState({
+            professions: response.data.map(function (suggestion) {
+              return {
+                value: suggestion.occupation,
+                label: suggestion.occupation
+              };
+            })
+          });
+
+          var professions_html = response.data.map(function (profession) {
+            return (// <div className="form-group">
+              react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+                control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+                  checked: _this2.state.professions.profession,
+                  onChange: _this2.handleChangeCheckbox(profession),
+                  value: profession
+                }),
+                label: profession
+              }) // </div>
+
+            );
+          });
+        }
+      });
     }
   }, {
     key: "updateProfile",
     value: function updateProfile(event) {
       var token = localStorage.getItem('token');
       var formData = new FormData();
+      formData.append("name", this.state.name);
       formData.append("email", this.state.email);
       formData.append("cep", this.state.cep);
       formData.append("password", this.state.password);
@@ -105037,40 +105340,46 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var _this$state = this.state,
-          errors = _this$state.errors,
-          errors_required = _this$state.errors_required;
+      var _this$state2 = this.state,
+          errors = _this$state2.errors,
+          errors_required = _this$state2.errors_required;
       var _this$props = this.props,
           classes = _this$props.classes,
-          user = _this$props.user;
+          user = _this$props.user,
+          t = _this$props.t;
       return (// <form className={classes.container} noValidate autoComplete="off" onSubmit={e => this.updateProfile(e)}>
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
           className: classes.container,
           noValidate: true,
           autoComplete: "off"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, _defineProperty({
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           id: "outlined-name",
           label: "Name",
           className: classes.textField,
-          value: this.state.name,
-          onChange: this.handleChange('name'),
+          value: this.state.name // onChange={this.handleChange('name')}
+          ,
           margin: "normal",
-          variant: "outlined"
-        }, "onChange", this.handleInputChange)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+          variant: "outlined",
+          onChange: this.handleInputChange
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           required: true,
           error: this.state.errors_required.name,
-          id: "nome",
+          id: "name",
+          name: "name",
           label: "Full Name",
           defaultValue: user.name,
           className: classes.textField,
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), errors.name.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: classes.error
+        }, t("register.fullname_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           disabled: true,
           id: "email",
+          name: "email",
           label: "Email",
           defaultValue: user.email,
           className: classes.textField,
@@ -105081,16 +105390,20 @@ function (_React$Component) {
           required: true,
           error: this.state.errors_required.cep,
           id: "cep",
+          name: "cep",
           label: "CEP",
           defaultValue: user.postal_code,
           className: classes.textField,
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), errors.cep.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "error"
+        }, _i18n_index__WEBPACK_IMPORTED_MODULE_11__["default"].language == "pt-BR" ? t("register.postal_codeBR") : t("register.postal_codeCA")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           required: true,
           error: this.state.errors_required.password,
           id: "password",
+          name: "password",
           label: "Password",
           className: classes.textField,
           type: "password",
@@ -105098,7 +105411,9 @@ function (_React$Component) {
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), errors.password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "error"
+        }, t("register.password_set")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           required: true,
           error: this.state.errors_required.confirm_password,
           id: "confirm-password",
@@ -105109,7 +105424,9 @@ function (_React$Component) {
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), errors.confirm_password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "error"
+        }, t("register.confirm_password_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           required: true,
           error: this.state.errors_required.phone_number,
           id: "phone_number",
@@ -105120,11 +105437,14 @@ function (_React$Component) {
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), errors.phone_number.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+          className: "error"
+        }, t("register.phone_number_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
           required: true,
           error: this.state.errors_required.address,
           id: "address",
           label: "Address",
+          name: "address",
           defaultValue: "",
           className: user.address,
           margin: "normal",
@@ -105135,6 +105455,7 @@ function (_React$Component) {
           error: this.state.errors_required.city,
           id: "city",
           label: "City",
+          name: "city",
           defaultValue: user.city,
           className: classes.textField,
           margin: "normal",
@@ -105145,27 +105466,73 @@ function (_React$Component) {
           error: this.state.errors_required.state,
           id: "state",
           label: "State",
+          name: "state",
           defaultValue: user.state,
           className: classes.textField,
           margin: "normal",
           variant: "outlined",
           onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15___default.a, {
+          htmlFor: "Country"
+        }, "Country*"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14___default.a, {
           required: true,
           error: this.state.errors_required.country,
-          id: "country",
-          label: "Country",
-          defaultValue: user.country,
-          className: classes.textField,
-          margin: "normal",
+          "native": true,
+          value: this.state.country,
+          onChange: this.handleChangeSelect('country'),
+          inputProps: {
+            name: 'country',
+            id: 'country'
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: ""
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: 'Brazil'
+        }, "Brazil"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: 'Canada'
+        }, "Canada"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: 'US'
+        }, "US")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+          id: "outlined-adornment-amount",
+          className: classnames__WEBPACK_IMPORTED_MODULE_2___default()(classes.margin, classes.textField),
           variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dropzone__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
+          label: "Hourly Rate",
+          value: this.state.amount,
+          onChange: this.handleInputChange,
+          InputProps: {
+            startAdornment: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13___default.a, {
+              position: "start"
+            }, this.state.country == 'Brazil' ? currencies[0].label : this.state.country == 'Canada' ? currencies[1].label : currencies[2].label)
+          }
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16___default.a, {
+          component: "legend"
+        }, "What do you want to work with?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+            checked: this.state.gilad,
+            onChange: this.handleChangeCheckbox('gilad'),
+            value: "gilad"
+          }),
+          label: "Agent"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+            checked: this.state.jason,
+            onChange: this.handleChangeCheckbox('jason'),
+            value: "jason"
+          }),
+          label: "HandyMate"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+            checked: this.state.antoine,
+            onChange: this.handleChangeCheckbox('antoine'),
+            value: "Bartender"
+          }),
+          label: "Antoine Llorca"
+        }), this.professions_html), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dropzone__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
           variant: "contained",
           size: "small",
           className: classes.button,
           onClick: function onClick(e) {
-            return _this2.updateProfile(e);
+            return _this3.updateProfile(e);
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Save__WEBPACK_IMPORTED_MODULE_9___default.a, {
           className: classnames__WEBPACK_IMPORTED_MODULE_2___default()(classes.leftIcon, classes.iconSmall)
@@ -105191,13 +105558,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   //receive the dispatch function as an argument
   return {
     userData: function userData() {
-      return dispatch(_store_actions_index__WEBPACK_IMPORTED_MODULE_12__["getUserData"]());
+      return dispatch(_store_actions_index__WEBPACK_IMPORTED_MODULE_22__["getUserData"]());
     } //Dispatch function will be available on the onSign prop
 
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["withStyles"])(styles)(Settings)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["withStyles"])(styles)(Object(react_i18next__WEBPACK_IMPORTED_MODULE_12__["withTranslation"])("common")(Settings))));
 
 /***/ }),
 
@@ -109223,7 +109590,7 @@ i18next__WEBPACK_IMPORTED_MODULE_0__["default"].use(i18next_browser_languagedete
 /*! exports provided: register, pricing, default */
 /***/ (function(module) {
 
-module.exports = {"register":{"fullname":"Full Name","postal_codeCA":"Invalid Canadian Postal Code","password_set":"Password must be eight characters in length","confirm_password_error":"The passwords doesn't match","password_updated":"Password Successfully Changed","token_email_invalid":"Token or Email are invalid"},"pricing":{"title":"Prix"}};
+module.exports = {"register":{"fullname":"Full Name","postal_codeCA":"Invalid Canadian Postal Code","password_set":"Password must be eight characters in length","confirm_password_error":"The passwords doesn't match","password_updated":"Password Successfully Changed","token_email_invalid":"Token or Email are invalid","phone_number_error":"Phone Number should contain only number"},"pricing":{"title":"Prix"}};
 
 /***/ }),
 

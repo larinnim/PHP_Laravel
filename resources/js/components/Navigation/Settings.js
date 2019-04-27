@@ -9,6 +9,16 @@ import {connect} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
 import axios from 'axios';
+import i18n from "../../i18n/index";
+import { withTranslation } from "react-i18next";
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import * as actionTypes from '../../store/actions/actionTypes';
 import * as actions from '../../store/actions/index';
@@ -21,11 +31,28 @@ const validPostalCodeRegexCA = RegExp(
 );
 const validPostalCodeRegexBR = RegExp(/^\d{5}-?\d{3}$/);
 
+const validPhoneNumber = RegExp( /^[0-9\b]+$/);
+
 const validateForm = errors => {
   let valid = true;
   Object.values(errors).forEach(val => val.length > 0 && (valid = false));
   return valid;
 };
+
+const currencies = [
+  {
+    value: 'BRL',
+    label: 'R$',
+  }, 
+  {
+    value: 'CAD',
+    label: 'CAD$',
+  },
+  {
+    value: 'USD',
+    label: 'USD$',
+  },
+];
 
 const styles = theme => ({
   container: {
@@ -42,31 +69,16 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
+  error: {
+    color:"#db2269",
+    marginTop:"5px",
+    display:"relative"
+  }
 });
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
-    console.log('USERRR'+this.props.email);
     this.state = {
       name: this.props.user.name,
       email: this.props.user.email,
@@ -78,11 +90,14 @@ class Settings extends React.Component {
       state: this.props.user.state,
       country: this.props.user.country,
       address: this.props.user.address,
+      mate: this.props.user.mate,
+      country: this.props.user.country,
       errors: {
         name: "",
         email: "",
         cep: "",
         password: "",
+        confirm_password: "",
         phone_number: "",
         city: "",
         state: "",
@@ -100,7 +115,13 @@ class Settings extends React.Component {
         state: false,
         country: false,
         address: false,
-      }
+      },
+      professions: [],
+      // professions: {
+        gilad: true,
+        jason: false,
+        antoine: false,
+      // }
     }
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -140,11 +161,10 @@ class Settings extends React.Component {
       }  if (!this.state.address) {
         errors_required.address = true;
     }
-    this.setState({
-      ...errors_required
-    });
+    this.setState({errors_required: errors_required});
         return false;
-    } else {
+  }
+     else {
         return true;
     }
   }
@@ -153,15 +173,99 @@ class Settings extends React.Component {
     const target = event.target;
     const value = target.value;
     const name = target.name;
+    const errors = this.state.errors;
+
+    switch (name) {
+      case "name":
+          errors.name =
+              value.length < 8
+                  ? "Full Name must be 8 characters long!"
+                  : "";
+          break;
+      case "email":
+          errors.email = validEmailRegex.test(value)
+              ? ""
+              : "Email is not valid!";
+          break;
+      case "cep":
+          errors.cep =
+              validPostalCodeRegexCA.test(value) ||
+              validPostalCodeRegexBR.test(value)
+                  ? ""
+                  : "You must enter a Canadian or Brazilian Postal Code!";
+          break;
+          case "phone_number":
+          errors.phone_number =
+          validPhoneNumber.test(value)
+                  ? ""
+                  : "Phone Number should contain only number";
+          break;
+      case "password":
+          errors.password =
+              value.length < 8
+                  ? "Password must be 8 characters long!"
+                  : "";
+          break;
+      case "confirm_password":
+          errors.confirm_password =
+              value == this.state.password
+                  ? ""
+                  : "The passwords doesn't match";
+          break;
+      default:
+          break;
+  } 
+
+  this.setState({ errors, [name]: value });
 
     this.setState({
         [name]: value
       });
   }
 
+  handleChangeCheckbox = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleChangeSelect = name => event => {
+    this.setState({
+     country: event.target.value,
+    });
+  };
+
+  componentDidMount() {
+    this._isMounted = true;
+
+    axios.get("/api/occupations").then(response => {
+        if (this._isMounted) {
+          console.log(response.data);
+          
+          this.setState({
+            professions: response.data.map(suggestion => ({
+                value: suggestion.occupation,
+                label: suggestion.occupation
+            }))})
+
+          const professions_html = response.data.map((profession)=>{
+            return (
+                // <div className="form-group">
+                    <FormControlLabel
+                    control={
+                      <Checkbox checked={this.state.professions.profession} onChange={this.handleChangeCheckbox(profession)} value={profession} />
+                    }
+                    label={profession}
+                  />
+                // </div>
+            );
+          });
+        }
+    });
+}
+
   updateProfile(event) {
     const token = localStorage.getItem('token');
     const formData = new FormData();
+    formData.append("name", this.state.name);
     formData.append("email", this.state.email);
     formData.append("cep", this.state.cep);
     formData.append("password", this.state.password);
@@ -184,18 +288,12 @@ class Settings extends React.Component {
     }
   }
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
   render() {
     const {
       errors,
       errors_required,
     } = this.state;
-    const { classes, user } = this.props;
+    const { classes, user, t } = this.props;
 
     return (
       // <form className={classes.container} noValidate autoComplete="off" onSubmit={e => this.updateProfile(e)}>
@@ -206,7 +304,7 @@ class Settings extends React.Component {
           label="Name"
           className={classes.textField}
           value={this.state.name}
-          onChange={this.handleChange('name')}
+          // onChange={this.handleChange('name')}
           margin="normal"
           variant="outlined"
           onChange={this.handleInputChange}
@@ -215,7 +313,8 @@ class Settings extends React.Component {
         <TextField
           required
           error={this.state.errors_required.name}
-          id="nome"
+          id="name"
+          name="name"
           label="Full Name"
           defaultValue={user.name}
           className={classes.textField}
@@ -223,10 +322,15 @@ class Settings extends React.Component {
           variant="outlined"
           onChange={this.handleInputChange}
         />
-
+          {errors.name.length > 0 && (
+            <span className={classes.error}>
+            {t("register.fullname_error")}
+            </span>
+          )}
         <TextField
           disabled
           id="email"
+          name="email"
           label="Email"
           defaultValue={user.email}
           className={classes.textField}
@@ -239,6 +343,7 @@ class Settings extends React.Component {
           required
           error={this.state.errors_required.cep}
           id="cep"
+          name="cep"
           label="CEP"
           defaultValue={user.postal_code}
           className={classes.textField}
@@ -246,11 +351,19 @@ class Settings extends React.Component {
           variant="outlined"
           onChange={this.handleInputChange}
         />
+        {errors.cep.length > 0 && (
+          <span className="error">
+              {i18n.language == "pt-BR"
+                  ? t("register.postal_codeBR")
+                  : t("register.postal_codeCA")}
+          </span>
+        )}
 
         <TextField
           required
           error={this.state.errors_required.password}
           id="password"
+          name="password"
           label="Password"
           className={classes.textField}
           type="password"
@@ -259,6 +372,12 @@ class Settings extends React.Component {
           variant="outlined"
           onChange={this.handleInputChange}
         />
+
+        {errors.password.length > 0 && (
+          <span className="error">
+              {t("register.password_set")}
+          </span>
+        )}
 
         <TextField
           required
@@ -273,6 +392,12 @@ class Settings extends React.Component {
           onChange={this.handleInputChange}
         />
 
+        {errors.confirm_password.length > 0 && (
+            <span className="error">
+                {t("register.confirm_password_error")}
+            </span>
+        )}
+
         <TextField
           required
           error={this.state.errors_required.phone_number}
@@ -286,11 +411,18 @@ class Settings extends React.Component {
           onChange={this.handleInputChange}
         />
 
+        {errors.phone_number.length > 0 && (
+            <span className="error">
+                {t("register.phone_number_error")}
+            </span>
+        )}
+
         <TextField
           required
           error={this.state.errors_required.address}
           id="address"
           label="Address"
+          name="address"
           defaultValue=""
           className={user.address}
           margin="normal"
@@ -303,6 +435,7 @@ class Settings extends React.Component {
           error={this.state.errors_required.city}
           id="city"
           label="City"
+          name="city"
           defaultValue={user.city}
           className={classes.textField}
           margin="normal"
@@ -315,6 +448,7 @@ class Settings extends React.Component {
           error={this.state.errors_required.state}
           id="state"
           label="State"
+          name="state"
           defaultValue={user.state}
           className={classes.textField}
           margin="normal"
@@ -322,223 +456,80 @@ class Settings extends React.Component {
           onChange={this.handleInputChange}
         />
 
-        <TextField
+        {/* <TextField
           required
           error={this.state.errors_required.country}
           id="country"
           label="Country"
+          name="country"
           defaultValue={user.country}
           className={classes.textField}
           margin="normal"
           variant="outlined"
           onChange={this.handleInputChange}
+        /> */}
+        <InputLabel htmlFor="Country">Country*</InputLabel>
+        <Select
+            required
+            error={this.state.errors_required.country}
+            native
+            value={this.state.country}
+            onChange={this.handleChangeSelect('country')}
+            inputProps={{
+              name: 'country',
+              id: 'country',
+            }}
+          >
+            <option value="" />
+            <option value={'Brazil'}>Brazil</option>
+            <option value={'Canada'}>Canada</option>
+            <option value={'US'}>US</option>
+          </Select>
+          <TextField
+          id="outlined-adornment-amount"
+          className={classNames(classes.margin, classes.textField)}
+          variant="outlined"
+          label="Hourly Rate"
+          value={this.state.amount}
+          onChange={this.handleInputChange}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">{this.state.country == 'Brazil' ? currencies[0].label : this.state.country == 'Canada' ? currencies[1].label : currencies[2].label }</InputAdornment>,
+          }}
         />
-
+          <FormLabel component="legend">What do you want to work with?</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox checked={this.state.gilad} onChange={this.handleChangeCheckbox('gilad')} value="gilad" />
+              }
+              label="Agent"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox checked={this.state.jason} onChange={this.handleChangeCheckbox('jason')} value="jason" />
+              }
+              label="HandyMate"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={this.state.antoine}
+                  onChange={this.handleChangeCheckbox('antoine')}
+                  value="Bartender"
+                />
+              }
+              label="Antoine Llorca"
+            />
+            {this.professions_html}
+          </FormGroup>
         <div>
           <Dropzone />
         </div>
-        {/* <button>Send data!</button> */}
-        {/* <Button variant="contained"  size="small" className={classes.button}> */}
 
         <Button variant="contained"  size="small" className={classes.button} onClick={e => this.updateProfile(e)}>
-        {/* This Button uses a Font Icon, see the installation instructions in the docs. */}
         <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />
         Save
-      </Button>
-
-    {/* <TextField
-      error
-      id="outlined-error"
-      label="Error"
-      defaultValue="Hello World"
-      className={classes.textField}
-      margin="normal"
-      variant="outlined"
-    />
-
-        <TextField
-          disabled
-          id="outlined-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-email-input"
-          label="Email"
-          className={classes.textField}
-          type="email"
-          name="email"
-          autoComplete="email"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          className={classes.textField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-dense"
-          label="Dense"
-          className={classNames(classes.textField, classes.dense)}
-          margin="dense"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Multiline"
-          multiline
-          rowsMax="4"
-          value={this.state.multiline}
-          onChange={this.handleChange('multiline')}
-          className={classes.textField}
-          margin="normal"
-          helperText="hello"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-multiline-static"
-          label="Multiline"
-          multiline
-          rows="4"
-          defaultValue="Default Value"
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-helperText"
-          label="Helper text"
-          defaultValue="Default Value"
-          className={classes.textField}
-          helperText="Some important text"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-with-placeholder"
-          label="With placeholder"
-          placeholder="Placeholder"
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-textarea"
-          label="Multiline Placeholder"
-          placeholder="Placeholder"
-          multiline
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-number"
-          label="Number"
-          value={this.state.age}
-          onChange={this.handleChange('age')}
-          type="number"
-          className={classes.textField}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-search"
-          label="Search field"
-          type="search"
-          className={classes.textField}
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Select"
-          className={classes.textField}
-          value={this.state.currency}
-          onChange={this.handleChange('currency')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your currency"
-          margin="normal"
-          variant="outlined"
-        >
-          {currencies.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="outlined-select-currency-native"
-          select
-          label="Native select"
-          className={classes.textField}
-          value={this.state.currency}
-          onChange={this.handleChange('currency')}
-          SelectProps={{
-            native: true,
-            MenuProps: {
-              className: classes.menu,
-            },
-          }}
-          helperText="Please select your currency"
-          margin="normal"
-          variant="outlined"
-        >
-          {currencies.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>
-        <TextField
-          id="outlined-full-width"
-          label="Label"
-          style={{ margin: 8 }}
-          placeholder="Placeholder"
-          helperText="Full width!"
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-        <TextField
-          id="outlined-bare"
-          className={classes.textField}
-          defaultValue="Bare"
-          margin="normal"
-          variant="outlined"
-        /> */}
+        </Button>
       </form>
     );
   }
@@ -560,4 +551,4 @@ const mapDispatchToProps = dispatch =>{ //receive the dispatch function as an ar
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Settings));
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles) (withTranslation("common")(Settings)));
