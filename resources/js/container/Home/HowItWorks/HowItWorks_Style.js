@@ -1,30 +1,14 @@
 export default theme => ({
     root: {
         flexGrow: 1,
-        marginTop: 40,
+        // marginTop: 40,
         marginLeft: 40,
         marginRight: 40
     },
     paper: {
         padding: theme.spacing.unit * 2,
-        textAlign: "center",
+        textAlign: "center"
         // backgroundColor: "grey"
-    },
-    grids: {
-        marginTop: 10
-    },
-    gridBlue: {
-        backgroundColor: "blue",
-        color: "blue"
-    },
-    gridRed: {
-        backgroundColor: "red"
-    },
-    gridYellow: {
-        backgroundColor: "yellow"
-    },
-    gridGreen: {
-        backgroundColor: "green"
     },
     photos: {
         // marginLeft: "10px"

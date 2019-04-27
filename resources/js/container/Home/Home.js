@@ -7,19 +7,20 @@ import Grid from "@material-ui/core/Grid";
 import HowItWorks from "./HowItWorks/HowItWorks";
 import Slogan from "./Cover/Slogan";
 import Suggestions from "./Cover/Suggestions";
+import Testimonials from "./Testimonials/Testimonials";
+import Footer from "./Footer/Footer";
 class Home extends React.Component {
     render() {
         return (
             <Aux>
-                <Grid container spacing={24}>
-                    <Grid item xs={12}>
-                        <Slogan />
-                        <Autocomplete />
-                        <Suggestions />
-                        <Cover />
-                    </Grid>
-                </Grid>
+                <Slogan />
+                <Autocomplete />
+                <Cover />
+                <Suggestions />
+
                 <HowItWorks />
+                <Testimonials />
+                <Footer />
             </Aux>
         );
     }
