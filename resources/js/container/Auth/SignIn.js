@@ -61,6 +61,13 @@ class SignIn extends React.Component {
         event.preventDefault();
         this.props.onSign(this.state.email, this.state.password);
     };
+  handleRegister = (event) => {
+    this.props.history.push('/register');
+  }
+
+  handleCheckboxChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
 
     handleSubmitSocial = event => {
         event.preventDefault();
@@ -74,7 +81,6 @@ class SignIn extends React.Component {
         if (this.props.auth) {
             authRedirect = <Redirect to="/postjob_profile" />;
         }
-
         return (
             <main className={classes.main}>
                 {authRedirect}

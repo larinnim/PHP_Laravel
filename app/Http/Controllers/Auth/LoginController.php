@@ -135,7 +135,7 @@ class LoginController extends Controller
      */
     protected function sendSuccessResponse($token)
     {
-        return redirect('/');
+        return redirect('/postjob_profile');
 
     }
     

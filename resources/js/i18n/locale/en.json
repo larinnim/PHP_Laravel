@@ -5,7 +5,8 @@
         "password_set": "Password must be eight characters in length",
         "confirm_password_error": "The passwords doesn't match",
         "password_updated": "Password Successfully Changed",
-        "token_email_invalid": "Token or Email are invalid"
+        "token_email_invalid": "Token or Email are invalid",
+        "phone_number_error": "Phone Number should contain only number"
       },
       "pricing": {
         "title": "Prix"
