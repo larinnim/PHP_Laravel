@@ -146,8 +146,6 @@ class Autocomplete extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
-
         axios.get("/api/occupations").then(response => {
             if (this._isMounted) {
                 this.setState({

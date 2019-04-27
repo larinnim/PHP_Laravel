@@ -91,6 +91,10 @@ class SignIn extends React.Component  {
     this.props.history.push('/recoverPass');
   }
 
+  handleRegister = (event) => {
+    this.props.history.push('/register');
+  }
+
   handleCheckboxChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
@@ -143,7 +147,14 @@ class SignIn extends React.Component  {
               control={<Checkbox value="remember" color="primary" checked={this.state.remember} onChange={this.handleCheckboxChange('remember')}/>}
               label="Remember me"
             />
-
+              <Link
+              type="button"
+              component="button"
+              variant="body2"
+              onClick={this.handleForgotPassword}
+            >
+               Don't have an account? Sign up
+            </Link>
             <Link
               type="button"
               component="button"
