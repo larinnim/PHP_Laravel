@@ -109695,8 +109695,8 @@ var updateObject = function updateObject(oldObject, updatedProperties) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/js/index.js */"./resources/js/index.js");
-module.exports = __webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/js/index.js */"./resources/js/index.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
 
 
 /***/ })
