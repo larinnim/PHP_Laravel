@@ -129,12 +129,12 @@ class SimpleModal extends React.Component {
       const remainder = (diffHours % 24) / 100;
       const days_slot = Moment(this.state.endDateTime).diff(Moment(this.state.startDateTime),'days');
 
-      if(remainder == 0){
+      // if(remainder == 0){
         console.log('E MULTIPLOO');
         for (var i=1; i <= days_slot; i++) {
           arrayDates.push(Moment(new Date(this.state.startDateTime)).add(i, 'd')._d);        
         } 
-      }
+      // }
      
 
       console.log(days_slot);
