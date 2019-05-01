@@ -105131,6 +105131,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20__);
 /* harmony import */ var _store_actions_actionTypes__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../../store/actions/actionTypes */ "./resources/js/store/actions/actionTypes.js");
 /* harmony import */ var _store_actions_index__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../../store/actions/index */ "./resources/js/store/actions/index.js");
+/* harmony import */ var _Settings_Style__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./Settings_Style */ "./resources/js/components/Navigation/Settings_Style.js");
+/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/Grid/index.js");
+/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -105174,6 +105177,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 var validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 var validPostalCodeRegexCA = RegExp(/([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i);
 var validPostalCodeRegexBR = RegExp(/^\d{5}-?\d{3}$/);
@@ -105188,39 +105193,15 @@ var validateForm = function validateForm(errors) {
 };
 
 var currencies = [{
-  value: 'BRL',
-  label: 'R$'
+  value: "BRL",
+  label: "R$"
 }, {
-  value: 'CAD',
-  label: 'CAD$'
+  value: "CAD",
+  label: "CAD$"
 }, {
-  value: 'USD',
-  label: 'USD$'
+  value: "USD",
+  label: "USD$"
 }];
-
-var styles = function styles(theme) {
-  return {
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap'
-    },
-    textField: {
-      marginLeft: theme.spacing.unit,
-      marginRight: theme.spacing.unit
-    },
-    dense: {
-      marginTop: 16
-    },
-    menu: {
-      width: 200
-    },
-    error: {
-      color: "#db2269",
-      marginTop: "5px",
-      display: "relative"
-    }
-  };
-};
 
 var Settings =
 /*#__PURE__*/
@@ -105292,7 +105273,7 @@ function (_React$Component) {
   _createClass(Settings, [{
     key: "handleEmptyForm",
     value: function handleEmptyForm() {
-      console.log('handling fromm');
+      console.log("handling fromm");
       var errors_required = this.state.errors_required;
 
       if (!this.state.name || !this.state.cep || !this.state.email || !this.state.password || !this.state.state || !this.state.country || !this.state.address || !this.state.phone_number) {
@@ -105424,7 +105405,7 @@ function (_React$Component) {
   }, {
     key: "updateProfile",
     value: function updateProfile(event) {
-      var token = localStorage.getItem('token');
+      var token = localStorage.getItem("token");
       var formData = new FormData();
       formData.append("name", this.state.name);
       formData.append("email", this.state.email);
@@ -105457,195 +105438,246 @@ function (_React$Component) {
           classes = _this$props.classes,
           user = _this$props.user,
           t = _this$props.t;
-      return (// <form className={classes.container} noValidate autoComplete="off" onSubmit={e => this.updateProfile(e)}>
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          className: classes.container,
-          noValidate: true,
-          autoComplete: "off"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          id: "outlined-name",
-          label: "Name",
-          className: classes.textField,
-          value: this.state.name // onChange={this.handleChange('name')}
-          ,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.name,
-          id: "name",
-          name: "name",
-          label: "Full Name",
-          defaultValue: user.name,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), errors.name.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: classes.error
-        }, t("register.fullname_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          disabled: true,
-          id: "email",
-          name: "email",
-          label: "Email",
-          defaultValue: user.email,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.cep,
-          id: "cep",
-          name: "cep",
-          label: "CEP",
-          defaultValue: user.postal_code,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), errors.cep.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "error"
-        }, _i18n_index__WEBPACK_IMPORTED_MODULE_11__["default"].language == "pt-BR" ? t("register.postal_codeBR") : t("register.postal_codeCA")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.password,
-          id: "password",
-          name: "password",
-          label: "Password",
-          className: classes.textField,
-          type: "password",
-          autoComplete: "current-password",
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), errors.password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "error"
-        }, t("register.password_set")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.confirm_password,
-          id: "confirm-password",
-          label: "Confirm Password",
-          className: classes.textField,
-          type: "password",
-          autoComplete: "current-password",
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), errors.confirm_password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "error"
-        }, t("register.confirm_password_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.phone_number,
-          id: "phone_number",
-          label: "Phone Number",
-          name: "phone_number",
-          defaultValue: user.phone_number,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), errors.phone_number.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "error"
-        }, t("register.phone_number_error")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.address,
-          id: "address",
-          label: "Address",
-          name: "address",
-          defaultValue: "",
-          className: user.address,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.city,
-          id: "city",
-          label: "City",
-          name: "city",
-          defaultValue: user.city,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          required: true,
-          error: this.state.errors_required.state,
-          id: "state",
-          label: "State",
-          name: "state",
-          defaultValue: user.state,
-          className: classes.textField,
-          margin: "normal",
-          variant: "outlined",
-          onChange: this.handleInputChange
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15___default.a, {
-          htmlFor: "Country"
-        }, "Country*"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14___default.a, {
-          required: true,
-          error: this.state.errors_required.country,
-          "native": true,
-          value: this.state.country,
-          onChange: this.handleChangeSelect('country'),
-          inputProps: {
-            name: 'country',
-            id: 'country'
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: ""
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: 'Brazil'
-        }, "Brazil"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: 'Canada'
-        }, "Canada"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: 'US'
-        }, "US")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          id: "outlined-adornment-amount",
-          className: classnames__WEBPACK_IMPORTED_MODULE_2___default()(classes.margin, classes.textField),
-          variant: "outlined",
-          label: "Hourly Rate",
-          value: this.state.amount,
-          onChange: this.handleInputChange,
-          InputProps: {
-            startAdornment: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13___default.a, {
-              position: "start"
-            }, this.state.country == 'Brazil' ? currencies[0].label : this.state.country == 'Canada' ? currencies[1].label : currencies[2].label)
-          }
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16___default.a, {
-          component: "legend"
-        }, "What do you want to work with?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
-          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
-            checked: this.state.gilad,
-            onChange: this.handleChangeCheckbox('gilad'),
-            value: "gilad"
-          }),
-          label: "Agent"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
-          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
-            checked: this.state.jason,
-            onChange: this.handleChangeCheckbox('jason'),
-            value: "jason"
-          }),
-          label: "HandyMate"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
-          control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
-            checked: this.state.antoine,
-            onChange: this.handleChangeCheckbox('antoine'),
-            value: "Bartender"
-          }),
-          label: "Antoine Llorca"
-        }), this.professions_html), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dropzone__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
-          variant: "contained",
-          size: "small",
-          className: classes.button,
-          onClick: function onClick(e) {
-            return _this3.updateProfile(e);
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Save__WEBPACK_IMPORTED_MODULE_9___default.a, {
-          className: classnames__WEBPACK_IMPORTED_MODULE_2___default()(classes.leftIcon, classes.iconSmall)
-        }), "Save"))
-      );
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: classes.grids
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: classes.root
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        container: true,
+        spacing: 40
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.name,
+        id: "name",
+        name: "name",
+        label: "Full Name",
+        defaultValue: user.name,
+        className: classes.textField,
+        margin: "normal",
+        variant: "filled",
+        onChange: this.handleInputChange
+      }), errors.name.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: classes.error
+      }, t("register.fullname_error"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        disabled: true,
+        id: "email",
+        name: "email",
+        label: "Email",
+        defaultValue: user.email,
+        className: classes.textField,
+        margin: "normal",
+        variant: "filled",
+        onChange: this.handleInputChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.password,
+        id: "password",
+        name: "password",
+        label: "Password",
+        className: classes.textField,
+        type: "password",
+        autoComplete: "current-password",
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      }), errors.password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "error"
+      }, t("register.password_set"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.confirm_password,
+        id: "confirm-password",
+        label: "Confirm Password",
+        className: classes.textField,
+        type: "password",
+        autoComplete: "current-password",
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      }), errors.confirm_password.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "error"
+      }, t("register.confirm_password_error"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 6
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.address,
+        id: "address",
+        label: "Address",
+        name: "address",
+        defaultValue: "",
+        className: classes.textField,
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.cep,
+        id: "cep",
+        name: "cep",
+        label: "CEP",
+        defaultValue: user.postal_code,
+        className: classes.textField,
+        margin: "normal",
+        variant: "filled",
+        onChange: this.handleInputChange
+      }), errors.cep.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "error"
+      }, _i18n_index__WEBPACK_IMPORTED_MODULE_11__["default"].language == "pt-BR" ? t("register.postal_codeBR") : t("register.postal_codeCA"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.city,
+        id: "city",
+        label: "City",
+        name: "city",
+        defaultValue: user.city,
+        className: classes.textField,
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.state,
+        id: "state",
+        label: "State",
+        name: "state",
+        defaultValue: user.state,
+        className: classes.textField,
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_15___default.a, {
+        htmlFor: "Country"
+      }, "Country* "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_14___default.a, {
+        className: classes.textField,
+        required: true,
+        error: this.state.errors_required.country,
+        "native": true,
+        value: this.state.country,
+        onChange: this.handleChangeSelect("country"),
+        inputProps: {
+          name: "country",
+          id: "country"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Brazil"
+      }, "Brazil"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Canada"
+      }, "Canada"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "US"
+      }, "US"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        required: true,
+        error: this.state.errors_required.phone_number,
+        id: "phone_number",
+        label: "Phone Number",
+        name: "phone_number",
+        defaultValue: user.phone_number,
+        className: classes.textField,
+        margin: "normal",
+        variant: "outlined",
+        onChange: this.handleInputChange
+      }), errors.phone_number.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "error"
+      }, t("register.phone_number_error"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TextField__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        margin: "normal",
+        className: classes.textField,
+        id: "outlined-adornment-amount",
+        variant: "outlined",
+        label: "Hourly Rate",
+        value: this.state.amount,
+        onChange: this.handleInputChange,
+        InputProps: {
+          startAdornment: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputAdornment__WEBPACK_IMPORTED_MODULE_13___default.a, {
+            position: "start"
+          }, this.state.country == "Brazil" ? currencies[0].label : this.state.country == "Canada" ? currencies[1].label : currencies[2].label)
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 6
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormLabel__WEBPACK_IMPORTED_MODULE_16___default.a, {
+        component: "legend",
+        margin: "normal"
+      }, "What do you want to work with?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormGroup__WEBPACK_IMPORTED_MODULE_18___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+        control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+          checked: this.state.gilad,
+          onChange: this.handleChangeCheckbox("gilad"),
+          value: "gilad"
+        }),
+        label: "Agent"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+        control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+          checked: this.state.jason,
+          onChange: this.handleChangeCheckbox("jason"),
+          value: "jason"
+        }),
+        label: "HandyMate"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_FormControlLabel__WEBPACK_IMPORTED_MODULE_19___default.a, {
+        control: react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_20___default.a, {
+          checked: this.state.antoine,
+          onChange: this.handleChangeCheckbox("antoine"),
+          value: "Bartender"
+        }),
+        label: "Antoine Llorca"
+      }), this.professions_html)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Dropzone__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_24___default.a, {
+        item: true,
+        xs: 12,
+        md: 3
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        variant: "contained",
+        size: "small",
+        className: classes.button,
+        onClick: function onClick(e) {
+          return _this3.updateProfile(e);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Save__WEBPACK_IMPORTED_MODULE_9___default.a, {
+        className: classnames__WEBPACK_IMPORTED_MODULE_2___default()(classes.leftIcon, classes.iconSmall)
+      }), "Save")))));
     }
   }]);
 
@@ -105672,7 +105704,46 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["withStyles"])(styles)(Object(react_i18next__WEBPACK_IMPORTED_MODULE_12__["withTranslation"])("common")(Settings))));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_7__["connect"])(mapStateToProps, mapDispatchToProps)(Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_3__["withStyles"])(_Settings_Style__WEBPACK_IMPORTED_MODULE_23__["default"])(Object(react_i18next__WEBPACK_IMPORTED_MODULE_12__["withTranslation"])("common")(Settings))));
+
+/***/ }),
+
+/***/ "./resources/js/components/Navigation/Settings_Style.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Navigation/Settings_Style.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (function (theme) {
+  return {
+    // container: {
+    //     display: "flex",
+    //     flexWrap: "wrap",
+    //     marginTop: 200
+    // },
+    // textField: {
+    //     marginLeft: theme.spacing.unit,
+    //     marginRight: theme.spacing.unit,
+    // },
+    // dense: {
+    //     marginTop: 16
+    // },
+    // menu: {
+    //     width: 100
+    // },
+    root: {
+      display: "flex",
+      flexWrap: "wrap",
+      marginTop: 150
+    },
+    textField: {
+      width: "100%"
+    }
+  };
+});
 
 /***/ }),
 
@@ -106254,11 +106325,11 @@ var drawerWidth = 240;
 var styles = function styles(theme) {
   return {
     root: {
-      display: 'flex'
+      display: "flex"
     },
     appBar: {
       top: 60,
-      transition: theme.transitions.create(['margin', 'width'], {
+      transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       })
@@ -106266,18 +106337,18 @@ var styles = function styles(theme) {
     appBarShift: {
       width: "calc(100% - ".concat(drawerWidth, "px)"),
       marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
+      transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       })
     },
     menuButton: {
-      margin: 'auto' // marginLeft: 12,
+      margin: "auto" // marginLeft: 12,
       // marginRight: 20,
 
     },
     hide: {
-      display: 'none'
+      display: "none"
     },
     drawer: {
       width: drawerWidth,
@@ -106288,16 +106359,16 @@ var styles = function styles(theme) {
       width: drawerWidth
     },
     drawerHeader: _objectSpread({
-      display: 'contents',
-      alignItems: 'center',
-      padding: '0 8px'
+      display: "contents",
+      alignItems: "center",
+      padding: "0 8px"
     }, theme.mixins.toolbar, {
-      justifyContent: 'flex-end'
+      justifyContent: "flex-end"
     }),
     content: {
       flexGrow: 1,
       padding: theme.spacing.unit * 3,
-      transition: theme.transitions.create('margin', {
+      transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
@@ -106307,8 +106378,8 @@ var styles = function styles(theme) {
       marginLeft: 20
     },
     multilineColor: {
-      color: 'white',
-      fontSize: 'x-large'
+      color: "white",
+      fontSize: "x-large"
     },
     number_circle: {
       background: "#f50057 ",
@@ -106341,13 +106412,13 @@ var styles = function styles(theme) {
       backgroundColor: "#f50057",
       cursor: "pointer",
       outline: "none",
-      textAlign: 'center'
+      textAlign: "center"
     },
     make_uppercase: {
       textTransform: "capitalize"
     },
     contentShift: {
-      transition: theme.transitions.create('margin', {
+      transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       }),
@@ -106425,15 +106496,15 @@ function (_React$Component) {
         show: false
       }],
       user: [{
-        name: '',
+        name: "",
         post_job: false,
         mate: false,
-        email: '',
-        postal_code: '',
-        address: '',
-        city: '',
-        country: '',
-        phone_number: ''
+        email: "",
+        postal_code: "",
+        address: "",
+        city: "",
+        country: "",
+        phone_number: ""
       }]
     };
     return _this;
@@ -106441,35 +106512,36 @@ function (_React$Component) {
 
   _createClass(SidebarWhenLogged, [{
     key: "renderSwitch",
-    value: function renderSwitch(param) {
+    value: function renderSwitch(param, style) {
       switch (param.name) {
-        case 'Profile':
-          return 'Profile';
+        case "Profile":
+          return "Profile";
 
-        case 'Messages':
-          return 'Messages';
+        case "Messages":
+          return "Messages";
 
-        case 'Settings':
+        case "Settings":
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Navigation_Settings__WEBPACK_IMPORTED_MODULE_26__["default"], {
             key: param.id,
-            user: this.state.user
+            user: this.state.user,
+            className: style
           });
         // return <Settings key={param.id} />;
         // return 'Settings';
 
-        case 'Calendar':
+        case "Calendar":
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Navigation_Calendar__WEBPACK_IMPORTED_MODULE_25__["default"], {
             key: param.id
           });
         // return <Calendar key={param.id} />;
         // return 'Calendar';
 
-        case 'Logout':
-          window.location = '/logout';
+        case "Logout":
+          window.location = "/logout";
         // return 'Logout';
 
         default:
-          return 'Profile';
+          return "Profile";
       }
     }
   }, {
@@ -106490,7 +106562,7 @@ function (_React$Component) {
       //       }
       //      });
 
-      axios__WEBPACK_IMPORTED_MODULE_33___default.a.get('/api/userInfo/' + this.props.token).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_33___default.a.get("/api/userInfo/" + this.props.token).then(function (response) {
         var user = response.data.user;
         var post_job_value = user.post_job ? true : false;
         var mate_value = user.mate ? true : false;
@@ -106552,20 +106624,20 @@ function (_React$Component) {
         className: classes.drawerHeader
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_11___default.a, {
         onClick: this.handleDrawerClose
-      }, theme.direction === 'ltr' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ChevronLeft__WEBPACK_IMPORTED_MODULE_13___default.a, null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ChevronRight__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_31___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_32___default.a, {
+      }, theme.direction === "ltr" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ChevronLeft__WEBPACK_IMPORTED_MODULE_13___default.a, null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_ChevronRight__WEBPACK_IMPORTED_MODULE_14___default.a, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Card__WEBPACK_IMPORTED_MODULE_31___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CardMedia__WEBPACK_IMPORTED_MODULE_32___default.a, {
         src: "profile.jpg",
         className: classes.margin_left_sidebar
       }, user.avatar ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: user.avatar,
         style: {
           borderRadius: 100,
-          width: '50%'
+          width: "50%"
         }
       }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: _img_profile_jpg__WEBPACK_IMPORTED_MODULE_30___default.a,
         style: {
           borderRadius: 100,
-          width: '50%'
+          width: "50%"
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: classes.make_uppercase
@@ -108743,6 +108815,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_icons_Inbox__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Inbox__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var _material_ui_icons_Drafts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/icons/Drafts */ "./node_modules/@material-ui/icons/Drafts.js");
 /* harmony import */ var _material_ui_icons_Drafts__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Drafts__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core/Hidden */ "./node_modules/@material-ui/core/Hidden/index.js");
+/* harmony import */ var _material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12__);
+
 
 
 
@@ -108785,7 +108860,9 @@ function Footer(props) {
       primary: classes.listItemText
     },
     primary: "About"
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    only: ["xs", "sm"]
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
     component: "nav"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_ListItem__WEBPACK_IMPORTED_MODULE_6___default.a, {
     className: classes.gridItemStyle
@@ -108811,7 +108888,7 @@ function Footer(props) {
     href: "/",
     color: "inherit",
     className: classes.sublistItemText
-  }, "Mission")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "Mission"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
     item: true,
     xs: 4,
     md: 4,
@@ -108825,7 +108902,9 @@ function Footer(props) {
       primary: classes.listItemText
     },
     primary: "Support"
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    only: ["xs", "sm"]
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
     component: "nav"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_ListItem__WEBPACK_IMPORTED_MODULE_6___default.a, {
     className: classes.gridItemStyle
@@ -108845,7 +108924,7 @@ function Footer(props) {
     href: "/",
     color: "inherit",
     className: classes.sublistItemText
-  }, "Report a Problem")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "Report a Problem"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
     item: true,
     xs: 4,
     md: 4,
@@ -108859,7 +108938,9 @@ function Footer(props) {
       primary: classes.listItemText
     },
     primary: "Contact"
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Divider__WEBPACK_IMPORTED_MODULE_9___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Hidden__WEBPACK_IMPORTED_MODULE_12___default.a, {
+    only: ["xs", "sm"]
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_List__WEBPACK_IMPORTED_MODULE_5___default.a, {
     component: "nav"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_ListItem__WEBPACK_IMPORTED_MODULE_6___default.a, {
     className: classes.gridItemStyle
@@ -108873,7 +108954,7 @@ function Footer(props) {
     href: "/",
     color: "inherit",
     className: classes.sublistItemText
-  }, "Chat")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
+  }, "Chat"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
     item: true,
     xs: 12,
     className: classes.gridItemStyle
@@ -109166,7 +109247,8 @@ function HowItWorks(props) {
     className: classes.root
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     container: true,
-    spacing: 40
+    spacing: 40,
+    align: "center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4___default.a, {
     item: true,
     xs: 12,
@@ -109702,7 +109784,8 @@ function Testimonials(props) {
     className: classes.root
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
     container: true,
-    spacing: 40
+    spacing: 40,
+    align: "center"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3___default.a, {
     item: true,
     xs: 12,
@@ -110595,8 +110678,8 @@ var updateObject = function updateObject(oldObject, updatedProperties) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/js/index.js */"./resources/js/index.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/React_tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
+__webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/js/index.js */"./resources/js/index.js");
+module.exports = __webpack_require__(/*! /Users/arinamoraes/Desktop/React_Tarefazz/resources/sass/index.scss */"./resources/sass/index.scss");
 
 
 /***/ })

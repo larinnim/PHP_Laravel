@@ -10,6 +10,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
+import Hidden from "@material-ui/core/Hidden";
 // import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 function Footer(props) {
@@ -31,44 +32,46 @@ function Footer(props) {
                             </ListItem>
                         </List>
                         <Divider />
-                        <List component="nav">
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Testimonials
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    About Us
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    How To Use
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Mission
-                                </a>
-                            </ListItem>
-                        </List>
+                        <Hidden only={["xs", "sm"]}>
+                            <List component="nav">
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Testimonials
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        About Us
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        How To Use
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Mission
+                                    </a>
+                                </ListItem>
+                            </List>
+                        </Hidden>
                     </Grid>
 
                     <Grid item xs={4} md={4} className={classes.gridItemStyle}>
@@ -81,35 +84,37 @@ function Footer(props) {
                             </ListItem>
                         </List>
                         <Divider />
-                        <List component="nav">
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Terms Of Service
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Privacy policy
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Report a Problem
-                                </a>
-                            </ListItem>
-                        </List>
+                        <Hidden only={["xs", "sm"]}>
+                            <List component="nav">
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Terms Of Service
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Privacy policy
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Report a Problem
+                                    </a>
+                                </ListItem>
+                            </List>
+                        </Hidden>
                     </Grid>
 
                     <Grid item xs={4} md={4} className={classes.gridItemStyle}>
@@ -122,26 +127,28 @@ function Footer(props) {
                             </ListItem>
                         </List>
                         <Divider />
-                        <List component="nav">
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Email Us
-                                </a>
-                            </ListItem>
-                            <ListItem className={classes.gridItemStyle}>
-                                <a
-                                    href="/"
-                                    color="inherit"
-                                    className={classes.sublistItemText}
-                                >
-                                    Chat
-                                </a>
-                            </ListItem>
-                        </List>
+                        <Hidden only={["xs", "sm"]}>
+                            <List component="nav">
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Email Us
+                                    </a>
+                                </ListItem>
+                                <ListItem className={classes.gridItemStyle}>
+                                    <a
+                                        href="/"
+                                        color="inherit"
+                                        className={classes.sublistItemText}
+                                    >
+                                        Chat
+                                    </a>
+                                </ListItem>
+                            </List>
+                        </Hidden>
                     </Grid>
                     <Grid item xs={12} className={classes.gridItemStyle}>
                         <h5 className={classes.footerFontStyle}>
