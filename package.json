@@ -22,13 +22,15 @@
         "react-dom": "^16.8.6",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.19.0",
-        "sass-loader": "^7.1.0"
+        "sass-loader": "^7.1.0",
+        "systemjs-plugin-json": "^0.3.0"
     },
     "dependencies": {
         "@babel/plugin-proposal-class-properties": "^7.4.0",
         "@material-ui/core": "^3.9.3",
         "@material-ui/icons": "^3.0.2",
         "autosuggest-highlight": "^3.1.1",
+        "cldr-data": "^35.1.0",
         "combine-reducers": "^1.0.0",
         "i18next": "^15.0.9",
         "i18next-browser-languagedetector": "^3.0.1",
