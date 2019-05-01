@@ -9,6 +9,7 @@ import Slogan from "./Cover/Slogan";
 import Suggestions from "./Cover/Suggestions";
 import Testimonials from "./Testimonials/Testimonials";
 import Footer from "./Footer/Footer";
+
 class Home extends React.Component {
     render() {
         return (
