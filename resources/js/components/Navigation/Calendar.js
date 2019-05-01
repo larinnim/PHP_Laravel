@@ -1,8 +1,8 @@
 import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import SimpleModalWrapped from '../Modal';
-
-import 'react-day-picker/lib/style.css';
+import { DateTimePicker } from 'react-widgets';
+import "react-day-picker/lib/style.css";
 
 const MONTHS = [
   'Gennaio',
@@ -28,8 +28,21 @@ const WEEKDAYS_LONG = [
   'Sabato',
 ];
 const WEEKDAYS_SHORT = ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'];
+const date = new Date();
+const date2 = date.setDate(date.getDate() + 1);
+console.log(date2);
+const modifiers = {
+  highlighted: new Date(2019, 4, 20),
+};
+// const highlighted = { 
+//   from: new Date(), 
+//   to: new Date(), 
+// }
 
-
+const birthdayStyle = `.DayPicker-Day--highlighted {
+  background-color: orange;
+  color: white;
+}`;
 
 export default class Calendar extends React.Component {
   constructor(props) {
@@ -55,16 +68,20 @@ export default class Calendar extends React.Component {
   render() {
     return (
       <div style={{marginTop:200}}>
+            <style>{birthdayStyle}</style>
+
         <DayPicker
-          locale='pt'
+          locale='pt-BR'
           selectedDays={this.state.selectedDays}
           onDayClick={this.handleDayClick}
           months={MONTHS}
           weekdaysLong={WEEKDAYS_LONG}
           weekdaysShort={WEEKDAYS_SHORT}
           firstDayOfWeek={1}
+          modifiers={modifiers}
         />
-        <SimpleModalWrapped/>
+        <SimpleModalWrapped onSelectDates={this.handleTimeSlot}/>
+       
       </div>
     );
   }
