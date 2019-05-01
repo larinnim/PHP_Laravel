@@ -28,11 +28,9 @@ const WEEKDAYS_LONG = [
   'Sabato',
 ];
 const WEEKDAYS_SHORT = ['Do', 'Lu', 'Ma', 'Me', 'Gi', 'Ve', 'Sa'];
-const date = new Date();
-const date2 = date.setDate(date.getDate() + 1);
-console.log(date2);
+
 const modifiers = {
-  highlighted: new Date(2019, 4, 20),
+  highlighted: [new Date(2019, 4, 20), new Date(2019, 4, 25)],
 };
 // const highlighted = { 
 //   from: new Date(), 
@@ -45,13 +43,27 @@ const birthdayStyle = `.DayPicker-Day--highlighted {
 }`;
 
 export default class Calendar extends React.Component {
+
   constructor(props) {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.state = {
       selectedDays: [],
+      // modalDates: {  **** DONT DELETE PUT THIS WHEN CONTRACT WITH USER ***
+      //   highlighted: []
+      // },
+      disabledDays: [],
     };
   }
+
+  getDatesfromChild = (value) => {
+    console.log(value);
+    this.setState({disabledDays: value});
+    // this.setState({ modalDates: { **** DONT DELETEEE
+    //   highlighted: value
+    // }});
+  }
+
   handleDayClick(day, { selected }) {
     const { selectedDays } = this.state;
     if (selected) {
@@ -78,9 +90,12 @@ export default class Calendar extends React.Component {
           weekdaysLong={WEEKDAYS_LONG}
           weekdaysShort={WEEKDAYS_SHORT}
           firstDayOfWeek={1}
-          modifiers={modifiers}
+          disabledDays={this.state.disabledDays}
+          // disabledDays={this.state.modalDates}
+          // modifiers={this.state.modalDates}
+          // modifiers={modifiers}
         />
-        <SimpleModalWrapped onSelectDates={this.handleTimeSlot}/>
+        <SimpleModalWrapped getDate={this.getDatesfromChild}/>
        
       </div>
     );

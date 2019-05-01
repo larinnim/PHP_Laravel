@@ -88,7 +88,7 @@ const styles = theme => ({
 class SimpleModal extends React.Component {
   state = {
     open: false,
-    availableSwitch: true,
+    availableSwitch: false,
     timeStatus: true,
     startDateTime: new Date(),
     endDateTime: '',
@@ -96,8 +96,8 @@ class SimpleModal extends React.Component {
 
   handleSwitch = name => event => {
     this.setState({ 
-      timeStatus: false,
-      availableSwitch: false
+      timeStatus: !this.state.timeStatus,
+      availableSwitch: !this.state.availableSwitch
     });
   };
 
@@ -119,17 +119,34 @@ class SimpleModal extends React.Component {
   }
 
   handleTimeSlot = () => {
-    console.log('hi');
-    const days_slot = Moment(this.state.endDateTime).diff(Moment(this.state.startDateTime),'days');
-    for (var i=1; i <= days_slot; i++) {
-      this.props.onSelectLanguage(lang);            
-      console.log(Moment(new Date(this.state.startDateTime)).add(i, 'd')._d);
-    } 
+    const arrayDates = [];
+    arrayDates.push(Moment(new Date(this.state.startDateTime))._d);        
+    if(!this.state.endDateTime || this.state.endDateTime == this.state.startDateTime){
+      this.props.getDate(arrayDates);
+    }
+    else {
+      const diffHours = Moment(this.state.endDateTime).diff(Moment(this.state.startDateTime),'hours');
+      const remainder = (diffHours % 24) / 100;
+      const days_slot = Moment(this.state.endDateTime).diff(Moment(this.state.startDateTime),'days');
+
+      if(remainder == 0){
+        console.log('E MULTIPLOO');
+        for (var i=1; i <= days_slot; i++) {
+          arrayDates.push(Moment(new Date(this.state.startDateTime)).add(i, 'd')._d);        
+        } 
+      }
+     
+
+      console.log(days_slot);
+      console.log(Moment(this.state.endDateTime).diff(Moment(this.state.startDateTime),'hours'))
+      
+      this.props.getDate(arrayDates);
+    }
   }
   
   render() {
     const { classes } = this.props;
-    const { timeStatus , minEndDate} = this.state;
+    const { timeStatus , minEndDate, dates} = this.state;
 
     return (
       <div>
@@ -179,7 +196,7 @@ class SimpleModal extends React.Component {
                 defaultValue={new Date()}
                 onChange={this.handlePickerEnd()}
                 min={new Date()}
-                time={true}
+                time={timeStatus}
               />
             </div>
             <Button size="small" onClick={this.handleTimeSlot}>
