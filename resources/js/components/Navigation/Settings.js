@@ -94,12 +94,29 @@ class Settings extends React.Component {
             },
             checkbox_professions:{},
             professions: [],
+            hourly_amount: [],
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleHourlyInputChange = this.handleHourlyInputChange.bind(this);
+    }
+
+    handleEmptyHour() {
+        let valid = true;
+        let hourly = this.state.hourly_amount;
+        let checkbox_var = this.state.checkbox_professions;
+
+        Object.keys(this.state.checkbox_professions).forEach(function(item, index) {
+            if(checkbox_var[item] && !hourly[item]){
+                valid = false
+            }
+        });
+
+        console.log('ITS' + valid);
+        return valid;
     }
 
     handleEmptyForm() {
-        console.log("handling fromm");
+
         let errors_required = this.state.errors_required;
 
         if (
@@ -153,6 +170,19 @@ class Settings extends React.Component {
         } else {
             return true;
         }
+    }
+
+    handleHourlyInputChange(event){
+        const target = event.target;
+        const value = target.value;
+        const id = target.id;
+
+        this.setState(prevState => ({
+            hourly_amount: {
+                ...prevState.hourly_amount,
+                [id]: value
+            }
+        }));
     }
 
     handleInputChange(event) {
@@ -271,11 +301,14 @@ class Settings extends React.Component {
             if (this._isMounted) {
                 console.log(response.data);
                 const checkbox_professions = [];
+                const hourly_amount = [];
                 this.setState({ professions: response.data });
                 this.state.professions.map((profession,index) => (
-                    checkbox_professions[profession.occupation] = false
+                    checkbox_professions[profession.occupation] = false,
+                    hourly_amount[profession.occupation] = ''
                 ));
                 this.setState({ checkbox_professions: checkbox_professions });
+                this.setState({ hourly_amount: hourly_amount });
             }
         });
     }
@@ -303,8 +336,11 @@ class Settings extends React.Component {
                             id={profession.occupation}
                             variant="outlined"
                             label={"Hourly Rate " + profession.occupation}
-                            value={this.state.amount}
-                            onChange={this.handleInputChange}
+                            // value={this.state.hourly_amount[profession.occupation]}
+                            // name={this.state.hourly_amount[profession.occupation]}
+                            // onChange={this.handleInputChange}
+                            onChange={this.handleHourlyInputChange}
+
                             type="number"
                             InputProps={{
                                 startAdornment: (
@@ -336,7 +372,7 @@ class Settings extends React.Component {
         formData.append("country", this.state.country);
         formData.append("address", this.state.address);
 
-        if (validateForm(this.state.errors) && this.handleEmptyForm()) {
+        if (validateForm(this.state.errors) && this.handleEmptyForm() && this.handleEmptyHour()) {
             axios
                 .post("/api/updateProfile/" + token, formData)
                 .then(response => {
