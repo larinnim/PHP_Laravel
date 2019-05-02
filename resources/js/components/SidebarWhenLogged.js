@@ -29,6 +29,7 @@ import Radio from "@material-ui/core/Radio";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import profilePicture from "../../img/profile.jpg";
+import Dropzone from './Dropzone';
 
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -319,21 +320,23 @@ class SidebarWhenLogged extends React.Component {
                       style={{ borderRadius: 100 }}
                   /> */}
                                 {user.avatar ? (
-                                    <img
-                                        src={user.avatar}
-                                        style={{
-                                            borderRadius: 100,
-                                            width: "50%"
-                                        }}
-                                    />
+                                    // <img
+                                    //     src={user.avatar}
+                                    //     style={{
+                                    //         borderRadius: 100,
+                                    //         width: "50%"
+                                    //     }}
+                                    // />
+                                    <Dropzone srcImage={user.avatar}/>
                                 ) : (
-                                    <img
-                                        src={profilePicture}
-                                        style={{
-                                            borderRadius: 100,
-                                            width: "50%"
-                                        }}
-                                    />
+                                    // <img
+                                    //     src={profilePicture}
+                                    //     style={{
+                                    //         borderRadius: 100,
+                                    //         width: "50%"
+                                    //     }}
+                                    // />
+                                    <Dropzone srcImage={profilePicture}/>
                                 )}
                                 <p className={classes.make_uppercase}>
                                     {user.name}
