@@ -8,6 +8,7 @@ use App\OccupationUser;
 use App\Occupation;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller
 {
@@ -35,31 +36,25 @@ class UserController extends Controller
                 ]);    
             }
         }
-
-
-        \Log::alert($arr_hourly_price);
-        
-        \Log::alert($request->all());
      
+        $postal_code_var = str_replace("-", "", $request['cep']);
 
         $user->name = $request['name'];
         $user->email = $request['email'];
-        $user->postal_code = $request['cep'];
+        $user->postal_code = $postal_code_var;
         $user->address = $request['address'];
         $user->city = $request['city'];
         $user->state = $request['state'];  
         $user->country = $request['country'];  
         $user->phone_number = $request['phone_number'];  
+
         $key = getenv('GOOGLE_API');
-        $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?key=".$key."&address=".$request['cep']);
-        \Log::alert("https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".$request['cep']."&key=".$key);
-
+        $location = urlencode($postal_code_var);
+        $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$postal_code_var."&key=".$key);
         $output= json_decode($geocode);
-        \Log::alert($geocode);
-        // \Log::alert(json_decode($geocode));
-
         $user->latitude = $output->results[0]->geometry->location->lat;
         $user->longitude  = $output->results[0]->geometry->location->lng;
+        
         $user->save();
 
       
