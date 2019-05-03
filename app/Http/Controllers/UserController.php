@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\OccupationUser;
+use App\Occupation;
 use Auth;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -17,9 +20,28 @@ class UserController extends Controller
 
     public function updateProfile(Request $request, $token)
     {
+        $occupation_user = new OccupationUser;
         $user = User::where('token','=',$token)->first();
+
+        $arr_hourly_price = (array) json_decode($request['hourly_amount'],true);
+        
+        foreach ($arr_hourly_price as $key => $value) {
+            $occupation = Occupation::where('occupation','=',$key)->first();
+            if($value){
+                OccupationUser::updateOrCreate([
+                    'occupation_id' => $occupation->id,
+                    'user_id'  => $user->id,
+                    'price' => $value,
+                ]);    
+            }
+        }
+
+
+        \Log::alert($arr_hourly_price);
         
         \Log::alert($request->all());
+     
+
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->postal_code = $request['cep'];
@@ -29,12 +51,18 @@ class UserController extends Controller
         $user->country = $request['country'];  
         $user->phone_number = $request['phone_number'];  
         $key = getenv('GOOGLE_API');
-        $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".$request['cep']."&key=".$key);
+        $geocode = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?key=".$key."&address=".$request['cep']);
+        \Log::alert("https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=".$request['cep']."&key=".$key);
+
         $output= json_decode($geocode);
+        \Log::alert($geocode);
+        // \Log::alert(json_decode($geocode));
+
         $user->latitude = $output->results[0]->geometry->location->lat;
         $user->longitude  = $output->results[0]->geometry->location->lng;
         $user->save();
 
+      
 
     }
 }

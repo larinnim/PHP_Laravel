@@ -90,7 +90,8 @@ class Settings extends React.Component {
                 city: false,
                 state: false,
                 country: false,
-                address: false
+                address: false,
+                hourly_error: []
             },
             checkbox_professions:{},
             professions: [],
@@ -105,13 +106,22 @@ class Settings extends React.Component {
         let hourly = this.state.hourly_amount;
         let checkbox_var = this.state.checkbox_professions;
 
+        let hourly_empty = this.state.errors_required.hourly_error;
+
         Object.keys(this.state.checkbox_professions).forEach(function(item, index) {
             if(checkbox_var[item] && !hourly[item]){
+                hourly_empty[item] = true;
                 valid = false
             }
         });
 
-        console.log('ITS' + valid);
+        this.setState(prevState => ({
+            errors_required: {
+                ...prevState.errors_required,
+                hourly_error: hourly_empty
+            }
+        }));
+
         return valid;
     }
 
@@ -176,11 +186,20 @@ class Settings extends React.Component {
         const target = event.target;
         const value = target.value;
         const id = target.id;
+        let hourly_error = this.state.errors_required.hourly_error;
+        hourly_error[id] = false;
 
         this.setState(prevState => ({
             hourly_amount: {
                 ...prevState.hourly_amount,
                 [id]: value
+            }
+        }));
+
+       this.setState(prevState => ({
+            errors_required: {
+                ...prevState.errors_required,
+                hourly_error: hourly_error
             }
         }));
     }
@@ -278,8 +297,6 @@ class Settings extends React.Component {
         const checkbox_professions = this.state.checkbox_professions;
         checkbox_professions[name] = event.target.checked;
         this.setState({ checkbox_professions: checkbox_professions });
-
-        // this.setState({ [name]: event.target.checked });
     };
 
     handleChangeSelect = name => event => {
@@ -300,15 +317,23 @@ class Settings extends React.Component {
         axios.get("/api/occupations").then(response => {
             if (this._isMounted) {
                 console.log(response.data);
-                const checkbox_professions = [];
+                const var_checkbox_professions = [];
                 const hourly_amount = [];
+                const var_hourly_error = [];
                 this.setState({ professions: response.data });
                 this.state.professions.map((profession,index) => (
-                    checkbox_professions[profession.occupation] = false,
-                    hourly_amount[profession.occupation] = ''
+                    var_checkbox_professions[profession.occupation] = false,
+                    hourly_amount[profession.occupation] = '',
+                    var_hourly_error[profession.occupation] = false
                 ));
-                this.setState({ checkbox_professions: checkbox_professions });
+                this.setState({ checkbox_professions: var_checkbox_professions });
                 this.setState({ hourly_amount: hourly_amount });
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        hourly_error: var_hourly_error
+                    }
+                }));
             }
         });
     }
@@ -320,7 +345,7 @@ class Settings extends React.Component {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={this.state.checkbox_professions[profession.occupation]}
+                                checked={this.state.checkbox_professions[profession.occupation] || ''}
                                 onChange={this.handleChangeCheckbox(
                                     profession.occupation
                                 )}
@@ -331,6 +356,8 @@ class Settings extends React.Component {
                     />
                 <Grid item xs={12} md={3} style={{display: this.state.checkbox_professions[profession.occupation] ? 'block' : 'none' }}>
                         <TextField
+                            required
+                            error={this.state.errors_required.hourly_error[profession.occupation]}
                             margin="normal"
                             className={this.props.classes.textField}
                             id={profession.occupation}
@@ -360,6 +387,7 @@ class Settings extends React.Component {
         ));
 
     updateProfile(event) {
+
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("name", this.state.name);
@@ -371,6 +399,8 @@ class Settings extends React.Component {
         formData.append("state", this.state.state);
         formData.append("country", this.state.country);
         formData.append("address", this.state.address);
+        formData.append("address", this.state.address);
+        formData.append("hourly_amount", JSON.stringify(this.state.hourly_amount));
 
         if (validateForm(this.state.errors) && this.handleEmptyForm() && this.handleEmptyHour()) {
             axios
