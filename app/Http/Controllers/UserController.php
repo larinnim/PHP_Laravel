@@ -10,6 +10,7 @@ use Auth;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserController extends Controller
 {
@@ -39,29 +40,61 @@ class UserController extends Controller
         $hourly_decoded = json_decode($request['hourly_amount']);
 
         $hourlyArr= array();
+        $registeredProfessions = $this->getUserInfo($token)->getData('hourly_price')['hourly_price'];
+        $user = User::where('token','=',$token)->first();
+
         foreach($hourly_decoded as $key => $value) {
             if ($key % 2 == 0) {
                 $hourlyArr[$value] = $hourly_decoded[$key+1];
             }
           }
 
-          \Log::alert($hourlyArr);
-          \Log::alert(json_decode($this->getUserInfo($token)['hourly_price']));
-        $occupation_user = new OccupationUser;
-        $user = User::where('token','=',$token)->first();
+        foreach ($hourlyArr as $key => $value) {
+            \Log::alert($key);
+            \Log::alert($value);
+            \Log::alert(array_key_exists($key, $registeredProfessions));
 
-        $arr_hourly_price = (array) json_decode($request['hourly_amount'],true);
-        
-        foreach ($arr_hourly_price as $key => $value) {
-            $occupation = Occupation::where('occupation','=',$key)->first();
-            if($value){
-                OccupationUser::updateOrCreate([
-                    'occupation_id' => $occupation->id,
-                    'user_id'  => $user->id,
-                    'price' => $value,
-                ]);    
+            if(array_key_exists($key, $registeredProfessions)){
+                $occupation = Occupation::where('occupation','=',$key)->first();
+                if(empty($value)){
+                    \Log::alert('IN SOFTDELETE');
+                    OccupationUser::where('occupation_id', $occupation->id)
+                                    ->where('user_id', $user->id)
+                                    ->delete();
+                }
+                else {
+                    OccupationUser::updateOrCreate([
+                                    'occupation_id' => $occupation->id,
+                                    'user_id'  => $user->id,
+                                    'price' => $value,
+                                ]);    
+                }
             }
         }
+
+       
+
+          \Log::alert($hourlyArr);
+          \Log::alert($this->getUserInfo($token)->getData('hourly_price')['hourly_price']);
+       
+        $result = array_diff($hourlyArr, $registeredProfessions);
+
+          \Log::alert($result);
+        $occupation_user = new OccupationUser;
+
+        // $arr_hourly_price = (array) json_decode($request['hourly_amount'],true);
+        // \Log::alert($arr_hourly_price);
+
+        // foreach ($arr_hourly_price as $key => $value) {
+        //     $occupation = Occupation::where('occupation','=',$key)->first();
+        //     if($value){
+        //         OccupationUser::updateOrCreate([
+        //             'occupation_id' => $occupation->id,
+        //             'user_id'  => $user->id,
+        //             'price' => $value,
+        //         ]);    
+        //     }
+        // }
      
         $postal_code_var = str_replace("-", "", $request['cep']);
 
