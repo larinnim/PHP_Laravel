@@ -23,7 +23,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import ExitToApp from "@material-ui/icons/ExitToAppOutlined";
 import Link from "@material-ui/core/Link";
-import Calendar from "./Navigation/Calendar";
+import Calendar from "./Navigation/Calendar/Calendar/Calendar";
 import Settings from "./Navigation/Settings";
 import Radio from "@material-ui/core/Radio";
 import FormLabel from "@material-ui/core/FormLabel";

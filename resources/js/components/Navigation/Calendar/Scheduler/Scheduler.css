@@ -1,0 +1,8 @@
+.rw-i.rw-i-calendar {
+    padding-left: 3px;
+}
+
+.rw-widget-picker >*{
+    display: inline-block;
+    width: 80%;
+}
