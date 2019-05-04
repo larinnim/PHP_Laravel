@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {DropzoneDialog} from 'material-ui-dropzone'
 import Button from '@material-ui/core/Button';
- 
+import profilePicture from "../../img/profile.jpg";
 export default class Dropzone extends Component {
     constructor(props) {
         super(props);
@@ -53,9 +53,19 @@ export default class Dropzone extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleOpen.bind(this)}>
+                {/* <Button onClick={this.handleOpen.bind(this)}>
                   Add Image
-                </Button>
+                </Button> */}
+                 <Button onClick={this.handleOpen.bind(this)}>
+                        <img
+                        src={this.props.srcImage}
+                        style={{
+                            borderRadius: 100,
+                            width: "50%"
+                        }}
+                    />
+                 </Button>
+               
                 <DropzoneDialog
                     open={this.state.open}
                     onSave={this.handleSave.bind(this)}
