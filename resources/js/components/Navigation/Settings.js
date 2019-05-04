@@ -23,9 +23,7 @@ import * as actionTypes from "../../store/actions/actionTypes";
 import * as actions from "../../store/actions/index";
 import styles from "./Settings_Style";
 import Grid from "@material-ui/core/Grid";
-const validEmailRegex = RegExp(
-    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-);
+
 const validPostalCodeRegexCA = RegExp(
     /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
 );
@@ -63,7 +61,7 @@ class Settings extends React.Component {
             cep: this.props.user.postal_code,
             password: this.props.user.password,
             confirm_password: this.props.user.confirm_password,
-            phone_number: this.props.user.password,
+            phone_number: this.props.user.phone_number,
             city: this.props.user.city,
             state: this.props.user.state,
             country: this.props.user.country,
@@ -92,31 +90,57 @@ class Settings extends React.Component {
                 city: false,
                 state: false,
                 country: false,
-                address: false
+                address: false,
+                hourly_error: []
             },
+            checkbox_professions: {},
             professions: [],
-            // professions: {
-            gilad: true,
-            jason: false,
-            antoine: false
-            // }
+            hourly_amount: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleHourlyInputChange = this.handleHourlyInputChange.bind(this);
+    }
+
+    handleEmptyHour() {
+        let valid = true;
+        let hourly = this.state.hourly_amount;
+        let checkbox_var = this.state.checkbox_professions;
+
+        let hourly_empty = this.state.errors_required.hourly_error;
+
+        Object.keys(this.state.checkbox_professions).forEach(function(item, index) {
+            if(checkbox_var[item] && !hourly[item]){
+                hourly_empty[item] = true;
+                valid = false
+            }
+        });
+
+        this.setState(prevState => ({
+            errors_required: {
+                ...prevState.errors_required,
+                hourly_error: hourly_empty
+            }
+        }));
+
+        return valid;
     }
 
     handleEmptyForm() {
-        console.log("handling fromm");
+
         let errors_required = this.state.errors_required;
 
         if (
             !this.state.name ||
             !this.state.cep ||
             !this.state.email ||
-            !this.state.password ||
             !this.state.state ||
             !this.state.country ||
+            !this.state.city ||
             !this.state.address ||
-            !this.state.phone_number
+            !this.state.phone_number ||
+            !this.state.phone_number ||
+            this.state.password ||
+            this.state.confirm_password
         ) {
             if (!this.state.name) {
                 errors_required.name = true;
@@ -127,10 +151,10 @@ class Settings extends React.Component {
             if (!this.state.email) {
                 errors_required.email = true;
             }
-            if (!this.state.password) {
+            if (!this.state.password && this.state.confirm_password) {
                 errors_required.password = true;
             }
-            if (!this.state.confirm_password) {
+            if (this.state.password && !this.state.confirm_password) {
                 errors_required.confirm_password = true;
             }
             if (!this.state.phone_number) {
@@ -155,6 +179,28 @@ class Settings extends React.Component {
         }
     }
 
+    handleHourlyInputChange(event){
+        const target = event.target;
+        const value = target.value;
+        const id = target.id;
+        let hourly_error = this.state.errors_required.hourly_error;
+        hourly_error[id] = false;
+
+        this.setState(prevState => ({
+            hourly_amount: {
+                ...prevState.hourly_amount,
+                [id]: value
+            }
+        }));
+
+       this.setState(prevState => ({
+            errors_required: {
+                ...prevState.errors_required,
+                hourly_error: hourly_error
+            }
+        }));
+    }
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -164,37 +210,74 @@ class Settings extends React.Component {
             case "name":
                 errors.name =
                     value.length < 8
-                        ? "Full Name must be 8 characters long!"
-                        : "";
-                break;
-            case "email":
-                errors.email = validEmailRegex.test(value)
-                    ? ""
-                    : "Email is not valid!";
+                        ? true
+                        : false
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        name: false
+                    }
+                }));
                 break;
             case "cep":
                 errors.cep =
                     validPostalCodeRegexCA.test(value) ||
                     validPostalCodeRegexBR.test(value)
-                        ? ""
-                        : "You must enter a Canadian or Brazilian Postal Code!";
+                        ? true
+                        : false
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        cep: false
+                    }
+                }));
                 break;
             case "phone_number":
                 errors.phone_number = validPhoneNumber.test(value)
-                    ? ""
-                    : "Phone Number should contain only number";
+                    ? false
+                    : true
+                    this.setState(prevState => ({
+                        errors_required: {
+                            ...prevState.errors_required,
+                            phone_number: false
+                        }
+                    }));
                 break;
             case "password":
                 errors.password =
                     value.length < 8
-                        ? "Password must be 8 characters long!"
-                        : "";
+                        ? true
+                        : false
                 break;
             case "confirm_password":
                 errors.confirm_password =
                     value == this.state.password
-                        ? ""
-                        : "The passwords doesn't match";
+                        ? true
+                        : false
+                break;
+            case "address":
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        address: false
+                    }
+                }));
+                break;
+            case "city":
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        city: false
+                    }
+                }));
+                break;
+            case "state":
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        state: false
+                    }
+                }));
                 break;
             default:
                 break;
@@ -208,13 +291,21 @@ class Settings extends React.Component {
     }
 
     handleChangeCheckbox = name => event => {
-        this.setState({ [name]: event.target.checked });
+        const checkbox_professions = this.state.checkbox_professions;
+        checkbox_professions[name] = event.target.checked;
+        this.setState({ checkbox_professions: checkbox_professions });
     };
 
     handleChangeSelect = name => event => {
         this.setState({
             country: event.target.value
         });
+        this.setState(prevState => ({
+            errors_required: {
+                ...prevState.errors_required,
+                country: false
+            }
+        }));
     };
 
     componentDidMount() {
@@ -223,37 +314,128 @@ class Settings extends React.Component {
         axios.get("/api/occupations").then(response => {
             if (this._isMounted) {
                 console.log(response.data);
+                const var_checkbox_professions = [];
+                const var_hourly_amount = [];
+                const var_hourly_error = [];
+                this.setState({ professions: response.data });
+                
+                this.state.professions.map((profession,index) => (
+                    var_checkbox_professions[profession.occupation] = this.props.hourly_price.hasOwnProperty(profession.occupation) ? true : false,
+                    var_hourly_amount[profession.occupation] = this.props.hourly_price.hasOwnProperty(profession.occupation) ? this.props.hourly_price[profession.occupation] : '',
+                    var_hourly_error[profession.occupation] = false
+                ));
+                console.log('VAR CHECBKOKK' + var_checkbox_professions);
+                this.setState({ checkbox_professions: var_checkbox_professions });
+                this.setState({ hourly_amount: var_hourly_amount });
+                this.setState(prevState => ({
+                    errors_required: {
+                        ...prevState.errors_required,
+                        hourly_error: var_hourly_error
+                    }
+                }));
 
-                this.setState({
-                    professions: response.data.map(suggestion => ({
-                        value: suggestion.occupation,
-                        label: suggestion.occupation
-                    }))
-                });
+                var sortable = [];
+                for (var profession in this.state.checkbox_professions) {
+                    sortable.push([profession, this.state.checkbox_professions[profession]]);
+                }
 
-                const professions_html = response.data.map(profession => {
-                    return (
-                        // <div className="form-group">
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={this.state.professions.profession}
-                                    onChange={this.handleChangeCheckbox(
-                                        profession
-                                    )}
-                                    value={profession}
-                                />
-                            }
-                            label={profession}
-                        />
-                        // </div>
-                    );
+                sortable.sort(function(a, b) {
+                    return a[1] - b[1];
                 });
+                console.log(sortable);
+                this.setState({ professions: sortable });
+
+                // keys = Object.keys(_this2.state.checkbox_professions)
+                // values = keys.map(function (k) { return _this2.state.checkbox_professions[k]; });
+
+                // values.sort(function(x, y) {
+                    // true values first
+                    // return (x === y)? 0 : x? -1 : 1;
+                    // false values first
+                    // return (x === y)? 0 : x? 1 : -1;
+                // });
+                // var professions_order = this.state.professions.map(a => a.occupation);
+                // for(var i =0;i< this.state.hourly_amount.length;i++){
+                //         console.log(this.state.hourly_amount[i])
+                // }
+        // var user_profession = this.state.hourly_amount.map(value => console.log('VALUEE' + value));
+
+        // var user_profession = Object.keys(this.state.hourly_amount);
+        // var test = this.compare(this.state.professions, user_profession);
+        // console.log('Testtt' + test);
+
+                // var test = Object.keys(professions_order).sort(function(a,b){
+                //     return console.log(a)
+                // });
+                // var test = Object.keys(professions_order).sort(function(a,b){
+                //     return console.log(a)
+                // });
+                // var test = compare(this.state.professions.occupation, user_profession);
+                // console.log('Testtt' + test);
+
+                
             }
         });
     }
 
+    compare(total_profession, user_profession) {
+        if (total_profession.occupation.hasOwnProperty(user_profession)){
+          return 1;
+        }
+        if (!total_profession.occupation.hasOwnProperty(user_profession)){
+          return 1;
+        }
+        return 0;
+    }
+
+    professions_html = () => 
+        this.state.professions.map((profession,index) => (
+            <div key={!profession.occupation ? profession[0] : profession.occupation}>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={this.state.checkbox_professions[!profession.occupation ? profession[0] : profession.occupation] || ''}
+                                onChange={this.handleChangeCheckbox(
+                                    !profession.occupation ? profession[0] : profession.occupation
+                                )}
+                                value={!profession.occupation ? profession[0] : profession.occupation}
+                            />
+                        }
+                        label={!profession.occupation ? profession[0] : profession.occupation}
+                    />
+                <Grid item xs={12} md={3} style={{display: this.state.checkbox_professions[!profession.occupation ? profession[0] : profession.occupationn] ? 'block' : 'none' }}>
+                        <TextField
+                            required
+                            error={this.state.errors_required.hourly_error[!profession.occupation ? profession[0] : profession.occupation]}
+                            margin="normal"
+                            className={this.props.classes.textField}
+                            id={!profession.occupation ? profession[0] : profession.occupation}
+                            variant="outlined"
+                            label={"Hourly Rate " + !profession.occupation ? profession[0] : profession.occupation}
+                            value={this.state.hourly_amount[!profession.occupation ? profession[0] : profession.occupation] || ''}
+                            onChange={this.handleHourlyInputChange}
+
+                            type="number"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        {this.state.country == "Brazil"
+                                            ? currencies[0].label
+                                            : this.state.country == "Canada"
+                                            ? currencies[1].label
+                                            : currencies[2].label}
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                    </Grid>
+                </FormGroup>
+            </div>
+        ));
+
     updateProfile(event) {
+
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("name", this.state.name);
@@ -265,8 +447,23 @@ class Settings extends React.Component {
         formData.append("state", this.state.state);
         formData.append("country", this.state.country);
         formData.append("address", this.state.address);
+        formData.append("address", this.state.address);
+        
+        var a = new Array();
+        var b = new Object();
+        // a[0] = this.state.hourly_amount;
+        b.job = this.state.hourly_amount;
+        // b.push(this.state.hourly_amount);
+        for ( var key in this.state.hourly_amount ) {
+                    a.push(key,this.state.hourly_amount[key]);
 
-        if (validateForm(this.state.errors) && this.handleEmptyForm()) {
+            // formData.append(key, this.state.hourly_amount[key]);
+        }
+        formData.append("hourly_amount", JSON.stringify(a));
+
+        // formData.append("hourly_amount   ", JSON.stringify(this.state.hourly_amount));
+
+        if (validateForm(this.state.errors) && this.handleEmptyForm() && this.handleEmptyHour()) {
             axios
                 .post("/api/updateProfile/" + token, formData)
                 .then(response => {
@@ -280,9 +477,9 @@ class Settings extends React.Component {
     }
 
     render() {
-        const { errors, errors_required } = this.state;
+        const { errors, errors_required, hourly_amount } = this.state;
         const { classes, user, t } = this.props;
-
+     
         return (
             <div className={classes.grids}>
                 <div className={classes.root}>
@@ -300,11 +497,12 @@ class Settings extends React.Component {
                                 variant="filled"
                                 onChange={this.handleInputChange}
                             />
-                            {errors.name.length > 0 && (
+                            {errors.name ? 
                                 <span className={classes.error}>
                                     {t("register.fullname_error")}
                                 </span>
-                            )}
+                                : ''
+                            }
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <TextField
@@ -334,11 +532,12 @@ class Settings extends React.Component {
                                 onChange={this.handleInputChange}
                             />
 
-                            {errors.password.length > 0 && (
+                            {errors.password ?
                                 <span className="error">
                                     {t("register.password_set")}
                                 </span>
-                            )}
+                                : ''
+                            }
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <TextField
@@ -355,11 +554,12 @@ class Settings extends React.Component {
                                 variant="outlined"
                                 onChange={this.handleInputChange}
                             />
-                            {errors.confirm_password.length > 0 && (
+                            {errors.confirm_password ?
                                 <span className="error">
                                     {t("register.confirm_password_error")}
                                 </span>
-                            )}
+                                : ''
+                            }
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
@@ -368,7 +568,7 @@ class Settings extends React.Component {
                                 id="address"
                                 label="Address"
                                 name="address"
-                                defaultValue=""
+                                defaultValue={user.address}
                                 className={classes.textField}
                                 margin="normal"
                                 variant="outlined"
@@ -388,13 +588,14 @@ class Settings extends React.Component {
                                 variant="filled"
                                 onChange={this.handleInputChange}
                             />
-                            {errors.cep.length > 0 && (
+                            {errors.cep ?  
                                 <span className="error">
                                     {i18n.language == "pt-BR"
                                         ? t("register.postal_codeBR")
                                         : t("register.postal_codeCA")}
                                 </span>
-                            )}
+                                : ''
+                            }
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <TextField
@@ -458,81 +659,22 @@ class Settings extends React.Component {
                                 onChange={this.handleInputChange}
                             />
 
-                            {errors.phone_number.length > 0 && (
+                            {errors.phone_number ?
                                 <span className="error">
                                     {t("register.phone_number_error")}
                                 </span>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={3}>
-                            <TextField
-                                margin="normal"
-                                className={classes.textField}
-                                id="outlined-adornment-amount"
-                                variant="outlined"
-                                label="Hourly Rate"
-                                value={this.state.amount}
-                                onChange={this.handleInputChange}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            {this.state.country == "Brazil"
-                                                ? currencies[0].label
-                                                : this.state.country == "Canada"
-                                                ? currencies[1].label
-                                                : currencies[2].label}
-                                        </InputAdornment>
-                                    )
-                                }}
-                            />
+                                : ''
+                            }
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <FormLabel component="legend" margin="normal">
                                 What do you want to work with?
                             </FormLabel>
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.gilad}
-                                            onChange={this.handleChangeCheckbox(
-                                                "gilad"
-                                            )}
-                                            value="gilad"
-                                        />
-                                    }
-                                    label="Agent"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.jason}
-                                            onChange={this.handleChangeCheckbox(
-                                                "jason"
-                                            )}
-                                            value="jason"
-                                        />
-                                    }
-                                    label="HandyMate"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={this.state.antoine}
-                                            onChange={this.handleChangeCheckbox(
-                                                "antoine"
-                                            )}
-                                            value="Bartender"
-                                        />
-                                    }
-                                    label="Antoine Llorca"
-                                />
-                                {this.professions_html}
-                            </FormGroup>
+                            {this.professions_html()}
                         </Grid>
-                        <Grid item xs={12} md={3}>
+                        {/* <Grid item xs={12} md={3}>
                             <Dropzone />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={12} md={3}>
                             <Button
                                 variant="contained"

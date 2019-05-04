@@ -29,6 +29,7 @@ import Radio from "@material-ui/core/Radio";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import profilePicture from "../../img/profile.jpg";
+import Dropzone from './Dropzone';
 
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -166,7 +167,8 @@ class SidebarWhenLogged extends React.Component {
                     country: "",
                     phone_number: ""
                 }
-            ]
+            ],
+            hourly_price: []
         };
     }
 
@@ -201,6 +203,7 @@ class SidebarWhenLogged extends React.Component {
                     <Settings
                         key={param.id}
                         user={this.state.user}
+                        hourly_price={this.state.hourly_price}
                         className={style}
                     />
                 );
@@ -235,6 +238,7 @@ class SidebarWhenLogged extends React.Component {
         //      });
         axios.get("/api/userInfo/" + this.props.token).then(response => {
             const user = response.data.user;
+            // const hourly_price = response.data.hourly_price;
             const post_job_value = user.post_job ? true : false;
             const mate_value = user.mate ? true : false;
             const userData = [...this.state.user];
@@ -252,6 +256,7 @@ class SidebarWhenLogged extends React.Component {
 
             if (this._isMounted) {
                 this.setState({ user: userData });
+                this.setState({ hourly_price: response.data.hourly_price });
             }
         });
     }
@@ -319,21 +324,23 @@ class SidebarWhenLogged extends React.Component {
                       style={{ borderRadius: 100 }}
                   /> */}
                                 {user.avatar ? (
-                                    <img
-                                        src={user.avatar}
-                                        style={{
-                                            borderRadius: 100,
-                                            width: "50%"
-                                        }}
-                                    />
+                                    // <img
+                                    //     src={user.avatar}
+                                    //     style={{
+                                    //         borderRadius: 100,
+                                    //         width: "50%"
+                                    //     }}
+                                    // />
+                                    <Dropzone srcImage={user.avatar}/>
                                 ) : (
-                                    <img
-                                        src={profilePicture}
-                                        style={{
-                                            borderRadius: 100,
-                                            width: "50%"
-                                        }}
-                                    />
+                                    // <img
+                                    //     src={profilePicture}
+                                    //     style={{
+                                    //         borderRadius: 100,
+                                    //         width: "50%"
+                                    //     }}
+                                    // />
+                                    <Dropzone srcImage={profilePicture}/>
                                 )}
                                 <p className={classes.make_uppercase}>
                                     {user.name}
