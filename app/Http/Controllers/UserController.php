@@ -27,7 +27,7 @@ class UserController extends Controller
             $occupation = Occupation::where('id','=',$value['occupation_id'])->first();
             $occupation_arr[$occupation->occupation] = $value['price'];
         }
-
+        \Log::alert( $occupation_arr);
         return response()   
             ->json([
                 'user' => $user,
@@ -53,9 +53,11 @@ class UserController extends Controller
             \Log::alert($key);
             \Log::alert($value);
             \Log::alert(array_key_exists($key, $registeredProfessions));
+            $occupation = Occupation::where('occupation','=',$key)->first();
 
             if(array_key_exists($key, $registeredProfessions)){
-                $occupation = Occupation::where('occupation','=',$key)->first();
+                \Log::alert('IN ARRAYEXIST');
+
                 if(empty($value)){
                     \Log::alert('IN SOFTDELETE');
                     OccupationUser::where('occupation_id', $occupation->id)
@@ -63,12 +65,64 @@ class UserController extends Controller
                                     ->delete();
                 }
                 else {
+                    \Log::alert('IN ELSE');
                     OccupationUser::updateOrCreate([
                                     'occupation_id' => $occupation->id,
                                     'user_id'  => $user->id,
                                     'price' => $value,
                                 ]);    
                 }
+            }
+            else {
+                // $prevOccupation =  OccupationUser::where('occupation_id', $occupation->id)
+                // ->where('user_id', $user->id)
+                // ->first();
+                $prevOccupation =  OccupationUser::withTrashed()
+                                    ->where('occupation_id', $occupation->id)
+                                    ->where('user_id', $user->id)
+                                    ->first();
+                \Log::alert($occupation->id);
+                \Log::alert($user->id);
+
+                \Log::alert('PREVVV'.$prevOccupation);
+
+                if($prevOccupation){
+                    \Log::alert('inPREVVVV');
+                    OccupationUser::withTrashed()
+                                    ->where('occupation_id', $occupation->id)
+                                    ->where('user_id', $user->id)
+                                    ->update([
+                                        'price' => $value,
+                                        'deleted_at' => null
+                                    ]);
+                    // OccupationUser::onlyTrashed()->update(
+                    //     [
+                    //                 'occupation_id' => $occupation->id,
+                    //                 'user_id' => $user->id,
+                    //                 'price' => $value
+                    //             ],
+                    //             [
+                    //                 'deleted_at' =>  NULL,
+                    //                 'updated_at' => new \DateTime()
+                    //             ]
+                    // )->restore();
+                    // OccupationUser::onlyTrashed()->updateOrCreate(
+                    //     [
+                    //         'occupation_id' => $occupation->id,
+                    //         'user_id' => $user->id,
+                    //         'price' => $value
+                    //     ],
+                    //     [
+                    //         'deleted_at' =>  NULL,
+                    //         'updated_at' => new \DateTime()
+                    //     ])->restore();
+    
+                }
+                // OccupationUser::updateOrCreate([
+                //     'occupation_id' => $occupation->id,
+                //     'user_id'  => $user->id,
+                //     'price' => $value,
+                // ]);    
             }
         }
 
