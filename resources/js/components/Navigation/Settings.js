@@ -448,7 +448,20 @@ class Settings extends React.Component {
         formData.append("country", this.state.country);
         formData.append("address", this.state.address);
         formData.append("address", this.state.address);
-        formData.append("hourly_amount", JSON.stringify(this.state.hourly_amount));
+        
+        var a = new Array();
+        var b = new Object();
+        // a[0] = this.state.hourly_amount;
+        b.job = this.state.hourly_amount;
+        // b.push(this.state.hourly_amount);
+        for ( var key in this.state.hourly_amount ) {
+                    a.push(key,this.state.hourly_amount[key]);
+
+            // formData.append(key, this.state.hourly_amount[key]);
+        }
+        formData.append("hourly_amount", JSON.stringify(a));
+
+        // formData.append("hourly_amount   ", JSON.stringify(this.state.hourly_amount));
 
         if (validateForm(this.state.errors) && this.handleEmptyForm() && this.handleEmptyHour()) {
             axios

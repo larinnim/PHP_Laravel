@@ -16,11 +16,8 @@ class UserController extends Controller
     public function getUserInfo($token)
     {
         $user = User::where('token','=',$token)->first();
-                // ->join('occupation_user', 'occupation_user.user_id', '=', $user->id)
-                // ->get();
 
         $occupation_user = OccupationUser::where('user_id','=',$user->id)->get();
-        \Log::alert(json_decode($occupation_user, true));
 
         $occu_price = json_decode($occupation_user, true);
         $occupation_arr = [];
@@ -28,17 +25,8 @@ class UserController extends Controller
         foreach ($occu_price as $key => $value) {
             $occupation = Occupation::where('id','=',$value['occupation_id'])->first();
             $occupation_arr[$occupation->occupation] = $value['price'];
-            \Log::alert($value['occupation_id']);
-            \Log::alert($value['price']);
         }
-        \Log::alert($occupation_arr);
 
-        // $user = DB::table('users')
-        //     ->join('occupation_user', 'users.id', '=', 'occupation_user.user_id')
-        //     ->get();
-
-        \Log::alert($occupation_user);
-            \Log::alert($user);
         return response()   
             ->json([
                 'user' => $user,
@@ -48,6 +36,17 @@ class UserController extends Controller
 
     public function updateProfile(Request $request, $token)
     {
+        $hourly_decoded = json_decode($request['hourly_amount']);
+
+        $hourlyArr= array();
+        foreach($hourly_decoded as $key => $value) {
+            if ($key % 2 == 0) {
+                $hourlyArr[$value] = $hourly_decoded[$key+1];
+            }
+          }
+
+          \Log::alert($hourlyArr);
+          \Log::alert(json_decode($this->getUserInfo($token)['hourly_price']));
         $occupation_user = new OccupationUser;
         $user = User::where('token','=',$token)->first();
 
