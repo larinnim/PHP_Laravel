@@ -93,9 +93,9 @@ class Settings extends React.Component {
                 address: false,
                 hourly_error: []
             },
-            checkbox_professions:{},
+            checkbox_professions: {},
             professions: [],
-            hourly_amount: [],
+            hourly_amount: []
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleHourlyInputChange = this.handleHourlyInputChange.bind(this);
@@ -151,9 +151,6 @@ class Settings extends React.Component {
             if (!this.state.email) {
                 errors_required.email = true;
             }
-            // if (!this.state.password) {
-            //     errors_required.password = true;
-            // }
             if (!this.state.password && this.state.confirm_password) {
                 errors_required.password = true;
             }
@@ -318,54 +315,105 @@ class Settings extends React.Component {
             if (this._isMounted) {
                 console.log(response.data);
                 const var_checkbox_professions = [];
-                const hourly_amount = [];
+                const var_hourly_amount = [];
                 const var_hourly_error = [];
                 this.setState({ professions: response.data });
+                
                 this.state.professions.map((profession,index) => (
-                    var_checkbox_professions[profession.occupation] = false,
-                    hourly_amount[profession.occupation] = '',
+                    var_checkbox_professions[profession.occupation] = this.props.hourly_price.hasOwnProperty(profession.occupation) ? true : false,
+                    var_hourly_amount[profession.occupation] = this.props.hourly_price.hasOwnProperty(profession.occupation) ? this.props.hourly_price[profession.occupation] : '',
                     var_hourly_error[profession.occupation] = false
                 ));
+                console.log('VAR CHECBKOKK' + var_checkbox_professions);
                 this.setState({ checkbox_professions: var_checkbox_professions });
-                this.setState({ hourly_amount: hourly_amount });
+                this.setState({ hourly_amount: var_hourly_amount });
                 this.setState(prevState => ({
                     errors_required: {
                         ...prevState.errors_required,
                         hourly_error: var_hourly_error
                     }
                 }));
+
+                var sortable = [];
+                for (var profession in this.state.checkbox_professions) {
+                    sortable.push([profession, this.state.checkbox_professions[profession]]);
+                }
+
+                sortable.sort(function(a, b) {
+                    return a[1] - b[1];
+                });
+                console.log(sortable);
+                this.setState({ professions: sortable });
+
+                // keys = Object.keys(_this2.state.checkbox_professions)
+                // values = keys.map(function (k) { return _this2.state.checkbox_professions[k]; });
+
+                // values.sort(function(x, y) {
+                    // true values first
+                    // return (x === y)? 0 : x? -1 : 1;
+                    // false values first
+                    // return (x === y)? 0 : x? 1 : -1;
+                // });
+                // var professions_order = this.state.professions.map(a => a.occupation);
+                // for(var i =0;i< this.state.hourly_amount.length;i++){
+                //         console.log(this.state.hourly_amount[i])
+                // }
+        // var user_profession = this.state.hourly_amount.map(value => console.log('VALUEE' + value));
+
+        // var user_profession = Object.keys(this.state.hourly_amount);
+        // var test = this.compare(this.state.professions, user_profession);
+        // console.log('Testtt' + test);
+
+                // var test = Object.keys(professions_order).sort(function(a,b){
+                //     return console.log(a)
+                // });
+                // var test = Object.keys(professions_order).sort(function(a,b){
+                //     return console.log(a)
+                // });
+                // var test = compare(this.state.professions.occupation, user_profession);
+                // console.log('Testtt' + test);
+
+                
             }
         });
     }
 
+    compare(total_profession, user_profession) {
+        if (total_profession.occupation.hasOwnProperty(user_profession)){
+          return 1;
+        }
+        if (!total_profession.occupation.hasOwnProperty(user_profession)){
+          return 1;
+        }
+        return 0;
+    }
+
     professions_html = () => 
         this.state.professions.map((profession,index) => (
-            <div key={profession.occupation}>
+            <div key={!profession.occupation ? profession[0] : profession.occupation}>
                 <FormGroup>
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={this.state.checkbox_professions[profession.occupation] || ''}
+                                checked={this.state.checkbox_professions[!profession.occupation ? profession[0] : profession.occupation] || ''}
                                 onChange={this.handleChangeCheckbox(
-                                    profession.occupation
+                                    !profession.occupation ? profession[0] : profession.occupation
                                 )}
-                                value={profession.occupation}
+                                value={!profession.occupation ? profession[0] : profession.occupation}
                             />
                         }
-                        label={profession.occupation}
+                        label={!profession.occupation ? profession[0] : profession.occupation}
                     />
-                <Grid item xs={12} md={3} style={{display: this.state.checkbox_professions[profession.occupation] ? 'block' : 'none' }}>
+                <Grid item xs={12} md={3} style={{display: this.state.checkbox_professions[!profession.occupation ? profession[0] : profession.occupationn] ? 'block' : 'none' }}>
                         <TextField
                             required
-                            error={this.state.errors_required.hourly_error[profession.occupation]}
+                            error={this.state.errors_required.hourly_error[!profession.occupation ? profession[0] : profession.occupation]}
                             margin="normal"
                             className={this.props.classes.textField}
-                            id={profession.occupation}
+                            id={!profession.occupation ? profession[0] : profession.occupation}
                             variant="outlined"
-                            label={"Hourly Rate " + profession.occupation}
-                            // value={this.state.hourly_amount[profession.occupation]}
-                            // name={this.state.hourly_amount[profession.occupation]}
-                            // onChange={this.handleInputChange}
+                            label={"Hourly Rate " + !profession.occupation ? profession[0] : profession.occupation}
+                            value={this.state.hourly_amount[!profession.occupation ? profession[0] : profession.occupation] || ''}
                             onChange={this.handleHourlyInputChange}
 
                             type="number"
@@ -416,9 +464,9 @@ class Settings extends React.Component {
     }
 
     render() {
-        const { errors, errors_required } = this.state;
+        const { errors, errors_required, hourly_amount } = this.state;
         const { classes, user, t } = this.props;
-
+     
         return (
             <div className={classes.grids}>
                 <div className={classes.root}>
