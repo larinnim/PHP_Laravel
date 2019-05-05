@@ -147,14 +147,14 @@ class Autocomplete extends Component {
 
     componentDidMount() {
         axios.get("/api/occupations").then(response => {
-            if (this._isMounted) {
+            // if (this._isMounted) {
                 this.setState({
-                    suggestions: response.data.map(suggestion => ({
-                        value: suggestion.occupation,
-                        label: suggestion.occupation
+                    suggestions: response.data.map(response => ({
+                        value: response.occupation,
+                        label: response.occupation
                     }))
                 });
-            }
+            // }
         });
     }
 
