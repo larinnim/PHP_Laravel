@@ -15,7 +15,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         overflowX: "auto",
         maxHeight: "500px",
-        maxWidth: "60%",
+        maxWidth: "70%",
         overflow: "auto",
         textAlign: "center !important",
         margin: "auto" //this will center the paper
@@ -110,7 +110,7 @@ class DayTimeTable extends Component {
             case 6:
                 todayDayText = "Sat";
                 break;
-            case 7:
+            case 0:
                 todayDayText = "Sun";
                 break;
         }
@@ -159,7 +159,7 @@ class DayTimeTable extends Component {
             );
         }
         let initialTodayDate = createBaseData(0).format("MM-DD-YYYY");
-        let initialTodayDay = createBaseData(0).day(); //day1 = 1, ..., Sunday = 7
+        let initialTodayDay = createBaseData(0).day(); //Monday = 1, ..., Sunday = 0
         this.setState({
             todayDate: initialTodayDate,
             rows: initialRows,
@@ -168,7 +168,6 @@ class DayTimeTable extends Component {
     }
 
     render() {
-        console.log(this.props.todayDay);
         const { classes } = this.props;
         let dayTimeTable = (
             <Paper className={classes.root} style={{ textAlign: "center" }}>
