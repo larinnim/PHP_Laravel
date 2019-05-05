@@ -293,6 +293,15 @@ class Settings extends React.Component {
     handleChangeCheckbox = name => event => {
         const checkbox_professions = this.state.checkbox_professions;
         checkbox_professions[name] = event.target.checked;
+
+        if(!event.target.checked){
+            const change_hourlyArr = this.state.hourly_amount;
+            // delete change_hourlyArr[name];
+            change_hourlyArr[name] = "";
+
+            this.setState({ hourly_amount: change_hourlyArr });
+        }
+        
         this.setState({ checkbox_professions: checkbox_professions });
     };
 

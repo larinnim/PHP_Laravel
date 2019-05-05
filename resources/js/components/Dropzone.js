@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import {DropzoneDialog} from 'material-ui-dropzone'
 import Button from '@material-ui/core/Button';
 import profilePicture from "../../img/profile.jpg";
+import axios from "axios";
+
 export default class Dropzone extends Component {
     constructor(props) {
         super(props);
