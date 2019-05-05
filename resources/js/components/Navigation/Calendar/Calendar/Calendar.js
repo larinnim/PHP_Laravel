@@ -120,7 +120,6 @@ class Calendar extends React.Component {
                             <Grid
                                 item
                                 xs={12}
-                                sm={6}
                                 className={classes.alignCalendar}
                             >
                                 <DayPicker
@@ -138,7 +137,8 @@ class Calendar extends React.Component {
                                 />
                                 <Scheduler getDate={this.getDatesfromChild} />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+                            {/*---DO NOT DELETE: THIS WILL BE USED FOR THE ALLY'S AGENDA---*/}
+                            {/* <Grid item xs={12} sm={6}>
                                 <div className="ScrollableContainer">
                                     {this.state.disabledDays.map(timeStamp => (
                                         <Agenda
@@ -152,7 +152,7 @@ class Calendar extends React.Component {
                                         />
                                     ))}
                                 </div>
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12}>
                                 <DayTimeTable />
                             </Grid>

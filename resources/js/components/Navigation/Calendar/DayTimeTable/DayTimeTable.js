@@ -11,17 +11,34 @@ import moment from "moment";
 
 const styles = theme => ({
     root: {
-        width: "100%",
+        width: "auto",
         marginTop: theme.spacing.unit * 3,
         overflowX: "auto",
         maxHeight: "500px",
-        overflow: "auto"
+        maxWidth: "60%",
+        overflow: "auto",
+        textAlign: "center !important",
+        margin: "auto" //this will center the paper
     },
     table: {
         minWidth: 700
     },
     color: {
         backgroundColor: "blue"
+    },
+    cellsStyle: {
+        borderRight: "1px solid grey",
+        padding: 0,
+        textAlign: "center"
+    },
+    cellsHeaderStyle: {
+        borderRight: "1px solid grey",
+        borderBottom: "1px solid grey",
+        padding: 0,
+        textAlign: "center",
+        backgroundColor: "#ccc",
+        color: "#555",
+        fontFamily: "Roboto"
     }
 });
 
@@ -44,28 +61,27 @@ class DayTimeTable extends Component {
     };
     cellClickHandler = (id, weekDay) => {
         let toUpdateRow = this.state.rows;
-        console.log(toUpdateRow);
         switch (weekDay) {
-            case "monday":
-                toUpdateRow[id - 1].monday = !toUpdateRow[id - 1].monday;
+            case "day1":
+                toUpdateRow[id - 1].day1 = !toUpdateRow[id - 1].day1;
                 break;
-            case "tuesday":
-                toUpdateRow[id - 1].tuesday = !toUpdateRow[id - 1].tuesday;
+            case "day2":
+                toUpdateRow[id - 1].day2 = !toUpdateRow[id - 1].day2;
                 break;
-            case "wednesday":
-                toUpdateRow[id - 1].wednesday = !toUpdateRow[id - 1].wednesday;
+            case "day3":
+                toUpdateRow[id - 1].day3 = !toUpdateRow[id - 1].day3;
                 break;
-            case "thursday":
-                toUpdateRow[id - 1].thursday = !toUpdateRow[id - 1].thursday;
+            case "day4":
+                toUpdateRow[id - 1].day4 = !toUpdateRow[id - 1].day4;
                 break;
-            case "friday":
-                toUpdateRow[id - 1].friday = !toUpdateRow[id - 1].friday;
+            case "day5":
+                toUpdateRow[id - 1].day5 = !toUpdateRow[id - 1].day5;
                 break;
-            case "saturday":
-                toUpdateRow[id - 1].saturday = !toUpdateRow[id - 1].saturday;
+            case "day6":
+                toUpdateRow[id - 1].day6 = !toUpdateRow[id - 1].day6;
                 break;
-            case "sunday":
-                toUpdateRow[id - 1].sunday = !toUpdateRow[id - 1].sunday;
+            case "day7":
+                toUpdateRow[id - 1].day7 = !toUpdateRow[id - 1].day7;
                 break;
         }
         this.setState({ rows: toUpdateRow });
@@ -77,26 +93,25 @@ class DayTimeTable extends Component {
         }
         switch (todayDay) {
             case 1:
-                todayDayText = "Monday";
+                todayDayText = "Mon";
                 break;
             case 2:
-                todayDayText = "Tuesday";
+                todayDayText = "Tue";
                 break;
             case 3:
-                todayDayText = "Wednesday";
+                todayDayText = "Wed";
                 break;
             case 4:
-                todayDayText = "Thursday";
+                todayDayText = "Thu";
                 break;
             case 5:
-                console.log("inside case");
-                todayDayText = "Friday";
+                todayDayText = "Fri";
                 break;
             case 6:
-                todayDayText = "Saturday";
+                todayDayText = "Sat";
                 break;
             case 7:
-                todayDayText = "Sunday";
+                todayDayText = "Sun";
                 break;
         }
         return todayDayText;
@@ -114,27 +129,18 @@ class DayTimeTable extends Component {
             var current = moment(min).add(step * interval);
             return current;
         }
-        function createData(
-            time,
-            monday,
-            tuesday,
-            wednesday,
-            thursday,
-            friday,
-            saturday,
-            sunday
-        ) {
+        function createData(time, day1, day2, day3, day4, day5, day6, day7) {
             id += 1;
             return {
                 id,
                 time,
-                monday,
-                tuesday,
-                wednesday,
-                thursday,
-                friday,
-                saturday,
-                sunday
+                day1,
+                day2,
+                day3,
+                day4,
+                day5,
+                day6,
+                day7
             };
         }
         let initialRows = [];
@@ -153,7 +159,7 @@ class DayTimeTable extends Component {
             );
         }
         let initialTodayDate = createBaseData(0).format("MM-DD-YYYY");
-        let initialTodayDay = createBaseData(0).day(); //Monday = 1, ..., Sunday = 7
+        let initialTodayDay = createBaseData(0).day(); //day1 = 1, ..., Sunday = 7
         this.setState({
             todayDate: initialTodayDate,
             rows: initialRows,
@@ -162,33 +168,41 @@ class DayTimeTable extends Component {
     }
 
     render() {
-        console.log(this.state.todayDay);
+        console.log(this.props.todayDay);
         const { classes } = this.props;
         let dayTimeTable = (
-            <Paper className={classes.root}>
-                <Table className={classes.table}>
+            <Paper className={classes.root} style={{ textAlign: "center" }}>
+                <Table
+                    className={classes.table}
+                    style={{ tableLayout: "fixed" }}
+                >
                     <TableHead>
                         <TableRow>
-                            <TableCell>Time</TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
+                                Time
+                            </TableCell>
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay + 1)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay + 2)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay + 3)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay + 4)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay + 5)}
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell
+                                className={classes.cellsHeaderStyle}
+                                style={{ paddingRight: 0 }}
+                            >
                                 {this.getHeaderText(this.state.todayDay + 6)}
                             </TableCell>
                         </TableRow>
@@ -196,86 +210,81 @@ class DayTimeTable extends Component {
                     <TableBody>
                         {this.state.rows.map(row => (
                             <TableRow key={row.id}>
-                                <TableCell component="th" scope="row">
+                                <TableCell
+                                    className={classes.cellsHeaderStyle}
+                                    component="th"
+                                    scope="row"
+                                >
                                     <div>{row.time}</div>
                                 </TableCell>
                                 <TableCell
-                                    className={this.isActive(
-                                        row.monday,
+                                    className={`${this.isActive(
+                                        row.day1,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(row.id, "monday")
+                                        this.cellClickHandler(row.id, "day1")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.tuesday,
+                                    className={`${this.isActive(
+                                        row.day2,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(row.id, "tuesday")
+                                        this.cellClickHandler(row.id, "day2")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.wednesday,
+                                    className={`${this.isActive(
+                                        row.day3,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(
-                                            row.id,
-                                            "wednesday"
-                                        )
+                                        this.cellClickHandler(row.id, "day3")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.thursday,
+                                    className={`${this.isActive(
+                                        row.day4,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(
-                                            row.id,
-                                            "thursday"
-                                        )
+                                        this.cellClickHandler(row.id, "day4")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.friday,
+                                    className={`${this.isActive(
+                                        row.day5,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(row.id, "friday")
+                                        this.cellClickHandler(row.id, "day5")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.saturday,
+                                    className={`${this.isActive(
+                                        row.day6,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(
-                                            row.id,
-                                            "saturday"
-                                        )
+                                        this.cellClickHandler(row.id, "day6")
                                     }
                                 />
                                 <TableCell
-                                    className={this.isActive(
-                                        row.sunday,
+                                    className={`${this.isActive(
+                                        row.day7,
                                         classes.color
-                                    )}
+                                    )} ${classes.cellsStyle}`}
                                     align="right"
                                     onClick={() =>
-                                        this.cellClickHandler(row.id, "sunday")
+                                        this.cellClickHandler(row.id, "day7")
                                     }
                                 />
                             </TableRow>
