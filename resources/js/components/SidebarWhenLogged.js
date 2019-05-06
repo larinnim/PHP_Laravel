@@ -171,6 +171,7 @@ class SidebarWhenLogged extends React.Component {
             hourly_price: [],
             profileImgSrc: ''
         };
+        this.updatePhoto = this.updatePhoto.bind(this)
     }
 
     handleDrawerOpen = () => {
@@ -283,6 +284,17 @@ class SidebarWhenLogged extends React.Component {
         this._isMounted = false;
     }
 
+    updatePhoto() {
+
+        axios.get('/api/getImage/' + this.props.token)
+                .then(response => {
+                    // if (this._isMounted) {
+                    this.setState({profileImgSrc: response.data});
+                    // }
+                    console.log(response);
+                });
+    }
+
     render() {
         const { classes, theme } = this.props;
         const { open, tabs, user, profileImgSrc } = this.state;
@@ -350,7 +362,7 @@ class SidebarWhenLogged extends React.Component {
                                     //     }}
                                     // />https://graph.facebook.com/v3.0/2641614409213532/picture?type=normal
                                     // <Dropzone srcImage={user.avatar}/>
-                                    <Dropzone srcImage={profileImgSrc}/>
+                                    <Dropzone updatePhoto = {this.updatePhoto} srcImage={profileImgSrc}/>
 
                                 ) : (
                                     // <img

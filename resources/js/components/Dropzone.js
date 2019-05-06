@@ -33,7 +33,15 @@ export default class Dropzone extends Component {
         var data = new FormData();
         data.append('image', files[0]);
         console.log(token);
-        axios.post('/api/uploadImage/' + token, data);
+        axios.post('/api/uploadImage/' + token, data)
+        .then((response) => {
+            this.props.updatePhoto();
+          })
+          .catch((err) => {
+            console.log("Error: ", err);
+          })
+
+        // axios.post('/api/uploadImage/' + token, data);
 
         // axios.post('/api/uploadImage', data);
         // $.ajax({
@@ -57,6 +65,10 @@ export default class Dropzone extends Component {
         });
     }
  
+    updatePhoto() {
+
+    }
+
     render() {
         return (
             <div>

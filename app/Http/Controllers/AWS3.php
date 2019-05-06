@@ -10,8 +10,15 @@ use App\User;
 use Log;
 class AWS3 extends Controller
 {
-    public function index($key = null)
+    public function index($key_or_token = null)
     {
+        if(is_numeric($key_or_token)){
+            $key = $key_or_token;
+        }
+        else {
+            $user = User::where('token','=',$key_or_token)->first();
+            $key = $user->id;
+        }
                 //Get an instance of S3 Client. This is one one to do it:
         $s3Client = new S3Client([
             'version'     => 'latest',
