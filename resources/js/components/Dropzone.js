@@ -20,6 +20,8 @@ export default class Dropzone extends Component {
     }
  
     handleSave(files) {
+        const token = localStorage.getItem("token");
+
         console.log(files);
         //Saving files to state for further use and closing Modal.
         this.setState({
@@ -30,7 +32,10 @@ export default class Dropzone extends Component {
         console.log(files);
         var data = new FormData();
         data.append('image', files[0]);
-        axios.post('/api/uploadImage', data);
+        console.log(token);
+        axios.post('/api/uploadImage/' + token, data);
+
+        // axios.post('/api/uploadImage', data);
         // $.ajax({
         //     type: 'POST',
         //     url: '/api/uploadImage',
