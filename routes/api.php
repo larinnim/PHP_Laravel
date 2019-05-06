@@ -26,8 +26,8 @@ Route::post('updateProfile/{token}', 'UserController@updateProfile');
 
 
 // AWS Routes...
-Route::get('getImage', 'AWS3@index');
-Route::post('uploadImage', 'AWS3@store');
+Route::get('getImage/{key_or_token?}/', 'AWS3@index');
+Route::post('uploadImage/{token}', 'AWS3@store');
 
  // Authentication Routes...
  Route::post('/logged_in', 'LoginController@login');
