@@ -1,4 +1,8 @@
 export default theme => ({
+    // root: {
+      // backgroundColor: theme.palette.background.paper,
+      // width: 500,
+    // },
     paper: {
       position: 'absolute',
       width: theme.spacing.unit * 50,
