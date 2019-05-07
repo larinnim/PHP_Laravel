@@ -168,8 +168,10 @@ class SidebarWhenLogged extends React.Component {
                     phone_number: ""
                 }
             ],
-            hourly_price: []
+            hourly_price: [],
+            profileImgSrc: ''
         };
+        this.updatePhoto = this.updatePhoto.bind(this)
     }
 
     handleDrawerOpen = () => {
@@ -254,20 +256,48 @@ class SidebarWhenLogged extends React.Component {
                 (userData.post_job = user.post_job ? true : false),
                 (userData.mate = user.mate ? true : false);
 
+                axios.get('/api/getImage/' + userData.avatar)
+                .then(response => {
+                    if (this._isMounted) {
+                    this.setState({profileImgSrc: response.data});
+                    }
+                    console.log(response);
+                })
+        .catch(error => console.log(error));
             if (this._isMounted) {
                 this.setState({ user: userData });
                 this.setState({ hourly_price: response.data.hourly_price });
             }
         });
+
+        // axios.get('/api/getImage/' + this.state.user.avatar)
+        // .then(response => {
+        //     if (this._isMounted) {
+        //     this.setState({profileImgSrc: response.data});
+        //     }
+        //     console.log(response);
+        // })
+        // .catch(error => console.log(error));
     }
 
     componentWillUnmount() {
         this._isMounted = false;
     }
 
+    updatePhoto() {
+
+        axios.get('/api/getImage/' + this.props.token)
+                .then(response => {
+                    // if (this._isMounted) {
+                    this.setState({profileImgSrc: response.data});
+                    // }
+                    console.log(response);
+                });
+    }
+
     render() {
         const { classes, theme } = this.props;
-        const { open, tabs, user } = this.state;
+        const { open, tabs, user, profileImgSrc } = this.state;
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -330,8 +360,10 @@ class SidebarWhenLogged extends React.Component {
                                     //         borderRadius: 100,
                                     //         width: "50%"
                                     //     }}
-                                    // />
-                                    <Dropzone srcImage={user.avatar}/>
+                                    // />https://graph.facebook.com/v3.0/2641614409213532/picture?type=normal
+                                    // <Dropzone srcImage={user.avatar}/>
+                                    <Dropzone updatePhoto = {this.updatePhoto} srcImage={profileImgSrc}/>
+
                                 ) : (
                                     // <img
                                     //     src={profilePicture}

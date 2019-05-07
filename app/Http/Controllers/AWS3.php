@@ -4,12 +4,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Aws\S3\S3Client;
+use Auth;
+use App\User;
 
 use Log;
 class AWS3 extends Controller
 {
-    public function index()
+    public function index($key_or_token = null)
     {
+        if(is_numeric($key_or_token)){
+            $key = $key_or_token;
+        }
+        else {
+            $user = User::where('token','=',$key_or_token)->first();
+            $key = $user->id;
+        }
                 //Get an instance of S3 Client. This is one one to do it:
         $s3Client = new S3Client([
             'version'     => 'latest',
@@ -23,7 +32,8 @@ class AWS3 extends Controller
         //Get a command to GetObject
         $cmd = $s3Client->getCommand('GetObject', [
             'Bucket' => env('AWS_BUCKET'),
-            'Key'    => 'images/1554336009test.jpg'
+            'Key'    => 'images/' . $key . '.jpg'
+            // 'Key'    => 'images/1554336009test.jpg'
         ]);
 
         //The period of availability
@@ -65,17 +75,27 @@ class AWS3 extends Controller
     //        }
     //    return view('welcome', compact('images'));
    }
-   public function store(Request $request)
+   public function store(Request $request, $token)
    {
-       $this->validate($request, [
-           'image' => 'required|image|max:2048'
-       ]);
+       \Log::alert('HERE');
+    //    $this->validate($request, [
+    //        'image' => 'required|image|max:2048'
+    //    ]);
+
+       \Log::alert($token);
+       \Log::alert($request);
+
        if ($request->hasFile('image')) {
            $file = $request->file('image');
-           $name = time() . $file->getClientOriginalName();
-           $filePath = 'images/' . $name;
+           $user = User::where('token','=',$token)->first();
+           $user_id = $user->id;
+        //    $name = time() . $file->getClientOriginalName();
+            $name = $user_id;
+           $filePath = 'images/' . $name . '.jpg';
            Storage::disk('s3')->put($filePath, file_get_contents($file));
        }
+       $user->avatar = $name;
+       $user->update();
        return back()->withSuccess('Image uploaded successfully');
    }
 
