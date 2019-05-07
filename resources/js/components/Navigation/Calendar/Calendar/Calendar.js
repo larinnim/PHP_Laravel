@@ -63,8 +63,6 @@ class Calendar extends React.Component {
     }
 
     getDatesfromChild = value => {
-        console.log("Child Data");
-        console.log(value);
         this.setState({ disabledDays: value });
         // this.setState({ modalDates: { **** DONT DELETEEE
         //   highlighted: value

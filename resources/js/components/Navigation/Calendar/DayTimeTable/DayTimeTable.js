@@ -15,13 +15,14 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
         overflowX: "auto",
         maxHeight: "500px",
-        maxWidth: "70%",
+        maxWidth: "100%",
         overflow: "auto",
         textAlign: "center !important",
-        margin: "auto" //this will center the paper
+        margin: "auto", //this will center the paper,
+        marginBottom: theme.spacing.unit * 3
     },
     table: {
-        minWidth: 700
+        // minWidth: 700
     },
     color: {
         backgroundColor: "blue"
@@ -88,6 +89,7 @@ class DayTimeTable extends Component {
     };
     getHeaderText = todayDay => {
         let todayDayText = null;
+        console.log(todayDay);
         if (todayDay > 7) {
             todayDay = todayDay % 7;
         }
@@ -110,7 +112,7 @@ class DayTimeTable extends Component {
             case 6:
                 todayDayText = "Sat";
                 break;
-            case 0:
+            default:
                 todayDayText = "Sun";
                 break;
         }
@@ -119,10 +121,10 @@ class DayTimeTable extends Component {
 
     componentDidMount() {
         let id = 0;
-        var intervalMinutes = 30;
+        var intervalMinutes = 60;
         var interval = moment.duration(intervalMinutes, "minutes");
         var min = moment("00:00", "HH:mm");
-        var max = moment("23:30", "HH:mm");
+        var max = moment("23:00", "HH:mm");
         var timeSlots =
             1 + moment(max, "h:mma").diff(moment(min, "h:mma")) / interval;
         function createBaseData(step) {
