@@ -30,13 +30,12 @@ export const forgotPassword = (email, password = null, token = null) => {
         formData.append("email", email);
         formData.append("password", password);
         formData.append("token", token);
-        console.log('The value of password is:' + password);
+       
         if(password != null){
                 axios
             .post("/api/password/reset", formData)
             .then(response => {
-                console.log('Responseee'+ response.data.success)
-                console.log('Responseee'+ response.data.error)
+  
 
                 // dispatch(forgotSuccess(response.data.error || response.data.success ));
 

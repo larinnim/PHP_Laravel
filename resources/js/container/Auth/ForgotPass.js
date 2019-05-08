@@ -1,7 +1,7 @@
 
 import React from 'react';
 import './Register/Register.css';
-import SidebarComponent from '../../components/Navigation/Sidebar';
+import SidebarComponent from '../../components/Navigation/Sidebar/Sidebar';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
 import SnackbarComponent from '../../components/Snackbar';
@@ -26,7 +26,6 @@ class ForgotPass extends React.Component {
       }
 
     handleSubmit =  (event) => {
-        console.log('email value' + this.state.email)
         event.preventDefault();
         this.props.onForgotPassword(this.state.email);
       }
