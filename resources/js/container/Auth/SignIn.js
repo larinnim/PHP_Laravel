@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
-import SidebarComponent from "../../components/Navigation/Sidebar";
+import SidebarComponent from "../../components/Navigation/Sidebar/Sidebar";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions/actionTypes";
 import * as actions from "../../store/actions/index";

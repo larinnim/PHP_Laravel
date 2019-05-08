@@ -28,7 +28,7 @@ class GoogleMaps extends React.Component {
         center: { lat, lng },
         zoom
       };
-      console.log(mapOptions);
+   
       
       this._map.setOptions(mapOptions);
     }

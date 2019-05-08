@@ -88,7 +88,7 @@ class SimpleModal extends React.Component {
             );
 
             // if(remainder == 0){
-            console.log("E MULTIPLOO");
+           
             for (var i = 1; i <= days_slot; i++) {
                 arrayDates.push(
                     Moment(new Date(this.state.startDateTime)).add(i, "d")._d
@@ -96,13 +96,7 @@ class SimpleModal extends React.Component {
             }
             // }
 
-            console.log(days_slot);
-            console.log(
-                Moment(this.state.endDateTime).diff(
-                    Moment(this.state.startDateTime),
-                    "hours"
-                )
-            );
+         
 
             this.props.getDate(arrayDates);
         }

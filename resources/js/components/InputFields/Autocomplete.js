@@ -135,11 +135,11 @@ class Autocomplete extends Component {
             .get(url)
             .then(response => {
                 // if (this._isMounted) {
-                    response.data.length > 0
-                        ? (window.location =
-                              "/agents_occupations?q=" +
-                              encodeURI(this.state.single.value))
-                        : "";
+                response.data.length > 0
+                    ? (window.location =
+                          "/agents_occupations?q=" +
+                          encodeURI(this.state.single.value))
+                    : "";
                 // }
             })
             .catch(error => console.log(error));
@@ -148,12 +148,12 @@ class Autocomplete extends Component {
     componentDidMount() {
         axios.get("/api/occupations").then(response => {
             // if (this._isMounted) {
-                this.setState({
-                    suggestions: response.data.map(response => ({
-                        value: response.occupation,
-                        label: response.occupation
-                    }))
-                });
+            this.setState({
+                suggestions: response.data.map(response => ({
+                    value: response.occupation,
+                    label: response.occupation
+                }))
+            });
             // }
         });
     }
