@@ -19,10 +19,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
+import SaveIcon from '@material-ui/icons/Save';
+import axios from "axios";
 
 Moment.locale("pt-BR");
 momentLocalizer();
-let formatter = Moment().format("hh:mm:ss a");
 
 function TabContainer({ children, dir }) {
     return (
@@ -63,6 +64,44 @@ class SimpleModal extends React.Component {
         startDateTime: new Date(),
         endDateTime: "",
         value: 0,
+        weekly: {
+            Monday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Tuesday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Wednesday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Thursday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Friday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Saturday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            },
+            Sunday: {
+                start_time: Moment().hour(0).minute(0),
+                end_time: Moment(),
+                interval: '',
+            }
+
+        },
         week_days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     };
     
@@ -73,9 +112,7 @@ class SimpleModal extends React.Component {
       handleChangeIndex = index => {
         this.setState({ value: index });
       };
-    
-    
-    
+
     handleSwitch = name => event => {
         this.setState({
             timeStatus: !this.state.timeStatus,
@@ -113,12 +150,19 @@ class SimpleModal extends React.Component {
         var offsetInHours = timezone.getTimezoneOffset() / 60;
         console.log(offsetInHours);
         console.log(Moment(event).format("hh:mm:ss a"));
-       
+        var var_weekly = this.state.weekly;
+        var_weekly[name].start_time = Moment(event).hour();
+        this.setState({ weekly: var_weekly });       
     };
 
     handleWeeklyEnd = name => event => {
         console.log(name);
         console.log(event);
+        var timezone = new Date(event);
+        var offsetInHours = timezone.getTimezoneOffset() / 60;
+        var var_weekly = this.state.weekly;
+        var_weekly[name].end_time = Moment(event).hour();
+        this.setState({ weekly: var_weekly }); 
     }; 
 
     weekDays_html = () => 
@@ -130,13 +174,8 @@ class SimpleModal extends React.Component {
             <div>
                 Start
                 <DateTimePicker
+                    step={60}
                     date={false}
-                    // open="time"
-                    // timeFormat={formatter} 
-                    // timeFormat={formatter} 
-                    timeFormat="HH:mm"
-                    dateFormat="LLL"
-
                     onChange={this.handleWeeklyStart(day.toString())}
                     // time={this.state.timeStatus}
                 />
@@ -145,7 +184,9 @@ class SimpleModal extends React.Component {
                 End
                 <DateTimePicker
                     date={false}
+                    step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
+                    min={Moment().hour(this.state.weekly[day].start_time).toDate()}
                 />
             </div>
             <span><AddIcon/> Add Interval</span>
@@ -192,6 +233,21 @@ class SimpleModal extends React.Component {
         }
     };
 
+    saveWeekly = () => {
+        const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("weekly", JSON.stringify(this.state.weekly));
+        axios
+                .post("/api/availability/" + token, formData)
+                .then(response => {
+                    console.log(response);
+                    return response;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+    };
+
     render() {
         const { classes, theme } = this.props;
         const { timeStatus, minEndDate, dates, value } = this.state;
@@ -227,6 +283,10 @@ class SimpleModal extends React.Component {
                         >
                         <TabContainer dir={theme.direction}>
                             {this.weekDays_html()}
+                            <Button size="small" onClick={this.saveWeekly}>
+                            <SaveIcon />
+                                Save
+                            </Button>
                         </TabContainer>
                         <TabContainer dir={theme.direction}>
                         <Typography variant="h6" id="modal-title">
