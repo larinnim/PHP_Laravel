@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SidebarComponent from "../../../components/Navigation/Sidebar";
+import SidebarComponent from "../../../components/Navigation/Sidebar/Sidebar";
 import "./Register.css";
 import Recaptcha from "react-recaptcha";
 import axios from "axios";

@@ -98,7 +98,7 @@ const styles2 = theme => ({
 class SnackbarComponent extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props.open)
+    
         this.state = {
           open_snack: props.open
         };

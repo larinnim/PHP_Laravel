@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Aux from "../Aux/Aux";
 import "./Layout.css";
-import Sidebar from "../../components/Navigation/Sidebar";
+import Sidebar from "../../components/Navigation/Sidebar/Sidebar";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -19,8 +19,7 @@ class Layout extends Component {
         });
     };
     render() {
-        console.log("Layout Props")
-        console.log(this.props)
+    
         return (
             <Aux>
                 <Sidebar isLoggedIn={this.props.auth} currentRoute={this.props.history.location.pathname}/>
