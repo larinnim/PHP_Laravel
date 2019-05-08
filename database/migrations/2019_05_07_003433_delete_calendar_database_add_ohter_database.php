@@ -32,35 +32,6 @@ class DeleteCalendarDatabaseAddOhterDatabase extends Migration
             $table->boolean('is_unavailable');	
             $table->timestamps();
         });
-        Schema::create('time_slot', function (Blueprint $table) {
-            $table->bigIncrements('availability_id');
-            $table->boolean('1');
-            $table->boolean('2');	
-            $table->boolean('3');	
-            $table->boolean('4');	
-            $table->boolean('5');	
-            $table->boolean('6');	
-            $table->boolean('7');	
-            $table->boolean('8');	
-            $table->boolean('9');	
-            $table->boolean('10');	
-            $table->boolean('11');	
-            $table->boolean('12');	
-            $table->boolean('13');	
-            $table->boolean('14');	
-            $table->boolean('15');	
-            $table->boolean('16');	
-            $table->boolean('17');	
-            $table->boolean('18');	
-            $table->boolean('19');	
-            $table->boolean('20');	
-            $table->boolean('21');	
-            $table->boolean('22');	
-            $table->boolean('23');	
-            $table->boolean('24');	
-            $table->timestamps();
-        });
-      
     }
 
     /**
