@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\OccupationUser;
 use App\Occupation;
+use App\Availability;
+use App\TimeSlot;
 use Auth;
 use DB;
 use Carbon\Carbon;
@@ -169,8 +171,48 @@ class UserController extends Controller
         $user->longitude  = $output->results[0]->geometry->location->lng;
 
         $user->save();
+    }
 
-      
+    public function updateAvailability(Request $request, $token) {
+  
+        $weekly = json_decode($request['weekly']);
+        $user = User::where('token','=',$token)->first();
 
+        foreach ($weekly as $key_day => $day) {
+            foreach ($day as $key_time => $time) {
+                if (is_numeric($time)) {
+                    Availability::updateOrCreate(
+                        ['ally_id' => $user->id, 'date' => $key_day],
+                        ['ally_id' => $user->id, 'date' => $key_day]
+                    );
+                }
+            }
+        }
+
+        foreach ($weekly as $key_day => $day) {
+            foreach ($day as $key_time => $time) {
+                if (is_numeric($time)) {
+
+                    $available = Availability::where('date', $key_day)->first();
+
+                    $time_slot_name = (string)$time;
+                    $slot_name = 'slot_'.$time_slot_name;
+                    $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
+
+                    if(isset($timeSlot)){
+
+                        $time = TimeSlot::where('availability_id', $available->id);
+                        $time->update([$slot_name => 1]);
+
+                    }
+                    else {
+                        $insertTime = new TimeSlot;
+                        $insertTime->availability_id = $available->id;
+                        $insertTime->$slot_name = 1;
+                        $insertTime->save();
+                    }
+                }
+            }
+        }
     }
 }

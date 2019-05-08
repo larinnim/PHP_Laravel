@@ -122,7 +122,7 @@ class Calendar extends React.Component {
                             >
                                 <DayPicker
                                     locale="pt-BR"
-                                    selectedDays={this.state.selectedDays}
+                                    // selectedDays={this.state.selectedDays}
                                     onDayClick={this.handleDayClick}
                                     months={MONTHS}
                                     weekdaysLong={WEEKDAYS_LONG}
@@ -151,9 +151,9 @@ class Calendar extends React.Component {
                                     ))}
                                 </div>
                             </Grid> */}
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                                 <DayTimeTable />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </div>
                 </div>

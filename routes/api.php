@@ -23,6 +23,7 @@ Route::get('occupations/agents', 'OccupationController@agentOccupation');
 Route::get('occupations/agents', 'OccupationController@agentOccupation');
 Route::get('userInfo/{id}', 'UserController@getUserInfo');
 Route::post('updateProfile/{token}', 'UserController@updateProfile');
+Route::post('availability/{token}', 'UserController@updateAvailability');
 
 
 // AWS Routes...
