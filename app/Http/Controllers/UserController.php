@@ -201,4 +201,52 @@ class UserController extends Controller
             }
         }
     }
+
+    public function getAvailability($token) 
+    {
+        $user = User::where('token','=',$token)->first();
+        $available = Availability::where('ally_id', $user->id)->get();
+        $dayObj = [];
+        foreach ($available as $key_day => $day) {
+            $time = TimeSlot::where('availability_id', $day->id)->get();
+            $timeConverted = json_decode(json_encode($time), true)[0];
+            $count = 0;
+            unset($timeConverted['id']);
+            unset($timeConverted['availability_id']);
+            unset($timeConverted['created_at']);
+            unset($timeConverted['updated_at']);
+            // \Log::alert($timeConverted);
+
+            $startTime = array_search(true, $timeConverted); // Gives the start
+            $array_reversed = array_reverse($timeConverted);
+            $endTime = array_search(true, $array_reversed); // Gives the start
+
+            // \Log::alert('START'.$startTime);
+            // \Log::alert('END'.$endTime);
+
+            // \Log::alert('ARREY REVERSE'. array_reverse($timeConverted));
+            // foreach ($timeConverted as $key => $slot) {
+            //     \Log::alert($key);
+                // for ($key = 1; $key <= 24; $key++) {
+                    // if($key == 'slot_'.$count && $slot){
+                //         $countSlot = $key;
+                    // }
+                // }
+            //     $count++;
+            // }
+            // \Log::alert(['slot_1']);
+            $startTime = explode('_', $startTime);
+            $endTime = explode('_', $endTime);
+
+            $dayObj[$day['date']]['start_date'] = $startTime[1];
+            $dayObj[$day['date']]['end_date'] = $endTime[1];
+            $dayObj[$day['date']]['interval'] = '';
+        }
+        return response()->json([
+            'days' => $dayObj,
+        ]);
+        \Log::alert($available);
+        \Log::alert($dayObj);
+
+    }
 }
