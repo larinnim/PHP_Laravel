@@ -23,4 +23,3 @@ return [
     'email_h1_title' => 'Password Reset Request',
     'email_title' => 'Email de Alteração de Senha',
 ];
-];

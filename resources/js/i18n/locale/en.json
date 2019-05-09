@@ -1,14 +1,26 @@
 {
-      "register": {
+    "register": {
         "fullname": "Full Name",
-        "postal_codeCA" : "Invalid Canadian Postal Code",
+        "fullname_error": "Full name must be eight characters in length",
+        "email_invalido": "Invalid e-mail",
+        "email_exist": "E-mail already exists",
+        "cep": "Postal Code",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "confirm_password_error": "Passwords do not match",
+        "create": "Register",
+        "postal_codeCA": "Invalid Canadian Postal Code",
         "password_set": "Password must be eight characters in length",
-        "confirm_password_error": "The passwords doesn't match",
+        "activity_title": "How do you want to register?",
+        "blank_fields": "Please, verify mandatory fields",
+        "activity_mate": "Mate",
+        "activity_postJob": "Post Job",
         "password_updated": "Password Successfully Changed",
         "token_email_invalid": "Token or Email are invalid",
+
         "phone_number_error": "Phone Number should contain only number"
-      },
-      "pricing": {
+    },
+    "pricing": {
         "title": "Prix"
-      }
-  }
+    }
+}
