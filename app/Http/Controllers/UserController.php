@@ -190,27 +190,42 @@ class UserController extends Controller
         }
 
         foreach ($weekly as $key_day => $day) {
-            foreach ($day as $key_time => $time) {
-                if (is_numeric($time)) {
+                $start = $day->start_time;
+                $end = $day->end_time;
+            if (is_numeric($start) && is_numeric($end)) {
+ 
+                $available = Availability::where('date', $key_day)->first();
 
-                    $available = Availability::where('date', $key_day)->first();
+                $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
+                $time = TimeSlot::where('availability_id', $available->id);
 
-                    $time_slot_name = (string)$time;
-                    $slot_name = 'slot_'.$time_slot_name;
-                    $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
+                if(isset($timeSlot)){
 
-                    if(isset($timeSlot)){
-
-                        $time = TimeSlot::where('availability_id', $available->id);
+                    $j=1;
+                    while($j <= 24) {
+                        $slot_name = 'slot_'.$j;
+                        $time->update([$slot_name => 0]);
+                        $j++;
+                    }
+                    $i = $start;
+                    while($i < $end) {
+                        $time_slot_name = (string)$i;
+                        $slot_name = 'slot_'.$time_slot_name;
                         $time->update([$slot_name => 1]);
-
-                    }
-                    else {
-                        $insertTime = new TimeSlot;
-                        $insertTime->availability_id = $available->id;
+                        $i++;
+                    } 
+                }
+                else {
+                    $insertTime = new TimeSlot;
+                    $insertTime->availability_id = $available->id;
+                    $i = $start;
+                    while($i < $end) {
+                        $time_slot_name = (string)$i;
+                        $slot_name = 'slot_'.$time_slot_name;
                         $insertTime->$slot_name = 1;
-                        $insertTime->save();
-                    }
+                        $i++;
+                    } 
+                    $insertTime->save();
                 }
             }
         }
