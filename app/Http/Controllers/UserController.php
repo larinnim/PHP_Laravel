@@ -190,58 +190,43 @@ class UserController extends Controller
         }
 
         foreach ($weekly as $key_day => $day) {
-            // foreach ($day as $key_time => $time) {
-                \Log::alert($day->start_time);
-                \Log::alert($day->end_time);
                 $start = $day->start_time;
                 $end = $day->end_time;
-                if (is_numeric($start) && is_numeric($end)) {
-                    
-                    // if($key_time == 'start_time'){
-                    //     $start = $time;
-                    // }
-                    // elseif($key_time == 'end_time'){
-                    //     $end = $time;
-                    // }
-                    $available = Availability::where('date', $key_day)->first();
+            if (is_numeric($start) && is_numeric($end)) {
+ 
+                $available = Availability::where('date', $key_day)->first();
 
-                    // $time_slot_name = (string)$time;
-                    // $slot_name = 'slot_'.$time_slot_name;
-                    $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
-                    $time = TimeSlot::where('availability_id', $available->id);
+                $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
+                $time = TimeSlot::where('availability_id', $available->id);
 
-                    if(isset($timeSlot)){
-                        \Log::alert('TIMESLOTTTT'. $timeSlot);
-                        $j=1;
-                        while($j <= 24) {
-                            $slot_name = 'slot_'.$j;
-                            $time->update([$slot_name => 0]);
-                            $j++;
-                        }
-                        $i = $start;
-                        while($i < $end) {
-                            $time_slot_name = (string)$i;
-                            $slot_name = 'slot_'.$time_slot_name;
-                            $time->update([$slot_name => 1]);
-                            $i++;
-                        } 
-                        // $time->update([$slot_name => 1]);
+                if(isset($timeSlot)){
 
+                    $j=1;
+                    while($j <= 24) {
+                        $slot_name = 'slot_'.$j;
+                        $time->update([$slot_name => 0]);
+                        $j++;
                     }
-                    else {
-                        $insertTime = new TimeSlot;
-                        $insertTime->availability_id = $available->id;
-                        $i = $start;
-                        while($i < $end) {
-                            $time_slot_name = (string)$i;
-                            $slot_name = 'slot_'.$time_slot_name;
-                            $insertTime->$slot_name = 1;
-                            $i++;
-                        } 
-                        // $insertTime->$slot_name = 1;
-                        $insertTime->save();
-                    }
-                // }
+                    $i = $start;
+                    while($i < $end) {
+                        $time_slot_name = (string)$i;
+                        $slot_name = 'slot_'.$time_slot_name;
+                        $time->update([$slot_name => 1]);
+                        $i++;
+                    } 
+                }
+                else {
+                    $insertTime = new TimeSlot;
+                    $insertTime->availability_id = $available->id;
+                    $i = $start;
+                    while($i < $end) {
+                        $time_slot_name = (string)$i;
+                        $slot_name = 'slot_'.$time_slot_name;
+                        $insertTime->$slot_name = 1;
+                        $i++;
+                    } 
+                    $insertTime->save();
+                }
             }
         }
     }
