@@ -54,7 +54,7 @@ class UserController extends Controller
         foreach ($hourlyArr as $key => $value) {
             \Log::alert($key);
             \Log::alert($value);
-            \Log::alert(array_key_exists($key, $registeredProfessions));
+            \Log::alert('BLABLA'.array_key_exists($key, $registeredProfessions));
             $occupation = Occupation::where('occupation','=',$key)->first();
 
             if(array_key_exists($key, $registeredProfessions)){
@@ -96,35 +96,20 @@ class UserController extends Controller
                                     ->update([
                                         'price' => $value,
                                         'deleted_at' => null
-                                    ]);
-                    // OccupationUser::onlyTrashed()->update(
-                    //     [
-                    //                 'occupation_id' => $occupation->id,
-                    //                 'user_id' => $user->id,
-                    //                 'price' => $value
-                    //             ],
-                    //             [
-                    //                 'deleted_at' =>  NULL,
-                    //                 'updated_at' => new \DateTime()
-                    //             ]
-                    // )->restore();
-                    // OccupationUser::onlyTrashed()->updateOrCreate(
-                    //     [
-                    //         'occupation_id' => $occupation->id,
-                    //         'user_id' => $user->id,
-                    //         'price' => $value
-                    //     ],
-                    //     [
-                    //         'deleted_at' =>  NULL,
-                    //         'updated_at' => new \DateTime()
-                    //     ])->restore();
+                    ]);
     
+                }  
+
+                else {
+                    if($value){
+                        $occupation_user = new OccupationUser;
+                        $occupation_user->occupation_id = $occupation->id;
+                        $occupation_user->user_id = $user->id;
+                        $occupation_user->price = $value;
+                        $occupation_user->save();
+                    }
+                   
                 }
-                // OccupationUser::updateOrCreate([
-                //     'occupation_id' => $occupation->id,
-                //     'user_id'  => $user->id,
-                //     'price' => $value,
-                // ]);    
             }
         }
 
@@ -136,22 +121,8 @@ class UserController extends Controller
         $result = array_diff($hourlyArr, $registeredProfessions);
 
           \Log::alert($result);
-        $occupation_user = new OccupationUser;
+        // $occupation_user = new OccupationUser;
 
-        // $arr_hourly_price = (array) json_decode($request['hourly_amount'],true);
-        // \Log::alert($arr_hourly_price);
-
-        // foreach ($arr_hourly_price as $key => $value) {
-        //     $occupation = Occupation::where('occupation','=',$key)->first();
-        //     if($value){
-        //         OccupationUser::updateOrCreate([
-        //             'occupation_id' => $occupation->id,
-        //             'user_id'  => $user->id,
-        //             'price' => $value,
-        //         ]);    
-        //     }
-        // }
-     
         $postal_code_var = str_replace("-", "", $request['cep']);
 
         $user->name = $request['name'];
