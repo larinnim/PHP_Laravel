@@ -177,6 +177,8 @@ class SimpleModal extends React.Component {
                     step={60}
                     date={false}
                     onChange={this.handleWeeklyStart(day.toString())}
+                    defaultValue={new Date()}
+
                     // time={this.state.timeStatus}
                 />
             </div>
@@ -186,7 +188,9 @@ class SimpleModal extends React.Component {
                     date={false}
                     step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
-                    min={Moment().hour(this.state.weekly[day].start_time).toDate()}
+                    min={Moment().hour(this.state.weekly[day].start_time+1).startOf('hour').toDate()}
+                    defaultValue={new Date()}
+
                 />
             </div>
             <span><AddIcon/> Add Interval</span>
@@ -241,6 +245,14 @@ class SimpleModal extends React.Component {
                     console.log(error);
                 });
     };
+
+    componentDidMount() {
+        const token = localStorage.getItem("token");
+        axios.get('/api/availability/' + token)
+          .then(response => {
+            console.log(response);
+          })
+      }
 
     render() {
         const { classes, theme } = this.props;
