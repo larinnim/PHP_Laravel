@@ -238,8 +238,8 @@ class UserController extends Controller
             $startTime = explode('_', $startTime);
             $endTime = explode('_', $endTime);
 
-            $dayObj[$day['date']]['start_date'] = $startTime[1];
-            $dayObj[$day['date']]['end_date'] = $endTime[1];
+            $dayObj[$day['date']]['start_time'] = $startTime[1];
+            $dayObj[$day['date']]['end_time'] = $endTime[1];
             $dayObj[$day['date']]['interval'] = '';
         }
         return response()->json([
