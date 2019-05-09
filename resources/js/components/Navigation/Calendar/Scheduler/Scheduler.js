@@ -177,6 +177,8 @@ class SimpleModal extends React.Component {
                     step={60}
                     date={false}
                     onChange={this.handleWeeklyStart(day.toString())}
+                    defaultValue={new Date()}
+
                     // time={this.state.timeStatus}
                 />
             </div>
@@ -186,7 +188,9 @@ class SimpleModal extends React.Component {
                     date={false}
                     step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
-                    min={Moment().hour(this.state.weekly[day].start_time).toDate()}
+                    min={Moment().hour(this.state.weekly[day].start_time+1).startOf('hour').toDate()}
+                    defaultValue={new Date()}
+
                 />
             </div>
             <span><AddIcon/> Add Interval</span>
@@ -234,13 +238,28 @@ class SimpleModal extends React.Component {
         axios
                 .post("/api/availability/" + token, formData)
                 .then(response => {
-                    console.log(response);
                     return response;
                 })
                 .catch(error => {
                     console.log(error);
                 });
     };
+
+    componentDidMount() {
+        const token = localStorage.getItem("token");
+        axios.get('/api/availability/' + token)
+          .then(response => {
+            console.log(response);
+            let days = response.data.days;
+            let d = new Date();
+            d.setHours(parseInt(days.Friday.start_date));
+            d.setMinutes(0);
+            d.setSeconds(0);
+            // console.log(d.setHours(parseInt(days.Friday.start_date)));
+            // console.log(days.Friday.start_date)
+            console.log(response);
+          })
+      }
 
     render() {
         const { classes, theme } = this.props;
