@@ -215,10 +215,16 @@ class UserController extends Controller
             unset($timeConverted['availability_id']);
             unset($timeConverted['created_at']);
             unset($timeConverted['updated_at']);
-            \Log::alert($timeConverted);
+            // \Log::alert($timeConverted);
 
-            $key = array_search(true, $timeConverted); // $key = 2;
-            \Log::alert($key);
+            $startTime = array_search(true, $timeConverted); // Gives the start
+            $array_reversed = array_reverse($timeConverted);
+            $endTime = array_search(true, $array_reversed); // Gives the start
+
+            // \Log::alert('START'.$startTime);
+            // \Log::alert('END'.$endTime);
+
+            // \Log::alert('ARREY REVERSE'. array_reverse($timeConverted));
             // foreach ($timeConverted as $key => $slot) {
             //     \Log::alert($key);
                 // for ($key = 1; $key <= 24; $key++) {
@@ -229,10 +235,16 @@ class UserController extends Controller
             //     $count++;
             // }
             // \Log::alert(['slot_1']);
-            $dayObj[$day['date']]['start_date'] = '';
-            $dayObj[$day['date']]['end_date'] = '';
+            $startTime = explode('_', $startTime);
+            $endTime = explode('_', $endTime);
+
+            $dayObj[$day['date']]['start_date'] = $startTime[1];
+            $dayObj[$day['date']]['end_date'] = $endTime[1];
             $dayObj[$day['date']]['interval'] = '';
         }
+        return response()->json([
+            'days' => $dayObj,
+        ]);
         \Log::alert($available);
         \Log::alert($dayObj);
 

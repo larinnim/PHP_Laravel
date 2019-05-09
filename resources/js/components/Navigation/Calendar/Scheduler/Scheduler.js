@@ -238,7 +238,6 @@ class SimpleModal extends React.Component {
         axios
                 .post("/api/availability/" + token, formData)
                 .then(response => {
-                    console.log(response);
                     return response;
                 })
                 .catch(error => {
@@ -250,6 +249,14 @@ class SimpleModal extends React.Component {
         const token = localStorage.getItem("token");
         axios.get('/api/availability/' + token)
           .then(response => {
+            console.log(response);
+            let days = response.data.days;
+            let d = new Date();
+            d.setHours(parseInt(days.Friday.start_date));
+            d.setMinutes(0);
+            d.setSeconds(0);
+            // console.log(d.setHours(parseInt(days.Friday.start_date)));
+            // console.log(days.Friday.start_date)
             console.log(response);
           })
       }
