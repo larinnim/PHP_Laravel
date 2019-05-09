@@ -23,6 +23,7 @@ import * as actionTypes from "../../../store/actions/actionTypes";
 import * as actions from "../../../store/actions/index";
 import styles from "./Settings_Style";
 import Grid from "@material-ui/core/Grid";
+import AlertDialogSlide from "./AlertDialogSlide";
 
 const validPostalCodeRegexCA = RegExp(
     /([ABCEGHJKLMNPRSTVXY]\d)([ABCEGHJKLMNPRSTVWXYZ]\d){2}/i
@@ -541,6 +542,7 @@ class Settings extends React.Component {
             axios
                 .post("/api/updateProfile/" + token, formData)
                 .then(response => {
+                    <AlertDialogSlide />;
                     return response;
                 })
                 .catch(error => {

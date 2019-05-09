@@ -14,7 +14,6 @@ import Typography from "@material-ui/core/Typography";
 import Dropzone from "../../components/Dropzone";
 import { connect } from "react-redux";
 
-
 const divStyle = {
     display: "flex"
 };
@@ -42,7 +41,9 @@ class AgentsOccupation extends React.Component {
             response.data = response.data.sort(
                 (a, b) => a.hourly_rate - b.hourly_rate
             );
+
             if (this._isMounted) {
+                console.log("set stete");
                 this.setState({
                     users: response.data
                 });
@@ -93,6 +94,7 @@ class AgentsOccupation extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
     render() {
+        console.log(this.state.users);
         return (
             <div>
                 <SidebarComponent isLoggedIn={this.props.auth} />
@@ -128,7 +130,7 @@ class AgentsOccupation extends React.Component {
                         <Cards
                             name={user.name}
                             member_since={user.member_since}
-                            hourly_rate={user.hourly_rate}
+                            hourly_rate={user.price}
                             professions={user.professions}
                             rating={user.rating}
                             total_rating={user.total_rating}
@@ -150,7 +152,7 @@ class AgentsOccupation extends React.Component {
                         </Hidden>
                     </article>
                 ))}
-               
+
                 <Dropzone />
             </div>
         );
