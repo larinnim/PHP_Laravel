@@ -181,17 +181,29 @@ class UserController extends Controller
                     $d = new DateTime($start, new DateTimeZone('UTC'));
                     $start = intval($d->format('H'));
                 }
+                elseif(is_numeric($start)) {
+                    $start = $start + $timezoneOffset;
+                }
                 if(!is_numeric($end)){
                     $d = new DateTime($end, new DateTimeZone('UTC'));
                     $end = intval($d->format('H'));
+                }
+                elseif(is_numeric($end)) {
+                    $end = $end + $timezoneOffset;
                 }
                 if(!is_numeric($interval['start_time'])){
                     $d = new DateTime($interval['start_time'], new DateTimeZone('UTC'));
                     $interval['start_time'] = intval($d->format('H'));
                 }
+                elseif(is_numeric($interval['start_time'])) {
+                    $interval['start_time'] =  $interval['start_time'] + $timezoneOffset;
+                }
                 if(!is_numeric($interval['end_time'])){
                     $d = new DateTime($interval['end_time'], new DateTimeZone('UTC'));
                     $interval['end_time'] = intval($d->format('H'));
+                }
+                elseif(is_numeric($interval['end_time'])) {
+                    $interval['end_time'] =  $interval['end_time'] + $timezoneOffset;
                 }
 
                 $available = Availability::where('date', $key_day)->first();
@@ -259,42 +271,34 @@ class UserController extends Controller
         $dayObj = [];
         foreach ($available as $key_day => $day) {
             $time = TimeSlot::where('availability_id', $day->id)->get();
+
+            \Log::alert('TIMEE'. $time[0]['slot_18']);
             $timeConverted = json_decode(json_encode($time), true)[0];
             $count = 0;
             unset($timeConverted['id']);
             unset($timeConverted['availability_id']);
             unset($timeConverted['created_at']);
             unset($timeConverted['updated_at']);
-            // \Log::alert($timeConverted);
 
-            $startTime = array_search(true, $timeConverted); // Gives the start
+            $startTime = array_search(true, $timeConverted); 
             $array_reversed = array_reverse($timeConverted);
-            $endTime = array_search(true, $array_reversed); // Gives the start
+            $endTime = array_search(true, $array_reversed);
 
-            // \Log::alert('START'.$startTime);
-            // \Log::alert('END'.$endTime);
-
-            // \Log::alert('ARREY REVERSE'. array_reverse($timeConverted));
-            // foreach ($timeConverted as $key => $slot) {
-            //     \Log::alert($key);
-                // for ($key = 1; $key <= 24; $key++) {
-                    // if($key == 'slot_'.$count && $slot){
-                //         $countSlot = $key;
-                    // }
-                // }
-            //     $count++;
-            // }
-            // \Log::alert(['slot_1']);
             if(!empty($startTime) && !empty($endTime) ){
                 $startTime = explode('_', $startTime);
                 $endTime = explode('_', $endTime);
     
                 \Log::alert($startTime);
                 \Log::alert($endTime);
-    
+                $findInterval = [];
+                for($index = $startTime[1]; $index <= $endTime[1]; $index++){
+                    array_push($findInterval,$time[0]['slot_'.$index]);
+                }
+                \Log::alert('FIN INTERVAL'.$findInterval[0]);
                 $dayObj[$day['date']]['start_time'] = $startTime[1];
-                $dayObj[$day['date']]['end_time'] = $endTime[1];
+                $dayObj[$day['date']]['end_time'] = $endTime[1] + 1; //O numero sempre termina antes do slot
                 $dayObj[$day['date']]['interval'] = '';
+
             }
 
             else {

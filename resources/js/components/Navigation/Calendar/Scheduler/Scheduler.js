@@ -26,23 +26,23 @@ Moment.locale("pt-BR");
 momentLocalizer();
 
 const  timezone = new Date().getTimezoneOffset();
-Date.prototype.stdTimezoneOffset = function () {
-    var jan = new Date(this.getFullYear(), 0, 1);
-    var jul = new Date(this.getFullYear(), 6, 1);
-    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-}
+// Date.prototype.stdTimezoneOffset = function () {
+//     var jan = new Date(this.getFullYear(), 0, 1);
+//     var jul = new Date(this.getFullYear(), 6, 1);
+//     return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+// }
 
-Date.prototype.isDstObserved = function () {
-    return this.getTimezoneOffset() < this.stdTimezoneOffset();
-}
+// Date.prototype.isDstObserved = function () {
+//     return this.getTimezoneOffset() < this.stdTimezoneOffset();
+// }
 
-var today = new Date();
-if (today.isDstObserved()) { 
-    alert ("Daylight saving time!");
-}
+// var today = new Date();
+// if (today.isDstObserved()) { 
+//     alert ("Daylight saving time!");
+// }
 
-alert(Date.prototype.stdTimezoneOffset);
-alert(Date.prototype.isDstObserved);
+// alert(Date.prototype.stdTimezoneOffset);
+// alert(Date.prototype.isDstObserved);
 
 function TabContainer({ children, dir }) {
     return (
@@ -221,6 +221,7 @@ class SimpleModal extends React.Component {
                     step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
                     defaultValue={this.state.weekly[day].end_time}
+                    min={this.state.weekly[day].start_time}
                 />
             </div>
             <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button>
