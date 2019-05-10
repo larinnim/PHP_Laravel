@@ -10,6 +10,8 @@ use App\Availability;
 use App\TimeSlot;
 use Auth;
 use DB;
+use DateTime;
+use DateTimeZone;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -144,13 +146,17 @@ class UserController extends Controller
         $user->save();
     }
 
-    public function updateAvailability(Request $request, $token) {
-  
+    public function updateAvailability(Request $request, $token) 
+    {
+    \Log::alert($request->all());
+        $timezoneOffset = $request['timezone'] / 60;
         $weekly = json_decode($request['weekly']);
+
         $user = User::where('token','=',$token)->first();
 
         foreach ($weekly as $key_day => $day) {
             foreach ($day as $key_time => $time) {
+
                 if (is_numeric($time)) {
                     Availability::updateOrCreate(
                         ['ally_id' => $user->id, 'date' => $key_day],
@@ -161,10 +167,33 @@ class UserController extends Controller
         }
 
         foreach ($weekly as $key_day => $day) {
+            
                 $start = $day->start_time;
                 $end = $day->end_time;
-            if (is_numeric($start) && is_numeric($end)) {
- 
+                $interval = (array) $day->interval;
+                \Log::alert('HERE');
+                \Log::alert($start);
+                \Log::alert($end);
+                \Log::alert($interval);
+
+            if (is_numeric($start) || is_numeric($end) || is_numeric($interval['start_time']) || is_numeric($interval['end_time'])) {
+                if(!is_numeric($start)){
+                    $d = new DateTime($start, new DateTimeZone('UTC'));
+                    $start = intval($d->format('H'));
+                }
+                if(!is_numeric($end)){
+                    $d = new DateTime($end, new DateTimeZone('UTC'));
+                    $end = intval($d->format('H'));
+                }
+                if(!is_numeric($interval['start_time'])){
+                    $d = new DateTime($interval['start_time'], new DateTimeZone('UTC'));
+                    $interval['start_time'] = intval($d->format('H'));
+                }
+                if(!is_numeric($interval['end_time'])){
+                    $d = new DateTime($interval['end_time'], new DateTimeZone('UTC'));
+                    $interval['end_time'] = intval($d->format('H'));
+                }
+
                 $available = Availability::where('date', $key_day)->first();
 
                 $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
@@ -180,11 +209,23 @@ class UserController extends Controller
                     }
                     $i = $start;
                     while($i < $end) {
+                        \Log::alert('start:'.$i);
+                        \Log::alert('end:'.$end);
+
                         $time_slot_name = (string)$i;
                         $slot_name = 'slot_'.$time_slot_name;
                         $time->update([$slot_name => 1]);
                         $i++;
                     } 
+                    $z = $interval['start_time'];
+                    while($z < $interval['end_time']) {
+                        \Log::alert('Interval start:'.$z);
+                        \Log::alert('Interval end:'.$interval['end_time']);
+                        $time_slot_name = (string)$z;
+                        $slot_name = 'slot_'.$time_slot_name;
+                        $time->update([$slot_name => 0]);
+                        $z++;
+                    }
                 }
                 else {
                     $insertTime = new TimeSlot;
@@ -196,6 +237,15 @@ class UserController extends Controller
                         $insertTime->$slot_name = 1;
                         $i++;
                     } 
+                    $insertTime->save();
+
+                    $z = $interval['start_time'];
+                    while($z < $interval['end_time']) {
+                        $time_slot_name = (string)$z;
+                        $slot_name = 'slot_'.$time_slot_name;
+                        $insertTime->$slot_name = 0;
+                        $i++;
+                    }
                     $insertTime->save();
                 }
             }
@@ -235,12 +285,24 @@ class UserController extends Controller
             //     $count++;
             // }
             // \Log::alert(['slot_1']);
-            $startTime = explode('_', $startTime);
-            $endTime = explode('_', $endTime);
+            if(!empty($startTime) && !empty($endTime) ){
+                $startTime = explode('_', $startTime);
+                $endTime = explode('_', $endTime);
+    
+                \Log::alert($startTime);
+                \Log::alert($endTime);
+    
+                $dayObj[$day['date']]['start_time'] = $startTime[1];
+                $dayObj[$day['date']]['end_time'] = $endTime[1];
+                $dayObj[$day['date']]['interval'] = '';
+            }
 
-            $dayObj[$day['date']]['start_time'] = $startTime[1];
-            $dayObj[$day['date']]['end_time'] = $endTime[1];
-            $dayObj[$day['date']]['interval'] = '';
+            else {
+                $dayObj[$day['date']]['start_time'] = 0;
+                $dayObj[$day['date']]['end_time'] = 23;
+                $dayObj[$day['date']]['interval'] = '';
+            }
+
         }
         return response()->json([
             'days' => $dayObj,

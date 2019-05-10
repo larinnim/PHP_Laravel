@@ -25,6 +25,25 @@ import axios from "axios";
 Moment.locale("pt-BR");
 momentLocalizer();
 
+const  timezone = new Date().getTimezoneOffset();
+Date.prototype.stdTimezoneOffset = function () {
+    var jan = new Date(this.getFullYear(), 0, 1);
+    var jul = new Date(this.getFullYear(), 6, 1);
+    return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+
+Date.prototype.isDstObserved = function () {
+    return this.getTimezoneOffset() < this.stdTimezoneOffset();
+}
+
+var today = new Date();
+if (today.isDstObserved()) { 
+    alert ("Daylight saving time!");
+}
+
+alert(Date.prototype.stdTimezoneOffset);
+alert(Date.prototype.isDstObserved);
+
 function TabContainer({ children, dir }) {
     return (
       <Typography component="div" dir={dir} style={{ padding: 8 * 3, backgroundColor:"white", height:"650px", overflow:"auto"}}>
@@ -38,27 +57,18 @@ function TabContainer({ children, dir }) {
     dir: PropTypes.string.isRequired,
   };
 
-function rand() {
-    return Math.round(Math.random() * 20) - 33;
-}
-
-function getModalStyle() {
-    const top = 9;
-    const left = 9;
-
-    // const top = 50 + rand();
-    // const left = 50 + rand();
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`
-    };
-}
-
 class SimpleModal extends React.Component {
     state = {
         open: false,
+        openInterval: {
+            Monday: false,
+            Tuesday: false,
+            Wednesday: false,
+            Thursday: false,
+            Friday: false,
+            Saturday: false,
+            Sunday: false,
+        },
         availableSwitch: false,
         timeStatus: true,
         startDateTime: new Date(),
@@ -68,37 +78,58 @@ class SimpleModal extends React.Component {
             Monday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Tuesday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Wednesday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Thursday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Friday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Saturday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             },
             Sunday: {
                 start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: '',
+                interval: {
+                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                },
             }
 
         },
@@ -109,9 +140,9 @@ class SimpleModal extends React.Component {
         this.setState({ value });
       };
 
-      handleChangeIndex = index => {
-        this.setState({ value: index });
-      };
+    handleChangeIndex = index => {
+    this.setState({ value: index });
+    };
 
     handleSwitch = name => event => {
         this.setState({
@@ -122,6 +153,12 @@ class SimpleModal extends React.Component {
 
     handleOpen = () => {
         this.setState({ open: true });
+    };
+
+    handleInterval (day) {
+        let openInterval = this.state.openInterval;
+        openInterval[day] = !openInterval[day];
+        this.setState({ openInterval:  openInterval});
     };
 
     handleClose = () => {
@@ -136,34 +173,31 @@ class SimpleModal extends React.Component {
         this.setState({ endDateTime: event });
     };
 
-    // handleWeeklyStart = (value, event, index) => {
-    //     console.log(name);
-    //     console.log(event);
-    //     console.log(index);
-
-    // };
-
     handleWeeklyStart = name => event => {
-        console.log(name);
-        console.log(event);
-        var timezone = new Date(event);
-        var offsetInHours = timezone.getTimezoneOffset() / 60;
-        console.log(offsetInHours);
-        console.log(Moment(event).format("hh:mm:ss a"));
         var var_weekly = this.state.weekly;
-        var_weekly[name].start_time = Moment(event).hour();
+        var_weekly[name].start_time = new Date(event);
         this.setState({ weekly: var_weekly });       
     };
 
     handleWeeklyEnd = name => event => {
-        console.log(name);
-        console.log(event);
-        var timezone = new Date(event);
-        var offsetInHours = timezone.getTimezoneOffset() / 60;
         var var_weekly = this.state.weekly;
-        var_weekly[name].end_time = Moment(event).hour();
+        var_weekly[name].end_time =new Date(event);
         this.setState({ weekly: var_weekly }); 
     }; 
+
+    handleIntervalStart = name => event => {
+        console.log(name);
+        console.log(event);
+        var var_weekly = this.state.weekly;
+        var_weekly[name].interval.start_time = Moment(event).hour();
+        this.setState({ weekly: var_weekly }); 
+    }
+
+    handleIntervalEnd = name => event => {
+        var var_weekly = this.state.weekly;
+        var_weekly[name].interval.end_time = Moment(event).hour();
+        this.setState({ weekly: var_weekly }); 
+    }
 
     weekDays_html = () => 
     this.state.week_days.map((day) => (
@@ -178,8 +212,6 @@ class SimpleModal extends React.Component {
                     date={false}
                     onChange={this.handleWeeklyStart(day.toString())}
                     defaultValue={this.state.weekly[day].start_time}
-
-                    // time={this.state.timeStatus}
                 />
             </div>
             <div>
@@ -188,13 +220,39 @@ class SimpleModal extends React.Component {
                     date={false}
                     step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
-                    // min={this.state.weekly[day].start_time.addHours(1)}
-                    // min={Moment().hour(this.state.weekly[day].start_time+1).startOf('hour').toDate()}
                     defaultValue={this.state.weekly[day].end_time}
-
                 />
             </div>
-            <span><AddIcon/> Add Interval</span>
+            <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button>
+            { this.state.openInterval[day] ?
+                    <div style={{ backgroundColor: 'grey' }}>
+                        <div>
+                            Start
+                            <DateTimePicker
+                                defaultValue={this.state.weekly[day].interval.start_time}
+                                onChange={this.handleIntervalStart(day)}
+                                step={60}
+                                date={false}
+                                min={this.state.weekly[day].start_time}
+                                max={this.state.weekly[day].end_time}
+                            />
+                        </div>
+
+                        <div style={{ marginTop: 40 }}>
+                            End
+                            <DateTimePicker
+                                defaultValue={this.state.weekly[day].interval.end_time}
+                                onChange={this.handleIntervalEnd(day)}
+                                step={60}
+                                date={false}
+                                min={this.state.weekly[day].start_time}
+                                max={this.state.weekly[day].end_time}
+                            />
+                        </div>
+                    </div>
+                : ''
+            }
+            
     </div>
    ))
 
@@ -236,6 +294,8 @@ class SimpleModal extends React.Component {
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append("weekly", JSON.stringify(this.state.weekly));
+        formData.append("timezone", timezone);
+
         axios
                 .post("/api/availability/" + token, formData)
                 .then(response => {
@@ -267,7 +327,8 @@ class SimpleModal extends React.Component {
                 d_end.setSeconds(0); 
                 days_copy[keys[i]].start_time = d_start; 
                 days_copy[keys[i]].end_time= d_end; 
-                days_copy[keys[i]].interval = ''; 
+                days_copy[keys[i]].interval.start_time  = d_start; 
+                days_copy[keys[i]].interval.end_time  = d_end; 
 
                 // this.setState({ weekly: days[key] });
                 var key = (keys[i]) ; 
