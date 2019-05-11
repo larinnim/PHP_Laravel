@@ -180,6 +180,7 @@ class UserController extends Controller
                 if(!is_numeric($start)){
                     $d = new DateTime($start, new DateTimeZone('UTC'));
                     $start = intval($d->format('H'));
+                    \Log::alert('STARTTTTT'. $start);
                 }
                 elseif(is_numeric($start)) {
                     $start = $start + $timezoneOffset;
@@ -212,6 +213,8 @@ class UserController extends Controller
                 $time = TimeSlot::where('availability_id', $available->id);
 
                 if(isset($timeSlot)){
+                    \Log::alert('STARTTTTT '. $start);
+                    \Log::alert('ENDDD '. $end);
 
                     $j=1;
                     while($j <= 24) {
@@ -220,15 +223,74 @@ class UserController extends Controller
                         $j++;
                     }
                     $i = $start;
-                    while($i < $end) {
-                        \Log::alert('start:'.$i);
-                        \Log::alert('end:'.$end);
+                    if($start > $end){
+                        while($i <= 24) {
+                            \Log::alert('start: IIII'.$i);
+                            \Log::alert('end:'.$end);
+    
+                            $time_slot_name = (string)$i;
+                            $slot_name = 'slot_'.$time_slot_name;
+                            $time->update([
+                                $slot_name => 1,
+                                'timezoneSet' => $timezoneOffset,
+                                'timeCarriedOver' => $end,
+                                ]);
+                            $i++;
+                        } 
+                        $current_timeSlot = $timeSlot->availability_id;
+                        $availableGetNext = Availability::where('id',  $current_timeSlot)->first();
+                        $dowMap = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+                        $indexDay = array_search($availableGetNext->date, $dowMap);
+                        $doIndex = $indexDay + 1;
+                        if( $doIndex >= 7){
+                            $doIndex = 0;
+                        }
+                        $nextDay = $dowMap[$doIndex];
+                        $theDate = Availability::where('date', $nextDay)->first();
+                        if(!$theDate){
+                            $availableDate = new Availability;
+                            $availableDate->ally_id = $availableGetNext->ally_id;
+                            $availableDate->date = $nextDay;
+                            $availableDate->save();
+                        }
+                        else {
+                            $timeInserted = TimeSlot::where('availability_id', $theDate->id)->first();
+                            \Log::alert('HERE33'. $timeInserted);
 
-                        $time_slot_name = (string)$i;
-                        $slot_name = 'slot_'.$time_slot_name;
-                        $time->update([$slot_name => 1]);
-                        $i++;
-                    } 
+                            if(!$timeInserted){
+                                \Log::alert('HERE222');
+
+                                $insertNewTime = new TimeSlot;
+                                $availableDateInserted = Availability::where('date', $nextDay)->first();
+                                $insertNewTime->availability_id = $availableDateInserted->id;
+                                $insertNewTime->save();
+                                \Log::alert('INSERTINGG');
+                                $timeInserted = TimeSlot::where('availability_id', $availableDateInserted->id);
+                            }
+
+                            else {
+                                $timeInserted = TimeSlot::where('availability_id', $theDate->id);
+                            }
+                        }
+
+                        $i = 1;
+                        while($i < $end) {
+                            $time_slot_name = (string)$i;
+                            $slot_name = 'slot_'.$time_slot_name;
+                            $timeInserted->update([
+                                $slot_name => 1,
+                                'timezoneSet' => $timezoneOffset,
+                            ]);
+                            $i++;
+                        }
+                    } else {
+                        $time->update([
+                            $slot_name => 1,
+                            'timezoneSet' => $timezoneOffset
+                            ]);
+                    }
+                    
+                    
                     $z = $interval['start_time'];
                     while($z < $interval['end_time']) {
                         \Log::alert('Interval start:'.$z);
@@ -271,18 +333,33 @@ class UserController extends Controller
         $dayObj = [];
         foreach ($available as $key_day => $day) {
             $time = TimeSlot::where('availability_id', $day->id)->get();
+            \Log::alert($time);
 
-            \Log::alert('TIMEE'. $time[0]['slot_18']);
+            if($time->timeCarriedOver){
+                
+            }
+
             $timeConverted = json_decode(json_encode($time), true)[0];
             $count = 0;
             unset($timeConverted['id']);
             unset($timeConverted['availability_id']);
             unset($timeConverted['created_at']);
             unset($timeConverted['updated_at']);
+            unset($timeConverted['timezoneSet']);
+            unset($timeConverted['timeCarriedOver']);
 
             $startTime = array_search(true, $timeConverted); 
             $array_reversed = array_reverse($timeConverted);
             $endTime = array_search(true, $array_reversed);
+            // $timeArr = range($startTime, $endTime);
+            // $startTimeInter = array_search(false, $timeArr);
+            // $array_reversed_inter = array_reverse($timeArr);
+            // $endTimeInter = array_search(false, $array_reversed_inter);
+
+            \Log::alert('RETRIEVE '. $startTime );
+            \Log::alert($array_reversed);
+            \Log::alert($endTime);
+         
 
             if(!empty($startTime) && !empty($endTime) ){
                 $startTime = explode('_', $startTime);
@@ -292,9 +369,16 @@ class UserController extends Controller
                 \Log::alert($endTime);
                 $findInterval = [];
                 for($index = $startTime[1]; $index <= $endTime[1]; $index++){
-                    array_push($findInterval,$time[0]['slot_'.$index]);
+                    $findInterval['slot_'.$index] = $time[0]['slot_'.$index];
+                    // array_push($findInterval,$time[0]['slot_'.$index]);
                 }
-                \Log::alert('FIN INTERVAL'.$findInterval[0]);
+                \Log::alert('FIN INTERVAL'.json_encode($findInterval));
+                // \Log::alert(array_search(false, $findInterval));
+
+                $startTimeInter = array_search(false, $findInterval);
+                $array_reversed_inter = array_reverse($findInterval);
+                $endTimeInter = array_search(false, $array_reversed_inter);
+
                 $dayObj[$day['date']]['start_time'] = $startTime[1];
                 $dayObj[$day['date']]['end_time'] = $endTime[1] + 1; //O numero sempre termina antes do slot
                 $dayObj[$day['date']]['interval'] = '';
@@ -311,8 +395,6 @@ class UserController extends Controller
         return response()->json([
             'days' => $dayObj,
         ]);
-        \Log::alert($available);
-        \Log::alert($dayObj);
 
     }
 }
