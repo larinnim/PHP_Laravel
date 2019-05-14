@@ -76,62 +76,47 @@ class SimpleModal extends React.Component {
         value: 0,
         weekly: {
             Monday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 },
-            },
             Tuesday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             },
             Wednesday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             },
             Thursday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             },
             Friday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             },
             Saturday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             },
             Sunday: {
-                start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval: {
-                    start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                    end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                },
+                standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
             }
-
         },
         week_days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     };
@@ -175,13 +160,13 @@ class SimpleModal extends React.Component {
 
     handleWeeklyStart = name => event => {
         var var_weekly = this.state.weekly;
-        var_weekly[name].start_time = new Date(event);
+        var_weekly[name].standard_start_time = new Date(event);
         this.setState({ weekly: var_weekly });       
     };
 
     handleWeeklyEnd = name => event => {
         var var_weekly = this.state.weekly;
-        var_weekly[name].end_time =new Date(event);
+        var_weekly[name].standard_end_time =new Date(event);
         this.setState({ weekly: var_weekly }); 
     }; 
 
@@ -189,13 +174,13 @@ class SimpleModal extends React.Component {
         console.log(name);
         console.log(event);
         var var_weekly = this.state.weekly;
-        var_weekly[name].interval.start_time = Moment(event).hour();
+        var_weekly[name].interval_start_time = new Date(event);
         this.setState({ weekly: var_weekly }); 
     }
 
     handleIntervalEnd = name => event => {
         var var_weekly = this.state.weekly;
-        var_weekly[name].interval.end_time = Moment(event).hour();
+        var_weekly[name].interval_end_time = new Date(event);
         this.setState({ weekly: var_weekly }); 
     }
 
@@ -211,7 +196,7 @@ class SimpleModal extends React.Component {
                     step={60}
                     date={false}
                     onChange={this.handleWeeklyStart(day.toString())}
-                    defaultValue={this.state.weekly[day].start_time}
+                    defaultValue={this.state.weekly[day].standard_start_time}
                 />
             </div>
             <div>
@@ -220,8 +205,8 @@ class SimpleModal extends React.Component {
                     date={false}
                     step={60}
                     onChange={this.handleWeeklyEnd(day.toString())}
-                    defaultValue={this.state.weekly[day].end_time}
-                    min={this.state.weekly[day].start_time}
+                    defaultValue={this.state.weekly[day].standard_end_time}
+                    min={this.state.weekly[day].standard_start_time}
                 />
             </div>
             <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button>
@@ -230,24 +215,24 @@ class SimpleModal extends React.Component {
                         <div>
                             Start
                             <DateTimePicker
-                                defaultValue={this.state.weekly[day].interval.start_time}
-                                onChange={this.handleIntervalStart(day)}
+                                defaultValue={this.state.weekly[day].interval_start_time}
+                                onChange={this.handleIntervalStart(day.toString())}
                                 step={60}
                                 date={false}
-                                min={this.state.weekly[day].start_time}
-                                max={this.state.weekly[day].end_time}
+                                min={this.state.weekly[day].standard_start_time}
+                                max={this.state.weekly[day].standard_end_time}
                             />
                         </div>
 
                         <div style={{ marginTop: 40 }}>
                             End
                             <DateTimePicker
-                                defaultValue={this.state.weekly[day].interval.end_time}
-                                onChange={this.handleIntervalEnd(day)}
+                                defaultValue={this.state.weekly[day].interval_end_time}
+                                onChange={this.handleIntervalEnd(day.toString())}
                                 step={60}
                                 date={false}
-                                min={this.state.weekly[day].start_time}
-                                max={this.state.weekly[day].end_time}
+                                min={this.state.weekly[day].standard_start_time}
+                                max={this.state.weekly[day].standard_end_time}
                             />
                         </div>
                     </div>
@@ -313,6 +298,9 @@ class SimpleModal extends React.Component {
           .then(response => {
             console.log(response);
             let days = response.data.days;
+            let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone).format();
+            // let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone);
+            console.log(timezone);
             let days_copy = Object.assign({}, this.state.weekly);
             var keys = Object.keys(days); 
 
@@ -320,16 +308,16 @@ class SimpleModal extends React.Component {
                  let d_start = new Date();
                  let d_end = new Date();
 
-                d_start.setHours(parseInt(days[keys[i]].start_time));
+                d_start.setHours(parseInt(days[keys[i]].standard_start_time));
                 d_start.setMinutes(0);
                 d_start.setSeconds(0); 
                 d_end.setHours(parseInt(days[keys[i]].end_time));
                 d_end.setMinutes(0);
                 d_end.setSeconds(0); 
-                days_copy[keys[i]].start_time = d_start; 
-                days_copy[keys[i]].end_time= d_end; 
-                days_copy[keys[i]].interval.start_time  = d_start; 
-                days_copy[keys[i]].interval.end_time  = d_end; 
+                days_copy[keys[i]].standard_start_time = d_start; 
+                days_copy[keys[i]].standard_end_time= d_end; 
+                days_copy[keys[i]].interval_start_time  = d_start; 
+                days_copy[keys[i]].interval_end_time  = d_end; 
 
                 // this.setState({ weekly: days[key] });
                 var key = (keys[i]) ; 

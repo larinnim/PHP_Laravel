@@ -143,11 +143,17 @@ class UserController extends Controller
         $user->latitude = $output->results[0]->geometry->location->lat;
         $user->longitude  = $output->results[0]->geometry->location->lng;
 
+        $url_timezone = 'https://maps.googleapis.com/maps/api/timezone/json?location='.$user->latitude.','.$user->longitude.'&timestamp='.time().'&key='.$key;
+        $response_timezone = file_get_contents($url);
+        $timezone = json_decode($response_timezone, true)['timeZoneId'];
+        $user->timezone = $timezone;
+
         $user->save();
     }
 
     public function updateAvailability(Request $request, $token) 
     {
+
     \Log::alert($request->all());
         $timezoneOffset = $request['timezone'] / 60;
         $weekly = json_decode($request['weekly']);
@@ -155,173 +161,37 @@ class UserController extends Controller
         $user = User::where('token','=',$token)->first();
 
         foreach ($weekly as $key_day => $day) {
-            foreach ($day as $key_time => $time) {
+            $arrDay = (array)$day;
+            $arrKey = array_keys($arrDay);
 
-                if (is_numeric($time)) {
-                    Availability::updateOrCreate(
-                        ['ally_id' => $user->id, 'date' => $key_day],
-                        ['ally_id' => $user->id, 'date' => $key_day]
-                    );
-                }
+            $availableDay = Availability::where('date', $key_day)->first();
+
+            if($availableDay){
+                $availableDay->update([
+                    $arrKey[0] => $arrDay[$arrKey[0]],
+                    $arrKey[1] => $arrDay[$arrKey[1]],
+                    $arrKey[2] => $arrDay[$arrKey[2]],
+                    $arrKey[3] => $arrDay[$arrKey[3]]
+                ]);
             }
-        }
 
-        foreach ($weekly as $key_day => $day) {
-            
-                $start = $day->start_time;
-                $end = $day->end_time;
-                $interval = (array) $day->interval;
-                \Log::alert('HERE');
-                \Log::alert($start);
-                \Log::alert($end);
-                \Log::alert($interval);
+            else {
+                $availableDay = new Availability;
+                $availableDay->ally_id = $user->id;
+                $availableDay->date = $key_day;
 
-            if (is_numeric($start) || is_numeric($end) || is_numeric($interval['start_time']) || is_numeric($interval['end_time'])) {
-                if(!is_numeric($start)){
-                    $d = new DateTime($start, new DateTimeZone('UTC'));
-                    $start = intval($d->format('H'));
-                    \Log::alert('STARTTTTT'. $start);
-                }
-                elseif(is_numeric($start)) {
-                    $start = $start + $timezoneOffset;
-                }
-                if(!is_numeric($end)){
-                    $d = new DateTime($end, new DateTimeZone('UTC'));
-                    $end = intval($d->format('H'));
-                }
-                elseif(is_numeric($end)) {
-                    $end = $end + $timezoneOffset;
-                }
-                if(!is_numeric($interval['start_time'])){
-                    $d = new DateTime($interval['start_time'], new DateTimeZone('UTC'));
-                    $interval['start_time'] = intval($d->format('H'));
-                }
-                elseif(is_numeric($interval['start_time'])) {
-                    $interval['start_time'] =  $interval['start_time'] + $timezoneOffset;
-                }
-                if(!is_numeric($interval['end_time'])){
-                    $d = new DateTime($interval['end_time'], new DateTimeZone('UTC'));
-                    $interval['end_time'] = intval($d->format('H'));
-                }
-                elseif(is_numeric($interval['end_time'])) {
-                    $interval['end_time'] =  $interval['end_time'] + $timezoneOffset;
-                }
+                $timezone = new DateTimeZone('UTC');
+                $standard_date_start = new DateTime($arrDay[$arrKey[0]], $timezone);
+                $standard_date_end = new DateTime($arrDay[$arrKey[1]], $timezone);
+                $interval_date_start = new DateTime($arrDay[$arrKey[2]], $timezone);
+                $interval_date_end = new DateTime($arrDay[$arrKey[3]], $timezone);
 
-                $available = Availability::where('date', $key_day)->first();
-
-                $timeSlot = TimeSlot::where('availability_id', $available->id)->first();
-                $time = TimeSlot::where('availability_id', $available->id);
-
-                if(isset($timeSlot)){
-                    \Log::alert('STARTTTTT '. $start);
-                    \Log::alert('ENDDD '. $end);
-
-                    $j=1;
-                    while($j <= 24) {
-                        $slot_name = 'slot_'.$j;
-                        $time->update([$slot_name => 0]);
-                        $j++;
-                    }
-                    $i = $start;
-                    if($start > $end){
-                        while($i <= 24) {
-                            \Log::alert('start: IIII'.$i);
-                            \Log::alert('end:'.$end);
-    
-                            $time_slot_name = (string)$i;
-                            $slot_name = 'slot_'.$time_slot_name;
-                            $time->update([
-                                $slot_name => 1,
-                                'timezoneSet' => $timezoneOffset,
-                                'timeCarriedOver' => $end,
-                                ]);
-                            $i++;
-                        } 
-                        $current_timeSlot = $timeSlot->availability_id;
-                        $availableGetNext = Availability::where('id',  $current_timeSlot)->first();
-                        $dowMap = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
-                        $indexDay = array_search($availableGetNext->date, $dowMap);
-                        $doIndex = $indexDay + 1;
-                        if( $doIndex >= 7){
-                            $doIndex = 0;
-                        }
-                        $nextDay = $dowMap[$doIndex];
-                        $theDate = Availability::where('date', $nextDay)->first();
-                        if(!$theDate){
-                            $availableDate = new Availability;
-                            $availableDate->ally_id = $availableGetNext->ally_id;
-                            $availableDate->date = $nextDay;
-                            $availableDate->save();
-                        }
-                        else {
-                            $timeInserted = TimeSlot::where('availability_id', $theDate->id)->first();
-                            \Log::alert('HERE33'. $timeInserted);
-
-                            if(!$timeInserted){
-                                \Log::alert('HERE222');
-
-                                $insertNewTime = new TimeSlot;
-                                $availableDateInserted = Availability::where('date', $nextDay)->first();
-                                $insertNewTime->availability_id = $availableDateInserted->id;
-                                $insertNewTime->save();
-                                \Log::alert('INSERTINGG');
-                                $timeInserted = TimeSlot::where('availability_id', $availableDateInserted->id);
-                            }
-
-                            else {
-                                $timeInserted = TimeSlot::where('availability_id', $theDate->id);
-                            }
-                        }
-
-                        $i = 1;
-                        while($i < $end) {
-                            $time_slot_name = (string)$i;
-                            $slot_name = 'slot_'.$time_slot_name;
-                            $timeInserted->update([
-                                $slot_name => 1,
-                                'timezoneSet' => $timezoneOffset,
-                            ]);
-                            $i++;
-                        }
-                    } else {
-                        $time->update([
-                            $slot_name => 1,
-                            'timezoneSet' => $timezoneOffset
-                            ]);
-                    }
-                    
-                    
-                    $z = $interval['start_time'];
-                    while($z < $interval['end_time']) {
-                        \Log::alert('Interval start:'.$z);
-                        \Log::alert('Interval end:'.$interval['end_time']);
-                        $time_slot_name = (string)$z;
-                        $slot_name = 'slot_'.$time_slot_name;
-                        $time->update([$slot_name => 0]);
-                        $z++;
-                    }
-                }
-                else {
-                    $insertTime = new TimeSlot;
-                    $insertTime->availability_id = $available->id;
-                    $i = $start;
-                    while($i < $end) {
-                        $time_slot_name = (string)$i;
-                        $slot_name = 'slot_'.$time_slot_name;
-                        $insertTime->$slot_name = 1;
-                        $i++;
-                    } 
-                    $insertTime->save();
-
-                    $z = $interval['start_time'];
-                    while($z < $interval['end_time']) {
-                        $time_slot_name = (string)$z;
-                        $slot_name = 'slot_'.$time_slot_name;
-                        $insertTime->$slot_name = 0;
-                        $i++;
-                    }
-                    $insertTime->save();
-                }
+                $availableDay[$arrKey[0]] = $standard_date_start;
+                $availableDay[$arrKey[1]] = $standard_date_end;
+                $availableDay[$arrKey[2]] = $interval_date_start;
+                $availableDay[$arrKey[3]] = $interval_date_end;
+                
+                $availableDay->save();
             }
         }
     }
@@ -332,69 +202,28 @@ class UserController extends Controller
         $available = Availability::where('ally_id', $user->id)->get();
         $dayObj = [];
         foreach ($available as $key_day => $day) {
-            $time = TimeSlot::where('availability_id', $day->id)->get();
-            \Log::alert($time);
+            \Log::alert('Key DAY'.$key_day);
+            \Log::alert(' DAY'.$day);
+            \Log::alert(' DAY'. $day->ally_id);
 
-            if($time->timeCarriedOver){
-                
-            }
-
-            $timeConverted = json_decode(json_encode($time), true)[0];
-            $count = 0;
-            unset($timeConverted['id']);
-            unset($timeConverted['availability_id']);
-            unset($timeConverted['created_at']);
-            unset($timeConverted['updated_at']);
-            unset($timeConverted['timezoneSet']);
-            unset($timeConverted['timeCarriedOver']);
-
-            $startTime = array_search(true, $timeConverted); 
-            $array_reversed = array_reverse($timeConverted);
-            $endTime = array_search(true, $array_reversed);
-            // $timeArr = range($startTime, $endTime);
-            // $startTimeInter = array_search(false, $timeArr);
-            // $array_reversed_inter = array_reverse($timeArr);
-            // $endTimeInter = array_search(false, $array_reversed_inter);
-
-            \Log::alert('RETRIEVE '. $startTime );
-            \Log::alert($array_reversed);
-            \Log::alert($endTime);
-         
-
-            if(!empty($startTime) && !empty($endTime) ){
-                $startTime = explode('_', $startTime);
-                $endTime = explode('_', $endTime);
-    
-                \Log::alert($startTime);
-                \Log::alert($endTime);
-                $findInterval = [];
-                for($index = $startTime[1]; $index <= $endTime[1]; $index++){
-                    $findInterval['slot_'.$index] = $time[0]['slot_'.$index];
-                    // array_push($findInterval,$time[0]['slot_'.$index]);
-                }
-                \Log::alert('FIN INTERVAL'.json_encode($findInterval));
-                // \Log::alert(array_search(false, $findInterval));
-
-                $startTimeInter = array_search(false, $findInterval);
-                $array_reversed_inter = array_reverse($findInterval);
-                $endTimeInter = array_search(false, $array_reversed_inter);
-
-                $dayObj[$day['date']]['start_time'] = $startTime[1];
-                $dayObj[$day['date']]['end_time'] = $endTime[1] + 1; //O numero sempre termina antes do slot
-                $dayObj[$day['date']]['interval'] = '';
-
-            }
-
-            else {
-                $dayObj[$day['date']]['start_time'] = 0;
-                $dayObj[$day['date']]['end_time'] = 23;
-                $dayObj[$day['date']]['interval'] = '';
-            }
+            $dayObj [$day->date]['standard_start_time'] = $day->standard_start_time;
+            $dayObj [$day->date]['standard_end_time'] = $day->standard_end_time;
+            $dayObj [$day->date]['interval_start_time'] = $day->interval_start_time;
+            $dayObj [$day->date]['interval_end_time'] = $day->interval_end_time;
 
         }
+
+        $key = getenv('GOOGLE_API');
+        $url = 'https://maps.googleapis.com/maps/api/timezone/json?location='.$user->latitude.','.$user->longitude.'&timestamp='.time().'&key='.$key;
+        $response_timezone = file_get_contents($url);
+        $timezone = json_decode($response_timezone, true)['timeZoneId'];
+
+
+        \Log::alert(' DAY OBJJJJ'.json_encode($dayObj));
+
         return response()->json([
             'days' => $dayObj,
+            'timezone' => $timezone
         ]);
-
     }
 }
