@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import AddCircleIcon from "@material-ui/icons/AddCircleOutline";
 import AddIcon from "@material-ui/icons/Add";
 import Moment from "moment";
+import MomentTimezone from "moment-timezone";
 import momentLocalizer from "react-widgets-moment";
 import DateTimePicker from "react-widgets/lib/DateTimePicker";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -25,7 +26,9 @@ import axios from "axios";
 Moment.locale("pt-BR");
 momentLocalizer();
 
-const  timezone = new Date().getTimezoneOffset();
+// const  timezone = new Date().getTimezoneOffset();
+
+const timezone =  MomentTimezone.tz.guess();
 // Date.prototype.stdTimezoneOffset = function () {
 //     var jan = new Date(this.getFullYear(), 0, 1);
 //     var jul = new Date(this.getFullYear(), 6, 1);
@@ -298,31 +301,44 @@ class SimpleModal extends React.Component {
           .then(response => {
             console.log(response);
             let days = response.data.days;
-            let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone).format();
             // let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone);
-            console.log(timezone);
+            // console.log(timezone);
             let days_copy = Object.assign({}, this.state.weekly);
             var keys = Object.keys(days); 
 
+
             for(var i = 0; i < keys.length; i++) { 
-                 let d_start = new Date();
-                 let d_end = new Date();
+                let d_start = new Date();
+                let d_end = new Date();
+               days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
+               days_copy[keys[i]].standard_end_time= new Date(days[keys[i]].standard_end_time.date); 
+               days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
+               days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
 
-                d_start.setHours(parseInt(days[keys[i]].standard_start_time));
-                d_start.setMinutes(0);
-                d_start.setSeconds(0); 
-                d_end.setHours(parseInt(days[keys[i]].end_time));
-                d_end.setMinutes(0);
-                d_end.setSeconds(0); 
-                days_copy[keys[i]].standard_start_time = d_start; 
-                days_copy[keys[i]].standard_end_time= d_end; 
-                days_copy[keys[i]].interval_start_time  = d_start; 
-                days_copy[keys[i]].interval_end_time  = d_end; 
+               // this.setState({ weekly: days[key] });
+               var key = (keys[i]) ; 
+               console.log(days[key]) 
+           }
 
-                // this.setState({ weekly: days[key] });
-                var key = (keys[i]) ; 
-                console.log(days[key]) 
-            }
+            // for(var i = 0; i < keys.length; i++) { 
+            //      let d_start = new Date();
+            //      let d_end = new Date();
+
+            //     d_start.setHours(parseInt(days[keys[i]].standard_start_time.date));
+            //     d_start.setMinutes(0);
+            //     d_start.setSeconds(0); 
+            //     d_end.setHours(parseInt(days[keys[i]].standard_end_time.date));
+            //     d_end.setMinutes(0);
+            //     d_end.setSeconds(0); 
+            //     days_copy[keys[i]].standard_start_time = d_start; 
+            //     days_copy[keys[i]].standard_end_time= d_end; 
+            //     days_copy[keys[i]].interval_start_time  = d_start; 
+            //     days_copy[keys[i]].interval_end_time  = d_end; 
+
+            //     // this.setState({ weekly: days[key] });
+            //     var key = (keys[i]) ; 
+            //     console.log(days[key]) 
+            // }
             this.setState({ weekly: days_copy});
 
             // Object.keys(days).forEach(function(value, key) {

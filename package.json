@@ -39,6 +39,7 @@
         "material-ui-rating": "^3.1.0",
         "material-ui-star-rating": "^1.0.0",
         "moment": "^2.24.0",
+        "moment-timezone": "^0.5.25",
         "query-string": "^6.4.2",
         "react-autosuggest": "^9.4.3",
         "react-bootstrap": "^1.0.0-beta.8",

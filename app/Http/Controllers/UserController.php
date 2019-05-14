@@ -85,13 +85,8 @@ class UserController extends Controller
                                     ->where('occupation_id', $occupation->id)
                                     ->where('user_id', $user->id)
                                     ->first();
-                \Log::alert($occupation->id);
-                \Log::alert($user->id);
-
-                \Log::alert('PREVVV'.$prevOccupation);
 
                 if($prevOccupation){
-                    \Log::alert('inPREVVVV');
                     OccupationUser::withTrashed()
                                     ->where('occupation_id', $occupation->id)
                                     ->where('user_id', $user->id)
@@ -114,16 +109,8 @@ class UserController extends Controller
                 }
             }
         }
-
-       
-
-          \Log::alert($hourlyArr);
-          \Log::alert($this->getUserInfo($token)->getData('hourly_price')['hourly_price']);
        
         $result = array_diff($hourlyArr, $registeredProfessions);
-
-          \Log::alert($result);
-        // $occupation_user = new OccupationUser;
 
         $postal_code_var = str_replace("-", "", $request['cep']);
 
@@ -153,12 +140,12 @@ class UserController extends Controller
 
     public function updateAvailability(Request $request, $token) 
     {
-
-    \Log::alert($request->all());
-        $timezoneOffset = $request['timezone'] / 60;
         $weekly = json_decode($request['weekly']);
 
         $user = User::where('token','=',$token)->first();
+        User::where('token','=',$token)
+                ->update(['timezone' => $request->timezone]);
+        $timezone = new DateTimeZone('UTC');
 
         foreach ($weekly as $key_day => $day) {
             $arrDay = (array)$day;
@@ -167,11 +154,12 @@ class UserController extends Controller
             $availableDay = Availability::where('date', $key_day)->first();
 
             if($availableDay){
-                $availableDay->update([
-                    $arrKey[0] => $arrDay[$arrKey[0]],
-                    $arrKey[1] => $arrDay[$arrKey[1]],
-                    $arrKey[2] => $arrDay[$arrKey[2]],
-                    $arrKey[3] => $arrDay[$arrKey[3]]
+                $available = Availability::where('date', $key_day);
+                $available->update([
+                    $arrKey[0] =>  new DateTime($arrDay[$arrKey[0]], $timezone),
+                    $arrKey[1] => new DateTime($arrDay[$arrKey[1]], $timezone),
+                    $arrKey[2] => new DateTime($arrDay[$arrKey[2]], $timezone),
+                    $arrKey[3] => new DateTime($arrDay[$arrKey[3]], $timezone)
                 ]);
             }
 
@@ -180,7 +168,6 @@ class UserController extends Controller
                 $availableDay->ally_id = $user->id;
                 $availableDay->date = $key_day;
 
-                $timezone = new DateTimeZone('UTC');
                 $standard_date_start = new DateTime($arrDay[$arrKey[0]], $timezone);
                 $standard_date_end = new DateTime($arrDay[$arrKey[1]], $timezone);
                 $interval_date_start = new DateTime($arrDay[$arrKey[2]], $timezone);
@@ -200,30 +187,20 @@ class UserController extends Controller
     {
         $user = User::where('token','=',$token)->first();
         $available = Availability::where('ally_id', $user->id)->get();
+        $timezoneStrg = $user->timezone;
+        $timezone = new DateTimeZone($timezoneStrg);
+
+        
         $dayObj = [];
         foreach ($available as $key_day => $day) {
-            \Log::alert('Key DAY'.$key_day);
-            \Log::alert(' DAY'.$day);
-            \Log::alert(' DAY'. $day->ally_id);
-
-            $dayObj [$day->date]['standard_start_time'] = $day->standard_start_time;
-            $dayObj [$day->date]['standard_end_time'] = $day->standard_end_time;
-            $dayObj [$day->date]['interval_start_time'] = $day->interval_start_time;
-            $dayObj [$day->date]['interval_end_time'] = $day->interval_end_time;
+            $dayObj [$day->date]['standard_start_time'] = (new \DateTime($day->standard_start_time))->setTimezone($timezone); 
+            $dayObj [$day->date]['standard_end_time'] = (new \DateTime($day->standard_end_time))->setTimezone($timezone); 
+            $dayObj [$day->date]['interval_start_time'] = (new \DateTime($day->interval_start_time))->setTimezone($timezone); 
+            $dayObj [$day->date]['interval_end_time'] = (new \DateTime($day->interval_end_time))->setTimezone($timezone); 
 
         }
-
-        $key = getenv('GOOGLE_API');
-        $url = 'https://maps.googleapis.com/maps/api/timezone/json?location='.$user->latitude.','.$user->longitude.'&timestamp='.time().'&key='.$key;
-        $response_timezone = file_get_contents($url);
-        $timezone = json_decode($response_timezone, true)['timeZoneId'];
-
-
-        \Log::alert(' DAY OBJJJJ'.json_encode($dayObj));
-
         return response()->json([
-            'days' => $dayObj,
-            'timezone' => $timezone
+            'days' => $dayObj
         ]);
     }
 }
