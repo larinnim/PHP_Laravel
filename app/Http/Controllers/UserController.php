@@ -12,6 +12,8 @@ use Auth;
 use DB;
 use DateTime;
 use DateTimeZone;
+use DatePeriod;
+use DateInterval;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -156,7 +158,7 @@ class UserController extends Controller
             if($availableDay){
                 $available = Availability::where('date', $key_day);
                 $available->update([
-                    $arrKey[0] =>  new DateTime($arrDay[$arrKey[0]], $timezone),
+                    $arrKey[0] => new DateTime($arrDay[$arrKey[0]], $timezone),
                     $arrKey[1] => new DateTime($arrDay[$arrKey[1]], $timezone),
                     $arrKey[2] => new DateTime($arrDay[$arrKey[2]], $timezone),
                     $arrKey[3] => new DateTime($arrDay[$arrKey[3]], $timezone)
@@ -190,7 +192,6 @@ class UserController extends Controller
         $timezoneStrg = $user->timezone;
         $timezone = new DateTimeZone($timezoneStrg);
 
-        
         $dayObj = [];
         foreach ($available as $key_day => $day) {
             $dayObj [$day->date]['standard_start_time'] = (new \DateTime($day->standard_start_time))->setTimezone($timezone); 
@@ -202,5 +203,77 @@ class UserController extends Controller
         return response()->json([
             'days' => $dayObj
         ]);
+    }
+
+    public function updateAvailabilitySpecific(Request $request, $token)
+    {
+        \Log::alert($request->all());
+        $user = User::where('token','=',$token)->first();
+
+        User::where('token','=',$token)
+            ->update(['timezone' => $request->timezone]);
+        // \Log::alert($request->specific_start_date);
+        $timezone = new DateTimeZone('UTC');
+        // $date_time_start = new DateTime($request->specific_start_date, $timezone);
+
+        // $date_time_start = new \DateTime(trim($request->specific_start_date, '"'));
+        $date_time_start = new DateTime($request->specific_start_date, $timezone);
+        $date_time_end = new DateTime($request->specific_end_date, $timezone);
+
+        \Log::alert('REQUEST'.$request->specific_end_date);
+
+        $range = $this->get_dates_through_range($request->specific_start_date, $request->specific_end_date);
+        \Log::alert($range);
+        foreach ($range as $key_day => $day) {
+            $available_data = Availability::where('date', $day)->first();
+
+            \Log::alert('AVAILABLEE'.$available_data);
+            if($available_data){
+                $available = Availability::where('date', $day);
+                $available->update([
+                    'standard_start_time' => new DateTime($day, $timezone),
+                    'standard_end_time' => new DateTime($day, $timezone),
+                    'interval_start_time' => new DateTime($day, $timezone),
+                    'interval_end_time' => new DateTime($day, $timezone)
+                ]);
+            }
+            else {
+                $availableDay = new Availability;
+                $availableDay->ally_id = $user->id;
+                $availableDay->date = $day->format('Y-m-d');
+
+                $availableDay->standard_start_time = new DateTime($day, $timezone);
+                $availableDay->standard_end_time = new DateTime($day, $timezone);
+                $availableDay->interval_start_time = new DateTime($day, $timezone);
+                $availableDay->interval_end_time = new DateTime($day, $timezone);
+                $availableDay->save();
+            }
+
+        }
+        // $available = Availability::where('date', $key_day);
+
+        // \Log::alert($date_time_start);
+        // \Log::alert($date_time_end);
+        // $availableDay = Availability::where('date', $key_day)->first();
+
+    }
+
+
+    private function get_dates_through_range($start, $end, $format = 'Y-m-d\TH:i:s.Z\Z')
+    {
+        $range = array();
+        $interval = new DateInterval('P1D');
+
+        $range_end = new DateTime($end);
+        // $range_end->add($interval);
+
+        $period = new DatePeriod(new DateTime($start), $interval, $range_end);
+
+        foreach($period as $key => $date) {
+            $range[] = $date->format($format);
+        }
+        $range[count($range)] = $range_end->format($format);
+
+        return $range;
     }
 }

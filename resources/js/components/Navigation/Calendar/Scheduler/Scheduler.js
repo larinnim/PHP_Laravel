@@ -74,8 +74,8 @@ class SimpleModal extends React.Component {
         },
         availableSwitch: false,
         timeStatus: true,
-        startDateTime: new Date(),
-        endDateTime: "",
+        specific_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
+        specific_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
         value: 0,
         weekly: {
             Monday: {
@@ -133,9 +133,13 @@ class SimpleModal extends React.Component {
     };
 
     handleSwitch = name => event => {
+        let current_specific_start_date = this.state.specific_start_date;
+        let current_specific_end_date = this.state.specific_end_date;
         this.setState({
             timeStatus: !this.state.timeStatus,
-            availableSwitch: !this.state.availableSwitch
+            availableSwitch: !this.state.availableSwitch,
+            specific_start_date: new Date(current_specific_start_date.setHours(0, 0, 0, 0)),
+            specific_end_date: new Date(current_specific_end_date.setHours(0, 0, 0, 0))
         });
     };
 
@@ -154,11 +158,11 @@ class SimpleModal extends React.Component {
     };
 
     handlePickerStart = name => event => {
-        this.setState({ startDateTime: event });
+        this.setState({ specific_start_date: event });
     };
 
     handlePickerEnd = name => event => {
-        this.setState({ endDateTime: event });
+        this.setState({ specific_end_date: event });
     };
 
     handleWeeklyStart = name => event => {
@@ -245,38 +249,48 @@ class SimpleModal extends React.Component {
     </div>
    ))
 
-    handleTimeSlot = () => {
-        const arrayDates = [];
-        arrayDates.push(Moment(new Date(this.state.startDateTime))._d);
-        if (
-            !this.state.endDateTime ||
-            this.state.endDateTime == this.state.startDateTime
-        ) {
-            this.props.getDate(arrayDates);
-        } else {
-            const diffHours = Moment(this.state.endDateTime).diff(
-                Moment(this.state.startDateTime),
-                "hours"
-            );
-            const remainder = (diffHours % 24) / 100;
-            const days_slot = Moment(this.state.endDateTime).diff(
-                Moment(this.state.startDateTime),
-                "days"
-            );
+   saveSpecific = () => {
 
-            // if(remainder == 0){
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
+    formData.append("specific_start_date", this.state.specific_start_date.toISOString());
+    formData.append("specific_end_date", this.state.specific_end_date.toISOString());
+    formData.append("timezone", timezone);
+    axios
+            .post("/api/availability/specific/" + token, formData)
+            .then(response => {
+                return response;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        // const arrayDates = [];
+        // arrayDates.push(Moment(new Date(this.state.startDateTime))._d);
+        // if (
+        //     !this.state.endDateTime ||
+        //     this.state.endDateTime == this.state.startDateTime
+        // ) {
+        //     this.props.getDate(arrayDates);
+        // } else {
+        //     const diffHours = Moment(this.state.endDateTime).diff(
+        //         Moment(this.state.startDateTime),
+        //         "hours"
+        //     );
+        //     const remainder = (diffHours % 24) / 100;
+        //     const days_slot = Moment(this.state.endDateTime).diff(
+        //         Moment(this.state.startDateTime),
+        //         "days"
+        //     );
+
+        //     // if(remainder == 0){
            
-            for (var i = 1; i <= days_slot; i++) {
-                arrayDates.push(
-                    Moment(new Date(this.state.startDateTime)).add(i, "d")._d
-                );
-            }
-            // }
-
-         
-
-            this.props.getDate(arrayDates);
-        }
+        //     for (var i = 1; i <= days_slot; i++) {
+        //         arrayDates.push(
+        //             Moment(new Date(this.state.startDateTime)).add(i, "d")._d
+        //         );
+        //     }
+        //     this.props.getDate(arrayDates);
+        // }
     };
 
     saveWeekly = () => {
@@ -426,23 +440,29 @@ class SimpleModal extends React.Component {
                                         <div>
                                             Start
                                             <DateTimePicker
-                                                defaultValue={new Date()}
+                                                step={60}
+                                                defaultValue={this.state.specific_start_date}
+                                                // defaultValue={new Date()}
                                                 onChange={this.handlePickerStart()}
                                                 time={timeStatus}
-                                                min={new Date()}
+                                                min={this.state.specific_start_date}
+                                                // min={new Date()}
                                             />
                                         </div>
 
                                         <div style={{ marginTop: 40 }}>
                                             End
                                             <DateTimePicker
-                                                defaultValue={new Date()}
+                                                step={60}
+                                                // defaultValue={new Date()}
+                                                defaultValue={this.state.specific_end_date}
                                                 onChange={this.handlePickerEnd()}
-                                                min={new Date()}
+                                                min={this.state.specific_start_date}
+                                                // min={new Date()}
                                                 time={timeStatus}
                                             />
                                         </div>
-                                        <Button size="small" onClick={this.handleTimeSlot}>
+                                        <Button size="small" onClick={this.saveSpecific}>
                                             Save
                                         </Button>
                         </TabContainer>
