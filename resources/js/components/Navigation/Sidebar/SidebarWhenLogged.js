@@ -36,7 +36,7 @@ import axios from "axios";
 import { throws } from "assert";
 import { connect } from "react-redux";
 import styles from "./SidebarWhenLogged_Style";
-
+import Profile from "../Profile/Profile";
 
 class SidebarWhenLogged extends React.Component {
     _isMounted = false;
@@ -93,7 +93,7 @@ class SidebarWhenLogged extends React.Component {
     renderSwitch(param, style) {
         switch (param.name) {
             case "Profile":
-                return null;
+                return <Profile key={param.id}/>
             case "Messages":
                 return "Messages";
             case "Settings":
