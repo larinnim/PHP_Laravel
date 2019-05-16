@@ -23,7 +23,7 @@ import SwipeableViews from 'react-swipeable-views';
 import SaveIcon from '@material-ui/icons/Save';
 import axios from "axios";
 
-Moment.locale("pt-BR");
+Moment.locale(navigator.language);
 momentLocalizer();
 
 // const  timezone = new Date().getTimezoneOffset();
@@ -72,10 +72,14 @@ class SimpleModal extends React.Component {
             Saturday: false,
             Sunday: false,
         },
+        openIntervalSpecifc: false,
+        specificDays: {},
         availableSwitch: false,
         timeStatus: true,
         specific_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
         specific_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
+        specific_interval_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
+        specific_interval_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
         value: 0,
         weekly: {
             Monday: {
@@ -153,6 +157,12 @@ class SimpleModal extends React.Component {
         this.setState({ openInterval:  openInterval});
     };
 
+    handleIntervalSpecific () {
+        let openIntervalSpecifc = this.state.openIntervalSpecifc;
+        openIntervalSpecifc = !openIntervalSpecifc;
+        this.setState({ openIntervalSpecifc:  openIntervalSpecifc});
+    };
+
     handleClose = () => {
         this.setState({ open: false });
     };
@@ -189,6 +199,16 @@ class SimpleModal extends React.Component {
         var var_weekly = this.state.weekly;
         var_weekly[name].interval_end_time = new Date(event);
         this.setState({ weekly: var_weekly }); 
+    }
+
+    handleIntervalSpecificStart = name => event => {
+        console.log(name);
+        console.log(event);
+        this.setState({ specific_interval_start_date: new Date(event)}); 
+    }
+
+    handleIntervalSpecificEnd = name => event => {
+        this.setState({ specific_interval_end_date:  new Date(event) }); 
     }
 
     weekDays_html = () => 
@@ -255,6 +275,8 @@ class SimpleModal extends React.Component {
     const formData = new FormData();
     formData.append("specific_start_date", this.state.specific_start_date.toISOString());
     formData.append("specific_end_date", this.state.specific_end_date.toISOString());
+    // formData.append("specific_interval_start_date", this.state.specific_interval_start_date.toISOString());
+    // formData.append("specific_interval_end_date", this.state.specific_interval_end_date.toISOString());
     formData.append("timezone", timezone);
     axios
             .post("/api/availability/specific/" + token, formData)
@@ -264,33 +286,6 @@ class SimpleModal extends React.Component {
             .catch(error => {
                 console.log(error);
             });
-        // const arrayDates = [];
-        // arrayDates.push(Moment(new Date(this.state.startDateTime))._d);
-        // if (
-        //     !this.state.endDateTime ||
-        //     this.state.endDateTime == this.state.startDateTime
-        // ) {
-        //     this.props.getDate(arrayDates);
-        // } else {
-        //     const diffHours = Moment(this.state.endDateTime).diff(
-        //         Moment(this.state.startDateTime),
-        //         "hours"
-        //     );
-        //     const remainder = (diffHours % 24) / 100;
-        //     const days_slot = Moment(this.state.endDateTime).diff(
-        //         Moment(this.state.startDateTime),
-        //         "days"
-        //     );
-
-        //     // if(remainder == 0){
-           
-        //     for (var i = 1; i <= days_slot; i++) {
-        //         arrayDates.push(
-        //             Moment(new Date(this.state.startDateTime)).add(i, "d")._d
-        //         );
-        //     }
-        //     this.props.getDate(arrayDates);
-        // }
     };
 
     saveWeekly = () => {
@@ -319,9 +314,10 @@ class SimpleModal extends React.Component {
             // console.log(timezone);
             let days_copy = Object.assign({}, this.state.weekly);
             var keys = Object.keys(days); 
+            var specificDaysArr = {};
+            var specificDaysObj = {};
 
-
-            for(var i = 0; i < keys.length; i++) { 
+            for(var i = 0; i < keys.length-7; i++) { 
                 let d_start = new Date();
                 let d_end = new Date();
                days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
@@ -334,42 +330,19 @@ class SimpleModal extends React.Component {
                console.log(days[key]) 
            }
 
-            // for(var i = 0; i < keys.length; i++) { 
-            //      let d_start = new Date();
-            //      let d_end = new Date();
-
-            //     d_start.setHours(parseInt(days[keys[i]].standard_start_time.date));
-            //     d_start.setMinutes(0);
-            //     d_start.setSeconds(0); 
-            //     d_end.setHours(parseInt(days[keys[i]].standard_end_time.date));
-            //     d_end.setMinutes(0);
-            //     d_end.setSeconds(0); 
-            //     days_copy[keys[i]].standard_start_time = d_start; 
-            //     days_copy[keys[i]].standard_end_time= d_end; 
-            //     days_copy[keys[i]].interval_start_time  = d_start; 
-            //     days_copy[keys[i]].interval_end_time  = d_end; 
-
-            //     // this.setState({ weekly: days[key] });
-            //     var key = (keys[i]) ; 
-            //     console.log(days[key]) 
-            // }
-            this.setState({ weekly: days_copy});
-
-            // Object.keys(days).forEach(function(value, key) {
-            //     console.log(value+key);
-            // });
-            // Object.keys(days).map((week_day, i) => {  
-                // let d = new Date();
-                // d.setHours(parseInt(days.Friday.start_date));
-                // d.setMinutes(0);
-                // d.setSeconds(0);   
-            //     console.log(week_day + i + week_day[i]);
-            //  })
-           
-
-            // console.log(d.setHours(parseInt(days.Friday.start_date)));
-            // console.log(days.Friday.start_date)
-            console.log(response);
+           for(var i = 7; i < keys.length; i++){
+            specificDaysArr['specific_start_date'] = new Date(days[keys[i]].standard_start_time.date); 
+            specificDaysArr['specific_end_date'] = new Date(days[keys[i]].standard_end_time.date); 
+            // specificDaysArr['date'].specific_interval_start_date = new Date(days[keys[i]].specific_interval_start_date); 
+            // specificDaysArr['date'].specific_interval_end_date = new Date(days[keys[i]].specific_interval_end_date); 
+            // specificDaysObj.push(specificDaysArr);
+            specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+            specificDaysArr = [];
+           }
+            this.setState({ 
+                weekly: days_copy,
+                specificDays: specificDaysObj
+            });
           })
       }
 
@@ -449,7 +422,37 @@ class SimpleModal extends React.Component {
                                                 // min={new Date()}
                                             />
                                         </div>
+                                        <Button onClick={() => this.handleIntervalSpecific()}><AddIcon/> Add Interval</Button>
+                                        { this.state.openIntervalSpecifc ?
+                                            <div style={{ backgroundColor: 'grey' }}>
+                                                <div>
+                                                    Start
+                                                    <DateTimePicker
+                                                        defaultValue={this.state.specific_interval_start_date}
+                                                        onChange={this.handleIntervalSpecificStart()}
+                                                        step={60}
+                                                        // date={false}
+                                                        min={this.state.specific_start_date}
+                                                        max={this.state.specific_end_date}
+                                                        time={timeStatus}
+                                                    />
+                                                </div>
 
+                                                <div style={{ marginTop: 40 }}>
+                                                    End
+                                                    <DateTimePicker
+                                                        defaultValue={this.state.specific_interval_end_date}
+                                                        onChange={this.handleIntervalSpecificEnd()}
+                                                        step={60}
+                                                        // date={false}
+                                                        min={this.state.specific_start_date}
+                                                        max={this.state.specific_end_date}
+                                                        time={timeStatus}
+                                                    />
+                                                </div>
+                                            </div>
+                                        : ''
+                                    }
                                         <div style={{ marginTop: 40 }}>
                                             End
                                             <DateTimePicker
@@ -468,58 +471,6 @@ class SimpleModal extends React.Component {
                         </TabContainer>
                         </SwipeableViews>
                     </div>
-               
-                    {/* <div
-                        className={`${classes.paper} ${
-                            classes.centerScheduler
-                        }`}
-                    >
-                        <Typography variant="h6" id="modal-title">
-                            Set Unavailable Dates and Times
-                        </Typography>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    classes={{
-                                        switchBase: classes.iOSSwitchBase,
-                                        bar: classes.iOSBar,
-                                        icon: classes.iOSIcon,
-                                        iconChecked: classes.iOSIconChecked,
-                                        checked: classes.iOSChecked
-                                    }}
-                                    disableRipple
-                                    checked={this.state.availableSwitch}
-                                    onChange={this.handleSwitch(
-                                        "availableSwitch"
-                                    )}
-                                    value="availableSwitch"
-                                />
-                            }
-                            label="All Day"
-                        />
-                        <div>
-                            Start
-                            <DateTimePicker
-                                defaultValue={new Date()}
-                                onChange={this.handlePickerStart()}
-                                time={timeStatus}
-                                min={new Date()}
-                            />
-                        </div>
-
-                        <div style={{ marginTop: 40 }}>
-                            End
-                            <DateTimePicker
-                                defaultValue={new Date()}
-                                onChange={this.handlePickerEnd()}
-                                min={new Date()}
-                                time={timeStatus}
-                            />
-                        </div>
-                        <Button size="small" onClick={this.handleTimeSlot}>
-                            Save
-                        </Button>
-                    </div> */}
                 </Modal>
             </div>
         );

@@ -224,23 +224,49 @@ class UserController extends Controller
 
         $range = $this->get_dates_through_range($request->specific_start_date, $request->specific_end_date);
         \Log::alert($range);
-        foreach ($range as $key_day => $day) {
-            $available_data = Availability::where('date', $day)->first();
+        $range_only_date=array();
+        foreach($range as $key => $date) {
+            \Log::alert('DATE'.$date);
 
-            \Log::alert('AVAILABLEE'.$available_data);
+            $dateTime = new DateTime($date, $timezone);
+            $range_only_date[] = $dateTime->format('Y-m-d');
+        }
+        if($range_only_date[count($range_only_date)-1] == $range_only_date[count($range_only_date)-2]){
+            $repeted = true;
+        }
+        foreach ($range as $key_day => $day) {
+            $dateConst = new DateTime($day, $timezone);
+            $availableFormatted = $dateConst->format('Y-m-d');
+            $available_data = Availability::where('date', $availableFormatted)->first();
+
+            \Log::alert('DAY FORMATED:'.$availableFormatted);
+
             if($available_data){
-                $available = Availability::where('date', $day);
-                $available->update([
-                    'standard_start_time' => new DateTime($day, $timezone),
-                    'standard_end_time' => new DateTime($day, $timezone),
-                    'interval_start_time' => new DateTime($day, $timezone),
-                    'interval_end_time' => new DateTime($day, $timezone)
-                ]);
+                $available = Availability::where('date', $availableFormatted);
+                
+                //Handle the last value is duplicated
+                if($repeted && $availableFormatted == $range_only_date[count($range_only_date)-1]){
+                    $available->update([
+                        'standard_start_time' => new DateTime($range_only_date[count($range_only_date)-2], $timezone),
+                        'standard_end_time' => new DateTime($day, $timezone),
+                        'interval_start_time' => new DateTime($day, $timezone),
+                        'interval_end_time' => new DateTime($day, $timezone)
+                    ]);
+                }
+                else{
+                    $available->update([
+                        'standard_start_time' => new DateTime($day, $timezone),
+                        'standard_end_time' => new DateTime($day, $timezone),
+                        'interval_start_time' => new DateTime($day, $timezone),
+                        'interval_end_time' => new DateTime($day, $timezone)
+                    ]);
+                }
             }
             else {
+                \Log::alert('HERE');
                 $availableDay = new Availability;
                 $availableDay->ally_id = $user->id;
-                $availableDay->date = $day->format('Y-m-d');
+                $availableDay->date = $dateConst->format('Y-m-d');
 
                 $availableDay->standard_start_time = new DateTime($day, $timezone);
                 $availableDay->standard_end_time = new DateTime($day, $timezone);
@@ -273,7 +299,6 @@ class UserController extends Controller
             $range[] = $date->format($format);
         }
         $range[count($range)] = $range_end->format($format);
-
         return $range;
     }
 }
