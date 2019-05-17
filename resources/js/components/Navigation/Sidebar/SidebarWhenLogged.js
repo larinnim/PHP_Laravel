@@ -122,18 +122,6 @@ class SidebarWhenLogged extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
-        // axios.get('/api/getUserData/' + token)
-        //     .then(res => {
-        //        const post_job_value = response.data.post_job ? true : false;
-        //       const mate_value = response.data.mate ? true : false;
-        //       const userData = [...this.state.user];
-        //       userData.name = response.data.name;
-        //       userData.post_job = post_job_value;
-        //       userData.mate = mate_value;
-        //       if (this._isMounted) {
-        //         this.setState({user: userData});
-        //       }
-        //      });
         axios.get("/api/userInfo/" + this.props.token).then(response => {
             const user = response.data.user;
             // const hourly_price = response.data.hourly_price;

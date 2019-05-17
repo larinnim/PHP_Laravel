@@ -8,6 +8,7 @@ use App\OccupationUser;
 use App\Occupation;
 use App\Availability;
 use App\TimeSlot;
+use App\Booking;
 use Auth;
 use DB;
 use DateTime;
@@ -300,5 +301,25 @@ class UserController extends Controller
         }
         $range[count($range)] = $range_end->format($format);
         return $range;
+    }
+
+    public function getJobAlly($token){
+        $user = User::where('token','=',$token)->first();
+        // DB::table('booking')
+        // ->join('users', function ($join, $user) {
+        //     $join->on('booking.postjob_id', '=', 'users.id')
+        //         ->where('ally_id', $user->id);
+        // })
+        // ->get();
+        $jobsByAlly = Booking::where('ally_id', $user->id)
+                        // ->leftJoin('users', 'booking.postjob_id', '=', 'posts.user_id')
+                        ->join('users', function ($join) {
+                        $join->on('booking.postjob_id', '=', 'users.id');
+                        // ->select('users.member_since', 'users.name', 'users.rating', 'users.total_rating', 'users.avatar');
+                        })
+                        ->get(array('users.member_since', 'users.name', 'users.rating', 'users.total_rating', 'users.avatar',
+                        'booking.start_datetime', 'booking.end_datetime', 'booking.finished', 'booking.pending', 'booking.payment_amount'));
+        \Log::alert(json_encode($jobsByAlly));
+        return $jobsByAlly;
     }
 }
