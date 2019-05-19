@@ -474,11 +474,15 @@ class Register extends Component {
                     </form>
                     ------------------------------------- or -------------------------------------
                     <div>
-                    <FacebookLoginButton url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
-                    <GoogleLoginButton url={'api/login/google'} onClick={this.props.onSignSocial}/>
-
-                        {/* <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
-                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/> */}
+                    {/* <FacebookLoginButton url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+                    <GoogleLoginButton url={'api/login/google'} onClick={this.props.onSignSocial}/> */}
+                        <Grid container justify = "center">
+                        <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial} style={{right:'20px'}}/>
+                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+                        </Grid>
+                        {/* <Grid container justify = "left">
+                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
+                        </Grid> */}
                         <Grid container justify = "center">
                         <div>Already have an account? <Link to={'/login'}>Log in</Link></div>
                         </Grid>
