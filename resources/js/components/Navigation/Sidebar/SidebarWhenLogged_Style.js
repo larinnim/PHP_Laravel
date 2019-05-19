@@ -91,6 +91,26 @@ export default theme => ({
         outline: "none",
         textAlign: "center"
     },
+    setProfession: {
+        float: "right",
+        display: "inline-block",
+        height: "auto",
+        width: "auto",
+        margin: "20px 40px 0 16px",
+        boxSizing: "border-box",
+        border: "transparent",
+        borderRadius: "60px",
+        fontFamily: "'Raleway', sans-serif",
+        fontSize: "14px",
+        fontWeight: "500",
+        textTransform: "uppercase",
+        letterSpacing: "0.2em",
+        color: "#ffffff",
+        backgroundColor: "red",
+        cursor: "pointer",
+        outline: "none",
+        textAlign: "center"
+    },
     make_uppercase: {
         textTransform: "capitalize"
     },

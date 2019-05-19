@@ -13,7 +13,8 @@ import FilledInput from "@material-ui/core/FilledInput";
 import Typography from "@material-ui/core/Typography";
 import Dropzone from "../../components/Dropzone";
 import { connect } from "react-redux";
-
+import Paper from '@material-ui/core/Paper';
+import Register from '../Auth/Register/Register';
 
 const divStyle = {
     display: "flex"
@@ -39,14 +40,17 @@ class AgentsOccupation extends React.Component {
         const values = queryString.parse(this.props.location.search);
         let url = "/api/occupations/agents?q=" + encodeURI(values.q);
         axios.get(url).then(response => {
-            response.data = response.data.sort(
-                (a, b) => a.hourly_rate - b.hourly_rate
-            );
-            if (this._isMounted) {
-                this.setState({
-                    users: response.data
-                });
+            if(response.data){
+                response.data = response.data.sort(
+                    (a, b) => a.hourly_rate - b.hourly_rate
+                );
+                if (this._isMounted) {
+                    this.setState({
+                        users: response.data
+                    });
+                }
             }
+        
         });
 
         axios
@@ -92,6 +96,37 @@ class AgentsOccupation extends React.Component {
         }
         this.setState({ [event.target.name]: event.target.value });
     };
+
+    agent_occupation_html = () => {
+        this.state.users.map(user => (
+            <article style={divStyle} key={user.id}>
+                <Cards
+                    name={user.name}
+                    member_since={user.member_since}
+                    hourly_rate={user.hourly_rate}
+                    professions={user.professions}
+                    rating={user.rating}
+                    total_rating={user.total_rating}
+                    imgSrc={this.state.imgSrc}
+                />
+
+                <Hidden smDown>
+                    <div
+                        className="DottedBox_content"
+                        style={{ background: "white" }}
+                    >
+                        Your ally is located within this area:
+                        <GoogleMaps
+                            lat={parseFloat(user.latitude)}
+                            lng={parseFloat(user.longitude)}
+                            zoom={8}
+                        />
+                    </div>
+                </Hidden>
+            </article>
+        ));
+    }
+
     render() {
         return (
             <div>
@@ -123,7 +158,7 @@ class AgentsOccupation extends React.Component {
                         </Select>
                     </div>
                 </div>
-                {this.state.users.map(user => (
+                {/* {this.state.users.map(user => (
                     <article style={divStyle} key={user.id}>
                         <Cards
                             name={user.name}
@@ -149,9 +184,12 @@ class AgentsOccupation extends React.Component {
                             </div>
                         </Hidden>
                     </article>
-                ))}
+                ))} */}
+                {this.state.users.length > 0 ? this.agent_occupation_html() : 
+                    <Register agentNotFound={true} location={queryString.parse(this.props.location.search).q}/>
+                }
                
-                <Dropzone />
+                {/* <Dropzone /> */}
             </div>
         );
     }

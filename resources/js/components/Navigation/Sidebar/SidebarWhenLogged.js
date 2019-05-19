@@ -37,6 +37,7 @@ import { throws } from "assert";
 import { connect } from "react-redux";
 import styles from "./SidebarWhenLogged_Style";
 import Profile from "../Profile/Profile";
+import Button from '@material-ui/core/Button';
 
 class SidebarWhenLogged extends React.Component {
     _isMounted = false;
@@ -120,6 +121,32 @@ class SidebarWhenLogged extends React.Component {
         }
     }
 
+    becomePostJobOrMateHandle(postJobOrMate) {
+        let postJob = this.state.user.post_job;
+        let mate = this.state.user.mate;
+
+        if(postJobOrMate == 'post_job'){
+            postJob = true;
+        }
+        else if(postJobOrMate == 'mate'){
+            mate = true;
+        }
+        let data = {'post_job': postJob, 'mate': mate};
+        axios
+                .post("/api/postJobOrMate/" + this.props.token, data)
+                .then(response => {
+                        let userVar = [...this.state.user];
+                        userVar.post_job = response.data.post_job;
+                        userVar.mate = response.data.mate;
+                        this.setState({
+                            user : {...this.state.user, post_job: response.data.post_job, mate: response.data.mate}
+                        });
+                })
+                .catch(error => {
+                    console.log("Settings Page" + error);
+                });
+    }
+
     componentDidMount() {
         this._isMounted = true;
         axios.get("/api/userInfo/" + this.props.token).then(response => {
@@ -140,18 +167,18 @@ class SidebarWhenLogged extends React.Component {
                 (userData.post_job = user.post_job ? true : false),
                 (userData.mate = user.mate ? true : false);
 
-            axios
-                .get("/api/getImage/" + userData.avatar)
-                .then(response => {
-                    if (this._isMounted) {
-                        this.setState({ profileImgSrc: response.data });
-                    }
-                })
-                .catch(error => console.log(error));
-            if (this._isMounted) {
-                this.setState({ user: userData });
-                this.setState({ hourly_price: response.data.hourly_price });
-            }
+                axios
+                    .get("/api/getImage/" + this.props.token)
+                    .then(response => {
+                        if (this._isMounted) {
+                            this.setState({ profileImgSrc: response.data });
+                        }
+                    })
+                    .catch(error => console.log(error));
+                if (this._isMounted) {
+                    this.setState({ user: userData });
+                    this.setState({ hourly_price: response.data.hourly_price });
+                }
         });
 
         // axios.get('/api/getImage/' + this.state.user.avatar)
@@ -178,7 +205,8 @@ class SidebarWhenLogged extends React.Component {
 
     render() {
         const { classes, theme } = this.props;
-        const { open, tabs, user, profileImgSrc } = this.state;
+        const { open, tabs, user, profileImgSrc, hourly_price } = this.state;
+     
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -335,9 +363,24 @@ class SidebarWhenLogged extends React.Component {
                                 ) : null}
                             </ListItem>
                         ))}
-                        <span className={classes.upgradePlan}>
-                            Become a Post Job
-                        </span>
+                        {user.mate && !user.post_job? 
+                            <Button className={classes.upgradePlan}  component="span"  onClick={() => this.becomePostJobOrMateHandle('post_job')}>
+                                Become a Post Job
+                            </Button>
+                            : user.post_job && !user.mate ?
+                            <Button className={classes.upgradePlan}  component="span"  onClick={() => this.becomePostJobOrMateHandle('mate')}>
+                                Become a Mate
+                            </Button>
+                            : null
+                        }
+                        {hourly_price.length == 0 ? 
+                            <span className={classes.setProfession}  component="span">
+                                Set your Professions. Go to Settings
+                            </span>
+                        : 
+                            null
+                        }
+
                     </List>
                 </Drawer>
                 <main

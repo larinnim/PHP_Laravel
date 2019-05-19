@@ -35,10 +35,11 @@ class UserController extends Controller
             $occupation_arr[$occupation->occupation] = $value['price'];
         }
         \Log::alert( $occupation_arr);
+            
         return response()   
             ->json([
                 'user' => $user,
-                'hourly_price' => $occupation_arr
+                'hourly_price' => $occupation_arr,
             ]);
     }
 
@@ -321,5 +322,24 @@ class UserController extends Controller
                         'booking.start_datetime', 'booking.end_datetime', 'booking.finished', 'booking.pending', 'booking.payment_amount'));
         \Log::alert(json_encode($jobsByAlly));
         return $jobsByAlly;
+    }
+
+    public function updatePostJobOrMate(Request $request, $token){
+        $post_job = $request['post_job'];
+        $mate = $request['mate'];
+
+        $user = User::where('token','=',$token)
+                ->update([
+                    'post_job' => $post_job,
+                    'mate' => $mate,
+                ]);
+
+        return response()->json([
+            'post_job' => $post_job,
+            'mate' => $mate,
+        ]);
+        // \Log::alert('HERE');
+
+        // \Log::alert($request->all());
     }
 }

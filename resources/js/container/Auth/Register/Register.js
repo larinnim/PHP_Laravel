@@ -12,8 +12,12 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import SnackbarComponent from "../../../components/Snackbar";
 import Grid from "@material-ui/core/Grid";
+import queryString from "query-string";
 import { connect } from "react-redux";
 import { SocialIcon } from 'react-social-icons';
+import {Link} from "react-router-dom";
+import { FacebookLoginButton } from "react-social-login-buttons";
+import { GoogleLoginButton } from "react-social-login-buttons";
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -252,12 +256,12 @@ class Register extends Component {
             <div className="wrapper">
                 <SidebarComponent isLoggedIn={this.props.auth} />
                 <div className="form-wrapper">
-                    <h2>Create Account</h2>
-                    <div>
-                        <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
-                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
-                    </div>
-            ------------------ or ------------------
+                {this.props.agentNotFound ? 
+                <div>
+                    <h2>We don't have any {this.props.location} registered yet.</h2> 
+                    <h4>Be the first to get the service! Enter your email to be notified when Tarefazz's ally is in your area.</h4> 
+                </div>
+                : <h2>Create Account</h2>}
                     <form onSubmit={this.handleSubmit} noValidate>
                         <div className="fullName">
                             <label htmlFor="fullName">
@@ -468,6 +472,18 @@ class Register extends Component {
                             <button>{t("register.create")}</button>
                         </div>
                     </form>
+                    ------------------------------------- or -------------------------------------
+                    <div>
+                    <FacebookLoginButton url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+                    <GoogleLoginButton url={'api/login/google'} onClick={this.props.onSignSocial}/>
+
+                        {/* <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
+                        <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/> */}
+                        <Grid container justify = "center">
+                        <div>Already have an account? <Link to={'/login'}>Log in</Link></div>
+                        </Grid>
+                        {/* <div>Already have an account? <Link to={'/login'}>Log in</Link></div> */}
+                    </div>
                 </div>
                 {emptyErrorSnackbar == true ? (
                     <SnackbarComponent

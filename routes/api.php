@@ -20,9 +20,9 @@ use Illuminate\Http\Request;
 //Database Request Routes...
 Route::get('occupations', 'OccupationController@index');
 Route::get('occupations/agents', 'OccupationController@agentOccupation');
-Route::get('occupations/agents', 'OccupationController@agentOccupation');
 Route::get('userInfo/{id}', 'UserController@getUserInfo');
 Route::post('updateProfile/{token}', 'UserController@updateProfile');
+Route::post('postJobOrMate/{token}', 'UserController@updatePostJobOrMate');
 
 //Ally's Availability
 Route::post('availability/{token}', 'UserController@updateAvailability');
@@ -43,6 +43,7 @@ Route::post('uploadImage/{token}', 'AWS3@store');
  Route::post('password/email', 'Auth\ForgotPasswordController@sendEmail');
  Route::post('password/reset', 'Auth\ResetPasswordController@process');
  Route::get('/getUserData/{token}', 'LoginController@getUserData');
+
 //Social Login Laravel
 Route::group(['middleware' => ['web']], function () {
     Route::get('/login/{social}','Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google|github|bitbucket|Instagram');

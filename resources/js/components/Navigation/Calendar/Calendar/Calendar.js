@@ -11,30 +11,31 @@ import { withStyles } from "@material-ui/core/styles";
 import Test from "./Calendar_Style";
 import "./Calendar.css";
 import DayTimeTable from "../DayTimeTable/DayTimeTable";
-const MONTHS = [
-    "Gennaio",
-    "Febbraio",
-    "Marzo",
-    "Aprile",
-    "Maggio",
-    "Giugno",
-    "Luglio",
-    "Agosto",
-    "Settembre",
-    "Ottobre",
-    "Novembre",
-    "Dicembre"
-];
-const WEEKDAYS_LONG = [
-    "Domenica",
-    "Lunedì",
-    "Martedì",
-    "Mercoledì",
-    "Giovedì",
-    "Venerdì",
-    "Sabato"
-];
-const WEEKDAYS_SHORT = ["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"];
+import CalendarLanguage from "./CalendarLanguage";
+// const MONTHS = [
+//     "Gennaio",
+//     "Febbraio",
+//     "Marzo",
+//     "Aprile",
+//     "Maggio",
+//     "Giugno",
+//     "Luglio",
+//     "Agosto",
+//     "Settembre",
+//     "Ottobre",
+//     "Novembre",
+//     "Dicembre"
+// ];
+// const WEEKDAYS_LONG = [
+//     "Domenica",
+//     "Lunedì",
+//     "Martedì",
+//     "Mercoledì",
+//     "Giovedì",
+//     "Venerdì",
+//     "Sabato"
+// ];
+// const WEEKDAYS_SHORT = ["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"];
 
 const modifiers = {
     highlighted: [new Date(2019, 4, 20), new Date(2019, 4, 25)]
@@ -123,10 +124,13 @@ class Calendar extends React.Component {
                                 <DayPicker
                                     locale="pt-BR"
                                     // selectedDays={this.state.selectedDays}
-                                    onDayClick={this.handleDayClick}
-                                    months={MONTHS}
-                                    weekdaysLong={WEEKDAYS_LONG}
-                                    weekdaysShort={WEEKDAYS_SHORT}
+                                    onDayClick={this.handleDayClick}CalendarLanguage
+                                    months={CalendarLanguage("en").MONTHS}
+                                    weekdaysLong={CalendarLanguage("en").WEEKDAYS_LONG}
+                                    weekdaysShort={CalendarLanguage("en").WEEKDAYS_SHORT}
+                                    // months={MONTHS}
+                                    // weekdaysLong={WEEKDAYS_LONG}
+                                    // weekdaysShort={WEEKDAYS_SHORT}
                                     firstDayOfWeek={1}
                                     disabledDays={this.state.disabledDays}
                                     // disabledDays={this.state.modalDates}
