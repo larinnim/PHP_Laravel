@@ -115,8 +115,16 @@ var Cards_func = function Cards(props) {
                     <Typography variant="caption" gutterBottom>
                         Professions:
                     </Typography>
-                    {/* <Typography variant="subheading" gutterBottom> */}
-                    {JSON.parse(professions).map(function(profession, index) {
+                    {professions.map(function(profession, index) {
+                        return (
+                            <ul key={index}>
+                                <li className={classes.capitalize}>
+                                    {profession.occupation}
+                                </li>
+                            </ul>
+                        );
+                    })}
+                    {/* {JSON.parse(professions).map(function(profession, index) {
                         return (
                             <ul key={index}>
                                 <li className={classes.capitalize}>
@@ -124,7 +132,7 @@ var Cards_func = function Cards(props) {
                                 </li>
                             </ul>
                         );
-                    })}
+                    })} */}
                 </div>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>

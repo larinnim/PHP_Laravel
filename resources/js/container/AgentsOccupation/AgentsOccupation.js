@@ -32,6 +32,7 @@ class AgentsOccupation extends React.Component {
 
     state = {
         users: [],
+        professions: [],
         imgSrc: ""
     };
 
@@ -40,28 +41,31 @@ class AgentsOccupation extends React.Component {
         const values = queryString.parse(this.props.location.search);
         let url = "/api/occupations/agents?q=" + encodeURI(values.q);
         axios.get(url).then(response => {
-            if(response.data){
-                response.data = response.data.sort(
+            if(response.data.user_and_profession){
+                response.data.user_and_profession = response.data.user_and_profession.sort(
                     (a, b) => a.hourly_rate - b.hourly_rate
                 );
                 if (this._isMounted) {
                     this.setState({
-                        users: response.data
+                        users: response.data.user_and_profession,
+                        professions: response.data.professionByUser
                     });
                 }
             }
+            this.state.users.map(user => (
+                axios
+                .get("/api/getImage/"+ user.user_id)
+                .then(response => {
+                    if (this._isMounted) {
+                        this.setState({ imgSrc: response.data });
+                    }
+                    console.log(response);
+                })
+                .catch(error => console.log(error))
+            ));
+           
         
         });
-
-        axios
-            .get("/api/getImage")
-            .then(response => {
-                if (this._isMounted) {
-                    this.setState({ imgSrc: response.data });
-                }
-                console.log(response);
-            })
-            .catch(error => console.log(error));
     }
 
     componentWillUnmount() {
@@ -97,19 +101,20 @@ class AgentsOccupation extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    agent_occupation_html = () => {
+    agent_occupation_html = () => 
         this.state.users.map(user => (
-            <article style={divStyle} key={user.id}>
+                <article style={divStyle} key={user.user_id}>
                 <Cards
                     name={user.name}
                     member_since={user.member_since}
-                    hourly_rate={user.hourly_rate}
-                    professions={user.professions}
+                    hourly_rate={user.price}
+                    // hourly_rate={user.hourly_rate}
+                    // professions={user.professions}
+                    professions={this.state.professions[user.user_id]}
                     rating={user.rating}
                     total_rating={user.total_rating}
                     imgSrc={this.state.imgSrc}
                 />
-
                 <Hidden smDown>
                     <div
                         className="DottedBox_content"
@@ -125,7 +130,6 @@ class AgentsOccupation extends React.Component {
                 </Hidden>
             </article>
         ));
-    }
 
     render() {
         return (

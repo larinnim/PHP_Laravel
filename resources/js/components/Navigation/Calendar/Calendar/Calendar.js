@@ -72,6 +72,7 @@ class Calendar extends React.Component {
 
     handleDayClick(day, { selected }) {
         const { selectedDays } = this.state;
+
         if (selected) {
             const selectedIndex = selectedDays.findIndex(selectedDay =>
                 DateUtils.isSameDay(selectedDay, day)
@@ -112,7 +113,6 @@ class Calendar extends React.Component {
             );
         }
         return (
-            // <div>
                 <div className={classes.grids}>
                     <div className={classes.root}>
                         <Grid container spacing={40}>
@@ -122,12 +122,13 @@ class Calendar extends React.Component {
                                 className={classes.alignCalendar}
                             >
                                 <DayPicker
-                                    locale="pt-BR"
+                                    // locale="pt-BR"
+                                    locale={navigator.language}
                                     // selectedDays={this.state.selectedDays}
-                                    onDayClick={this.handleDayClick}CalendarLanguage
-                                    months={CalendarLanguage("en").MONTHS}
-                                    weekdaysLong={CalendarLanguage("en").WEEKDAYS_LONG}
-                                    weekdaysShort={CalendarLanguage("en").WEEKDAYS_SHORT}
+                                    onDayClick={this.handleDayClick}
+                                    months={CalendarLanguage(navigator.language).MONTHS}
+                                    weekdaysLong={CalendarLanguage(navigator.language).WEEKDAYS_LONG}
+                                    weekdaysShort={CalendarLanguage(navigator.language).WEEKDAYS_SHORT}
                                     // months={MONTHS}
                                     // weekdaysLong={WEEKDAYS_LONG}
                                     // weekdaysShort={WEEKDAYS_SHORT}
@@ -140,9 +141,9 @@ class Calendar extends React.Component {
                                 <Scheduler getDate={this.getDatesfromChild} />
                             </Grid>
                             {/*---DO NOT DELETE: THIS WILL BE USED FOR THE ALLY'S AGENDA---*/}
-                            {/* <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={6}>
                                 <div className="ScrollableContainer">
-                                    {this.state.disabledDays.map(timeStamp => (
+                                    {this.state.selectedDays.map(timeStamp => (
                                         <Agenda
                                             key={timeStamp}
                                             Date={this.trasformDateToString(
@@ -154,8 +155,8 @@ class Calendar extends React.Component {
                                         />
                                     ))}
                                 </div>
-                            </Grid> */}
-                            {/* <Grid item xs={12}>
+                            </Grid> 
+                             {/* <Grid item xs={12}>
                                 <DayTimeTable />
                             </Grid> */}
                         </Grid>

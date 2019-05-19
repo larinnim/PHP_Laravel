@@ -46,6 +46,7 @@ class UserController extends Controller
     public function updateProfile(Request $request, $token)
     {
         $hourly_decoded = json_decode($request['hourly_amount']);
+        \Log::alert('VALUE HOUR'.json_encode($hourly_decoded));
 
         $hourlyArr= array();
         $registeredProfessions = $this->getUserInfo($token)->getData('hourly_price')['hourly_price'];
@@ -59,7 +60,7 @@ class UserController extends Controller
 
         foreach ($hourlyArr as $key => $value) {
             \Log::alert($key);
-            \Log::alert($value);
+            \Log::alert('THE VALUE'.$value);
             \Log::alert('BLABLA'.array_key_exists($key, $registeredProfessions));
             $occupation = Occupation::where('occupation','=',$key)->first();
 
@@ -91,14 +92,16 @@ class UserController extends Controller
                                     ->first();
 
                 if($prevOccupation){
-                    OccupationUser::withTrashed()
-                                    ->where('occupation_id', $occupation->id)
-                                    ->where('user_id', $user->id)
-                                    ->update([
-                                        'price' => $value,
-                                        'deleted_at' => null
-                    ]);
-    
+                    \Log::alert('VALUE PRICEE:'. $value);
+                    if($value){
+                        OccupationUser::withTrashed()
+                        ->where('occupation_id', $occupation->id)
+                        ->where('user_id', $user->id)
+                        ->update([
+                            'price' => $value,
+                            'deleted_at' => null
+                        ]);
+                    }
                 }  
 
                 else {
@@ -135,7 +138,7 @@ class UserController extends Controller
         $user->longitude  = $output->results[0]->geometry->location->lng;
 
         $url_timezone = 'https://maps.googleapis.com/maps/api/timezone/json?location='.$user->latitude.','.$user->longitude.'&timestamp='.time().'&key='.$key;
-        $response_timezone = file_get_contents($url);
+        $response_timezone = file_get_contents($url_timezone);
         $timezone = json_decode($response_timezone, true)['timeZoneId'];
         $user->timezone = $timezone;
 
