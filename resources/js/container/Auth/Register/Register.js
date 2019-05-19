@@ -16,8 +16,6 @@ import queryString from "query-string";
 import { connect } from "react-redux";
 import { SocialIcon } from 'react-social-icons';
 import {Link} from "react-router-dom";
-import { FacebookLoginButton } from "react-social-login-buttons";
-import { GoogleLoginButton } from "react-social-login-buttons";
 
 const validEmailRegex = RegExp(
     /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -474,8 +472,6 @@ class Register extends Component {
                     </form>
                     ------------------------------------- or -------------------------------------
                     <div>
-                    {/* <FacebookLoginButton url={'api/login/facebook'} onClick={this.props.onSignSocial}/>
-                    <GoogleLoginButton url={'api/login/google'} onClick={this.props.onSignSocial}/> */}
                         <Grid container justify = "center">
                         <SocialIcon network="facebook" url={'api/login/facebook'} onClick={this.props.onSignSocial} style={{right:'20px'}}/>
                         <SocialIcon network="google" url={'api/login/google'} onClick={this.props.onSignSocial}/>
