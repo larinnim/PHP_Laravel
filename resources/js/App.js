@@ -8,7 +8,7 @@ import Logout from "./container/Auth/Logout";
 import AgentsOccupation from "./container/AgentsOccupation/AgentsOccupation";
 import Register from "./container/Auth/Register/Register";
 import ForgotPass from "./container/Auth/ForgotPass";
-import PostJobProfile from "./container/PostJobProfile";
+import Profile from "./container/Profile/Profile";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/index";
 import { connect } from "react-redux";
@@ -44,7 +44,7 @@ class App extends Component {
                         path="/response-password-reset"
                         component={withRouter(ResponseReset)}
                     />
-                    <PrivateRoute authed={this.props.isAuthenticated} path='/postjob_profile' component={withRouter(PostJobProfile)} />
+                    <PrivateRoute authed={this.props.isAuthenticated} path='/profile' component={withRouter(Profile)} />
                 </Switch>
             </Layout>
         );

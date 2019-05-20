@@ -11,7 +11,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FilledInput from "@material-ui/core/FilledInput";
 import Typography from "@material-ui/core/Typography";
-import Dropzone from "../../components/Dropzone";
+import Dropzone from "../../container/Profile/Photo/Dropzone";
 import { connect } from "react-redux";
 
 const divStyle = {
