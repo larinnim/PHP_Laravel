@@ -22,6 +22,9 @@ import Moment from "react-moment";
 import Button from "@material-ui/core/Button";
 import "./Cards.css";
 import AvailableTime from "../container/AgentsOccupation/AvailableTime/AvailableTime";
+
+var n = require('country-js');
+
 const styles = theme => ({
     card: {
         marginLeft: "auto",
@@ -68,6 +71,7 @@ const styles = theme => ({
 
 var Cards_func = function Cards(props) {
     const {
+        country,
         name,
         member_since,
         hourly_rate,
@@ -83,7 +87,10 @@ var Cards_func = function Cards(props) {
                 avatar={
                     <Avatar
                         aria-label="Recipe"
-                        src={imgSrc}
+                        src={imgSrc == null ? '/images/profile.jpg' : imgSrc}
+                        onError={(e) => {
+                            e.target.src = '/images/profile.jpg' 
+                         }}
                         className={classes.avatar}
                     >
                         R
@@ -108,15 +115,23 @@ var Cards_func = function Cards(props) {
                         Hourly Rate:
                     </Typography>
                     <Typography variant="subheading" gutterBottom>
-                        $ {hourly_rate}
+                        {n.search(country)[0].currency.currencySymbol} {hourly_rate}
                     </Typography>
                 </div>
                 <div>
                     <Typography variant="caption" gutterBottom>
                         Professions:
                     </Typography>
-                    {/* <Typography variant="subheading" gutterBottom> */}
-                    {JSON.parse(professions).map(function(profession, index) {
+                    {professions.map(function(profession, index) {
+                        return (
+                            <ul key={index}>
+                                <li className={classes.capitalize}>
+                                    {profession.occupation}
+                                </li>
+                            </ul>
+                        );
+                    })}
+                    {/* {JSON.parse(professions).map(function(profession, index) {
                         return (
                             <ul key={index}>
                                 <li className={classes.capitalize}>
@@ -124,7 +139,7 @@ var Cards_func = function Cards(props) {
                                 </li>
                             </ul>
                         );
-                    })}
+                    })} */}
                 </div>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>
@@ -146,33 +161,6 @@ var Cards_func = function Cards(props) {
             <CardContent>
                 <AvailableTime></AvailableTime>
             </CardContent>
-            {/* <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Method:</Typography>
-            <Typography paragraph>
-              Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-              minutes.
-            </Typography>
-            <Typography paragraph>
-              Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-              heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-              browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving
-              chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion,
-              salt and pepper, and cook, stirring often until thickened and fragrant, about 10
-              minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-            </Typography>
-            <Typography paragraph>
-              Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-              without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat
-              to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and
-              cook again without stirring, until mussels have opened and rice is just tender, 5 to 7
-              minutes more. (Discard any mussels that don’t open.)
-            </Typography>
-            <Typography>
-              Set aside off of the heat to let rest for 10 minutes, and then serve.
-            </Typography>
-          </CardContent>
-        </Collapse> */}
         </Card>
     );
 };

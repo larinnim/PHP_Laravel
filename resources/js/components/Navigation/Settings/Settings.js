@@ -709,7 +709,7 @@ class Settings extends React.Component {
                                 required
                                 error={this.state.errors_required.country}
                                 native
-                                value={this.state.country}
+                                value={this.state.country ? this.state.country: ''}
                                 onChange={this.handleChangeSelect("country")}
                                 inputProps={{
                                     name: "country",
@@ -744,15 +744,14 @@ class Settings extends React.Component {
                                 ""
                             )}
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        {user.mate ? 
+                            <Grid item xs={12} md={6}>
                             <FormLabel component="legend" margin="normal">
                                 What do you want to work with?
                             </FormLabel>
                             {this.professions_html()}
-                        </Grid>
-                        {/* <Grid item xs={12} md={3}>
-                            <Dropzone />
-                        </Grid> */}
+                            </Grid>: null
+                        }
                         <Grid item xs={12} md={3}>
                             <Button
                                 variant="contained"

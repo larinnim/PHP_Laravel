@@ -11,30 +11,31 @@ import { withStyles } from "@material-ui/core/styles";
 import Test from "./Calendar_Style";
 import "./Calendar.css";
 import DayTimeTable from "../DayTimeTable/DayTimeTable";
-const MONTHS = [
-    "Gennaio",
-    "Febbraio",
-    "Marzo",
-    "Aprile",
-    "Maggio",
-    "Giugno",
-    "Luglio",
-    "Agosto",
-    "Settembre",
-    "Ottobre",
-    "Novembre",
-    "Dicembre"
-];
-const WEEKDAYS_LONG = [
-    "Domenica",
-    "Lunedì",
-    "Martedì",
-    "Mercoledì",
-    "Giovedì",
-    "Venerdì",
-    "Sabato"
-];
-const WEEKDAYS_SHORT = ["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"];
+import CalendarLanguage from "./CalendarLanguage";
+// const MONTHS = [
+//     "Gennaio",
+//     "Febbraio",
+//     "Marzo",
+//     "Aprile",
+//     "Maggio",
+//     "Giugno",
+//     "Luglio",
+//     "Agosto",
+//     "Settembre",
+//     "Ottobre",
+//     "Novembre",
+//     "Dicembre"
+// ];
+// const WEEKDAYS_LONG = [
+//     "Domenica",
+//     "Lunedì",
+//     "Martedì",
+//     "Mercoledì",
+//     "Giovedì",
+//     "Venerdì",
+//     "Sabato"
+// ];
+// const WEEKDAYS_SHORT = ["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"];
 
 const modifiers = {
     highlighted: [new Date(2019, 4, 20), new Date(2019, 4, 25)]
@@ -71,6 +72,7 @@ class Calendar extends React.Component {
 
     handleDayClick(day, { selected }) {
         const { selectedDays } = this.state;
+
         if (selected) {
             const selectedIndex = selectedDays.findIndex(selectedDay =>
                 DateUtils.isSameDay(selectedDay, day)
@@ -111,7 +113,6 @@ class Calendar extends React.Component {
             );
         }
         return (
-            <div>
                 <div className={classes.grids}>
                     <div className={classes.root}>
                         <Grid container spacing={40}>
@@ -121,12 +122,16 @@ class Calendar extends React.Component {
                                 className={classes.alignCalendar}
                             >
                                 <DayPicker
-                                    locale="pt-BR"
+                                    // locale="pt-BR"
+                                    locale={navigator.language}
                                     // selectedDays={this.state.selectedDays}
                                     onDayClick={this.handleDayClick}
-                                    months={MONTHS}
-                                    weekdaysLong={WEEKDAYS_LONG}
-                                    weekdaysShort={WEEKDAYS_SHORT}
+                                    months={CalendarLanguage(navigator.language).MONTHS}
+                                    weekdaysLong={CalendarLanguage(navigator.language).WEEKDAYS_LONG}
+                                    weekdaysShort={CalendarLanguage(navigator.language).WEEKDAYS_SHORT}
+                                    // months={MONTHS}
+                                    // weekdaysLong={WEEKDAYS_LONG}
+                                    // weekdaysShort={WEEKDAYS_SHORT}
                                     firstDayOfWeek={1}
                                     disabledDays={this.state.disabledDays}
                                     // disabledDays={this.state.modalDates}
@@ -136,9 +141,9 @@ class Calendar extends React.Component {
                                 <Scheduler getDate={this.getDatesfromChild} />
                             </Grid>
                             {/*---DO NOT DELETE: THIS WILL BE USED FOR THE ALLY'S AGENDA---*/}
-                            {/* <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={6}>
                                 <div className="ScrollableContainer">
-                                    {this.state.disabledDays.map(timeStamp => (
+                                    {this.state.selectedDays.map(timeStamp => (
                                         <Agenda
                                             key={timeStamp}
                                             Date={this.trasformDateToString(
@@ -150,14 +155,14 @@ class Calendar extends React.Component {
                                         />
                                     ))}
                                 </div>
-                            </Grid> */}
-                            {/* <Grid item xs={12}>
+                            </Grid> 
+                             {/* <Grid item xs={12}>
                                 <DayTimeTable />
                             </Grid> */}
                         </Grid>
                     </div>
                 </div>
-            </div>
+            // </div>
         );
     }
 }

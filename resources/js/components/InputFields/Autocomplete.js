@@ -134,13 +134,14 @@ class Autocomplete extends Component {
         axios
             .get(url)
             .then(response => {
-                // if (this._isMounted) {
-                response.data.length > 0
-                    ? (window.location =
-                          "/agents_occupations?q=" +
-                          encodeURI(this.state.single.value))
-                    : "";
-                // }
+                window.location =
+                      "/agents_occupations?q=" +
+                      encodeURI(this.state.single.value);
+                                      // response.data.length > 0
+                //     ? (window.location =
+                //           "/agents_occupations?q=" +
+                //           encodeURI(this.state.single.value))
+                //     : "";
             })
             .catch(error => console.log(error));
     }

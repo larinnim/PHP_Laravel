@@ -6,20 +6,38 @@ use Illuminate\Support\Facades\Storage;
 use Aws\S3\S3Client;
 use Auth;
 use App\User;
-
 use Log;
+
 class AWS3 extends Controller
 {
     public function index($key_or_token = null)
     {
+        // \Log::alert('KEYY '. $key_or_token);
+        \Log::alert('KEYY222 ');
+
+        // if(!$key_or_token || empty($key_or_token) || is_null($key_or_token || $key_or_token == null || $key_or_token == '' || !isset($key_or_token))){
+        if($key_or_token == null){
+            \Log::alert('IS NULL ' .$key_or_token);
+            return '';
+        }
+
         if(is_numeric($key_or_token)){
             $key = $key_or_token;
         }
         else {
+            \Log::alert('33 ');
+
             $user = User::where('token','=',$key_or_token)->first();
             $key = $user->id;
         }
-                //Get an instance of S3 Client. This is one one to do it:
+        // else if(!empty($key_or_token) || !is_null($key_or_token) {
+        //     $user = User::where('token','=',$key_or_token)->first()
+        //     $key = $user->id;
+        // }
+        // else {
+        //     return '';
+        // }
+        //         //Get an instance of S3 Client. This is one one to do it:
         $s3Client = new S3Client([
             'version'     => 'latest',
             'region'      => env('AWS_DEFAULT_REGION'), //Region of the bucket
