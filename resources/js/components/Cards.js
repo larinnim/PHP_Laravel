@@ -87,7 +87,10 @@ var Cards_func = function Cards(props) {
                 avatar={
                     <Avatar
                         aria-label="Recipe"
-                        src={imgSrc}
+                        src={imgSrc == null ? '/images/profile.jpg' : imgSrc}
+                        onError={(e) => {
+                            e.target.src = '/images/profile.jpg' 
+                         }}
                         className={classes.avatar}
                     >
                         R

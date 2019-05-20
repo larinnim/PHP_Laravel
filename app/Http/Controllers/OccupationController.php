@@ -18,7 +18,13 @@ class OccupationController extends Controller
 
       public function agentOccupation(Request $request) 
         {
-          \Log::alert($request->q);
+          $unit = "km";
+          $unit = ($unit === "km") ? 6378.10 : 3963.17;
+          $lat = (float) $request['latitude'];
+          $lng = (float) $request['longitude'];
+          $radius = 1000;
+
+          \Log::alert('ALL REQUEST'.json_encode($request->all()));
 
           $occupation = Occupation::where('occupation', $request->q)->first();
           \Log::alert('The occupation'.$occupation);
