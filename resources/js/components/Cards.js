@@ -22,6 +22,9 @@ import Moment from "react-moment";
 import Button from "@material-ui/core/Button";
 import "./Cards.css";
 import AvailableTime from "../container/AgentsOccupation/AvailableTime/AvailableTime";
+
+var n = require('country-js');
+
 const styles = theme => ({
     card: {
         marginLeft: "auto",
@@ -68,6 +71,7 @@ const styles = theme => ({
 
 var Cards_func = function Cards(props) {
     const {
+        country,
         name,
         member_since,
         hourly_rate,
@@ -108,7 +112,7 @@ var Cards_func = function Cards(props) {
                         Hourly Rate:
                     </Typography>
                     <Typography variant="subheading" gutterBottom>
-                        $ {hourly_rate}
+                        {n.search(country)[0].currency.currencySymbol} {hourly_rate}
                     </Typography>
                 </div>
                 <div>

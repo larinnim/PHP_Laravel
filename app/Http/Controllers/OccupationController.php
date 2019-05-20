@@ -28,7 +28,7 @@ class OccupationController extends Controller
             ->where('occupation_id', $occupation->id)
             ->whereNull('deleted_at')
             ->join('users', 'users.id', '=', 'occupation_user.user_id')
-            ->select('users.name', 'users.email', 'occupation_user.price', 'occupation_user.user_id', 'users.hourly_rate', 'users.total_rating', 'users.member_since', 'users.avatar', 'users.rating')
+            ->select('users.name', 'users.email', 'occupation_user.price', 'occupation_user.user_id', 'users.hourly_rate', 'users.total_rating', 'users.member_since', 'users.avatar', 'users.rating', 'users.country', 'users.latitude', 'users.longitude')
             ->get();
 
           $profession_by_user = [];

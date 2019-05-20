@@ -108,6 +108,7 @@ class AgentsOccupation extends React.Component {
                     name={user.name}
                     member_since={user.member_since}
                     hourly_rate={user.price}
+                    country={user.country}
                     // hourly_rate={user.hourly_rate}
                     // professions={user.professions}
                     professions={this.state.professions[user.user_id]}
