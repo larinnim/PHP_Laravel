@@ -79,7 +79,7 @@ class SignIn extends React.Component {
 
         let authRedirect = null;
         if (this.props.auth) {
-            authRedirect = <Redirect to="/postjob_profile" />;
+            authRedirect = <Redirect to="/profile" />;
         }
         return (
             <main className={classes.main}>

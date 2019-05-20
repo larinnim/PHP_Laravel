@@ -48,7 +48,7 @@ class Navbar extends Component {
                     >
                         <MenuItem
                             onClick={() =>
-                                this.handleClickNav("/postjob_profile")
+                                this.handleClickNav("/profile")
                             }
                         >
                             Profile
