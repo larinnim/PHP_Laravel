@@ -30,7 +30,7 @@ export default function CalendarLanguage(lang) {
             ];
              WEEKDAYS_SHORT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
           return {MONTHS, WEEKDAYS_LONG, WEEKDAYS_SHORT};
-        case 'en-CA' || 'en':
+        case 'en-CA' || 'en-us':
             MONTHS = [
                 "January",
                 "February",
