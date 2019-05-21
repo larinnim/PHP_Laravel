@@ -26,7 +26,7 @@ Route::post('postJobOrMate/{token}', 'UserController@updatePostJobOrMate');
 
 //Ally's Availability
 Route::post('availability/{token}', 'UserController@updateAvailability');
-Route::get('availability/{token}', 'UserController@getAvailability');
+Route::get('availability/{token?}', 'UserController@getAvailability');
 Route::post('availability/specific/{token}', 'UserController@updateAvailabilitySpecific');
 
 //Get Jobs

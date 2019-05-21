@@ -190,9 +190,14 @@ class UserController extends Controller
         }
     }
 
-    public function getAvailability($token) 
+    public function getAvailability(Request $request, $token = null) 
     {
-        $user = User::where('token','=',$token)->first();
+        if(is_null($token)){
+            $user = User::where('id','=',$request['vref'])->first();
+        }
+        else {
+            $user = User::where('token','=',$token)->first();
+        }
         $available = Availability::where('ally_id', $user->id)->get();
         $timezoneStrg = $user->timezone;
         $timezone = new DateTimeZone($timezoneStrg);
