@@ -42,7 +42,7 @@ class Sidebar extends Component {
             { id: 0, name: "Home", show: false, href: "/" },
             { id: 1, name: "Find an Ally", show: false },
             { id: 2, name: "Job Bank", show: false },
-            { id: 3, name: "Profile", show: false, href: "/postjob_profile" },
+            { id: 3, name: "Profile", show: false, href: "/profile" },
             { id: 4, name: "Logout", show: false, href: "/logout" }
         ]
     };
@@ -236,7 +236,7 @@ class Sidebar extends Component {
                             {this.props.isLoggedIn && this.props.currentRoute === "/" ? (
                                 <AccountCircle
                                     onClick={() =>
-                                        this.handleClickNav("/postjob_profile")
+                                        this.handleClickNav("/profile")
                                     }
                                 />
                             ) : null}

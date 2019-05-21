@@ -44,7 +44,7 @@ class App extends Component {
                         path="/response-password-reset"
                         component={withRouter(ResponseReset)}
                     />
-                    <PrivateRoute authed={this.props.isAuthenticated} path='/postjob_profile' component={withRouter(PostJobProfile)} />
+                    <PrivateRoute authed={this.props.isAuthenticated} path='/profile' component={withRouter(PostJobProfile)} />
                 </Switch>
             </Layout>
         );
