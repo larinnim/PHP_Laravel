@@ -123,12 +123,12 @@ class Calendar extends React.Component {
                             >
                                 <DayPicker
                                     // locale="pt-BR"
-                                    locale={navigator.language}
+                                    locale={navigator.language || 'en'}
                                     // selectedDays={this.state.selectedDays}
                                     onDayClick={this.handleDayClick}
-                                    months={CalendarLanguage(navigator.language).MONTHS}
-                                    weekdaysLong={CalendarLanguage(navigator.language).WEEKDAYS_LONG}
-                                    weekdaysShort={CalendarLanguage(navigator.language).WEEKDAYS_SHORT}
+                                    months={CalendarLanguage(navigator.language || 'en-us').MONTHS}
+                                    weekdaysLong={CalendarLanguage(navigator.language || 'en-us').WEEKDAYS_LONG}
+                                    weekdaysShort={CalendarLanguage(navigator.language || 'en-us').WEEKDAYS_SHORT}
                                     // months={MONTHS}
                                     // weekdaysLong={WEEKDAYS_LONG}
                                     // weekdaysShort={WEEKDAYS_SHORT}

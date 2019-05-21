@@ -55,13 +55,9 @@ class AgentsOccupation extends React.Component {
                           longitude: longitude
                         }
                       }).then(response => {
+                        // axios.get(url).then(response => {
                         var user_and_profession = response.data.user_and_profession;
                         var professionByUser = response.data.professionByUser;
-
-                        // if(user_and_profession){
-                        //     user_and_profession = user_and_profession.sort(
-                        //         (a, b) => a.hourly_rate - b.hourly_rate
-                        //     );
                             if (_this._isMounted) {
                                 user_and_profession.map(function (user, index){
                                     if(user.avatar != null) {
@@ -79,38 +75,43 @@ class AgentsOccupation extends React.Component {
                                             professions: professionByUser
                                         });
                                     }
+                                    else {
+                                        _this.setState({
+                                            users: user_and_profession,
+                                            professions: professionByUser
+                                        });
+                                    }
                                 });
                             }
-                        // }
                     });
-            })
-        } 
-        else {
-            axios.get(url).then(response => {
-                if(response.data.user_and_profession){
-                    response.data.user_and_profession = response.data.user_and_profession.sort(
-                        (a, b) => a.hourly_rate - b.hourly_rate
-                    );
-                    if (this._isMounted) {
-                        this.setState({
-                            users: response.data.user_and_profession,
-                            professions: response.data.professionByUser
-                        });
-                    }
-                }
-                this.state.users.map(user => (
-                    axios
-                    .get("/api/getImage/"+ user.user_id)
-                    .then(response => {
-                        if (this._isMounted) {
-                            this.setState({ imgSrc: response.data });
-                        }
-                        console.log(response);
-                    })
-                    .catch(error => console.log(error))
-                ));
-            });
-        }  
+            }, 
+            function(error) {
+                axios.get(url).then(response => {
+                    var user_and_profession = response.data.user_and_profession;
+                            var professionByUser = response.data.professionByUser;
+                                if (_this._isMounted) {
+                                    user_and_profession.map(function (user, index){
+                                        if(user.avatar != null) {
+                                            axios
+                                            .get("/api/getImage/"+ user.user_id)
+                                            .then(response => {
+                                                user_and_profession[index]['avatar'] = response.data;
+                                                    _this.setState({
+                                                        users: user_and_profession,
+                                                    });
+                                            })
+                                            .catch(error => console.log(error))
+                                            _this.setState({
+                                                users: user_and_profession,
+                                                professions: professionByUser
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+              })
+        }
+     
     }
 
     componentWillUnmount() {
@@ -162,6 +163,7 @@ class AgentsOccupation extends React.Component {
                             rating={user.rating}
                             total_rating={user.total_rating}
                             imgSrc={user.avatar}
+                            id={user.user_id}
                         />
                         <Hidden smDown>
                             <div

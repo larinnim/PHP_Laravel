@@ -79,7 +79,8 @@ var Cards_func = function Cards(props) {
         classes,
         rating,
         total_rating,
-        imgSrc
+        imgSrc,
+        id
     } = props;
     return (
         <Card className={classes.card}>
@@ -159,7 +160,7 @@ var Cards_func = function Cards(props) {
                 />
             </CardActions>
             <CardContent>
-                <AvailableTime></AvailableTime>
+                <AvailableTime user_id={id}></AvailableTime>
             </CardContent>
         </Card>
     );
