@@ -23,6 +23,7 @@ import IconButton from '@material-ui/core/IconButton';
 class AvailableTime extends React.Component {
     state = {
         open: false,
+        week_index: 0,
         weekly: {
             Monday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
@@ -68,7 +69,16 @@ class AvailableTime extends React.Component {
             }
         }
     };
+
     handleNextWeek(){
+        var week = this.state.week_index+7;
+        this.setState({ week_index: week });
+        console.log('Click next week');
+    };
+
+    handlePrevWeek(){
+        var week = this.state.week_index-7;
+        this.setState({ week_index: week });
         console.log('Click next week');
     };
 
@@ -150,10 +160,14 @@ class AvailableTime extends React.Component {
                         <Typography variant="h6" id="modal-title">
                             Select dates
                         </Typography>
+                        {this.state.week_index > 0 ?
+                        <IconButton  onClick={() => this.handlePrevWeek()}>
+                            <ChevronLeftIcon/>
+                        </IconButton> : ''}
                         <IconButton  onClick={() => this.handleNextWeek()}>
                             <ChevronRightIcon/>
                         </IconButton>
-                        <DayTimeTable />
+                        <DayTimeTable week_index={this.state.week_index}/>
                         <Button
                             size="medium"
                             onClick={this.handleTimeSlot}

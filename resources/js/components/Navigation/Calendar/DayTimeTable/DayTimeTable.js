@@ -10,7 +10,6 @@ import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 
 var locale = window.navigator.userLanguage || window.navigator.language;
-
 const styles = theme => ({
     root: {
         width: "auto",
@@ -51,7 +50,7 @@ class DayTimeTable extends Component {
         this.state = {
             rows: [],
             todayDate: null,
-            todayDay: null
+            todayDay: null,
         };
     }
 
@@ -124,18 +123,15 @@ class DayTimeTable extends Component {
 
     header_table_html = (props) => {
         var indents = [];
-
-        for (var i = 0; i < 7; i++) {
+        let i = this.props.week_index;
+        let final_week = i+7;
+        while(i < final_week){
             indents.push(
-            // <span className='indent' key={i}></span>
               <TableCell className={this.props.classes.cellsHeaderStyle} key={i}>
                 {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
             </TableCell>
             );
-
-            // <TableCell className={this.props.classes.cellsHeaderStyle}>
-            //     {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
-            // </TableCell>
+            i++;
         }
 
         return indents;
