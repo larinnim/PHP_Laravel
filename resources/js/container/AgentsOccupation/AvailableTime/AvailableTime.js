@@ -15,6 +15,10 @@ import "react-widgets/dist/css/react-widgets.css";
 import styles from "./AvailableTime_Style";
 import DayTimeTable from "../../../components/Navigation/Calendar/DayTimeTable/DayTimeTable";
 import axios from 'axios';
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { Link } from 'react-router-dom';
+import IconButton from '@material-ui/core/IconButton';
 
 class AvailableTime extends React.Component {
     state = {
@@ -64,7 +68,10 @@ class AvailableTime extends React.Component {
             }
         }
     };
- 
+    handleNextWeek(){
+        console.log('Click next week');
+    };
+
     handleAvailability(user_id){
         this.setState({ open: true });
         axios.get('/api/availability',{
@@ -143,6 +150,9 @@ class AvailableTime extends React.Component {
                         <Typography variant="h6" id="modal-title">
                             Select dates
                         </Typography>
+                        <IconButton  onClick={() => this.handleNextWeek()}>
+                            <ChevronRightIcon/>
+                        </IconButton>
                         <DayTimeTable />
                         <Button
                             size="medium"

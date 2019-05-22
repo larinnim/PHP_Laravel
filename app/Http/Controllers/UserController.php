@@ -158,9 +158,14 @@ class UserController extends Controller
             $arrDay = (array)$day;
             $arrKey = array_keys($arrDay);
 
-            $availableDay = Availability::where('date', $key_day)->first();
+            $availableDay = Availability::where('date', $key_day)
+            ->where('ally_id', $user->id)                        
+            ->first();
+                \Log::alert('OUT IF'. $availableDay);
 
             if($availableDay){
+                \Log::alert('IN IF');
+
                 $available = Availability::where('date', $key_day);
                 $available->update([
                     $arrKey[0] => new DateTime($arrDay[$arrKey[0]], $timezone),
@@ -198,6 +203,8 @@ class UserController extends Controller
         else {
             $user = User::where('token','=',$token)->first();
         }
+        \Log::alert('THE User '. json_encode($user));
+
         $available = Availability::where('ally_id', $user->id)->get();
         $timezoneStrg = $user->timezone;
         $timezone = new DateTimeZone($timezoneStrg);
@@ -210,6 +217,7 @@ class UserController extends Controller
             $dayObj [$day->date]['interval_end_time'] = (new \DateTime($day->interval_end_time))->setTimezone($timezone); 
 
         }
+        \Log::alert('THE AVAI '. json_encode($dayObj));
         return response()->json([
             'days' => $dayObj
         ]);

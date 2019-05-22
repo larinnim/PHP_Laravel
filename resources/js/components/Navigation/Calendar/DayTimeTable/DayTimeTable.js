@@ -9,6 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 
+var locale = window.navigator.userLanguage || window.navigator.language;
+
 const styles = theme => ({
     root: {
         width: "auto",
@@ -87,36 +89,62 @@ class DayTimeTable extends Component {
         }
         this.setState({ rows: toUpdateRow });
     };
-    getHeaderText = todayDay => {
-        let todayDayText = null;
-        console.log(todayDay);
-        if (todayDay > 7) {
-            todayDay = todayDay % 7;
+    // getHeaderText = todayDay => {
+    //     let todayDayText = null;
+    //     console.log(todayDay);
+    //     if (todayDay > 7) {
+    //         todayDay = todayDay % 7;
+    //     }
+    //     switch (todayDay) {
+    //         case 1:
+    //             // todayDayText = "Mon";
+    //             todayDayText = moment().locale(locale).format('ddd') + ' - ' +moment().locale(locale).format('D MMMM');
+    //             break;
+    //         case 2:
+    //             todayDayText = "Tue";
+    //             break;
+    //         case 3:
+    //             todayDayText = "Wed";
+    //             break;
+    //         case 4:
+    //             todayDayText = "Thu";
+    //             break;
+    //         case 5:
+    //             todayDayText = "Fri";
+    //             break;
+    //         case 6:
+    //             todayDayText = "Sat";
+    //             break;
+    //         default:
+    //             todayDayText = "Sun";
+    //             break;
+    //     }
+    //     return todayDayText;
+    // };
+
+    header_table_html = (props) => {
+        var indents = [];
+
+        for (var i = 0; i < 7; i++) {
+            indents.push(
+            // <span className='indent' key={i}></span>
+              <TableCell className={this.props.classes.cellsHeaderStyle} key={i}>
+                {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
+            </TableCell>
+            );
+
+            // <TableCell className={this.props.classes.cellsHeaderStyle}>
+            //     {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
+            // </TableCell>
         }
-        switch (todayDay) {
-            case 1:
-                todayDayText = "Mon";
-                break;
-            case 2:
-                todayDayText = "Tue";
-                break;
-            case 3:
-                todayDayText = "Wed";
-                break;
-            case 4:
-                todayDayText = "Thu";
-                break;
-            case 5:
-                todayDayText = "Fri";
-                break;
-            case 6:
-                todayDayText = "Sat";
-                break;
-            default:
-                todayDayText = "Sun";
-                break;
-        }
-        return todayDayText;
+
+        return indents;
+
+        // return (arr.map((value, i)  => {
+        //     <TableCell className={this.props.classes.cellsHeaderStyle}>
+        //         {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
+        //     </TableCell>
+        // }));
     };
 
     componentDidMount() {
@@ -182,7 +210,9 @@ class DayTimeTable extends Component {
                             <TableCell className={classes.cellsHeaderStyle}>
                                 Time
                             </TableCell>
-                            <TableCell className={classes.cellsHeaderStyle}>
+                            {this.header_table_html()}
+
+                            {/* <TableCell className={classes.cellsHeaderStyle}>
                                 {this.getHeaderText(this.state.todayDay)}
                             </TableCell>
                             <TableCell className={classes.cellsHeaderStyle}>
@@ -205,7 +235,7 @@ class DayTimeTable extends Component {
                                 style={{ paddingRight: 0 }}
                             >
                                 {this.getHeaderText(this.state.todayDay + 6)}
-                            </TableCell>
+                            </TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
