@@ -162,10 +162,10 @@ class DayTimeTable extends Component {
         var toPopulateRow = rows;
 
         // day_headers.map((value, header_index)  => {
-        for (let index = 0; index <= day_headers.length; index++) {
+        for (let index = 1; index <= day_headers.length; ++index) {
             if(this.props.specificDays.length > 0){
                 // var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(value).startOf('day'));
-                var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(day_headers[index]).startOf('day'));
+                var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(day_headers[index-1]).startOf('day'));
                 if(existe_day){
                      console.log('exist specific day');
                 }
@@ -173,8 +173,8 @@ class DayTimeTable extends Component {
             else {
             //    var day_of_week = moment(value).locale('en').format('dddd');
             //    console.log('VALUE ' +moment(value).locale('en').format('dddd'));
-            var day_of_week = moment(day_headers[index]).locale('en').format('dddd');
-            console.log('VALUE ' +moment(day_headers[index]).locale('en').format('dddd'));
+            var day_of_week = moment(day_headers[index-1]).locale('en').format('dddd');
+            console.log('VALUE ' +moment(day_headers[index-1]).locale('en').format('dddd'));
                var weeklyObj = this.props.weekly[day_of_week];
                var duration = moment.duration(moment(weeklyObj.standard_end_time).diff(moment(weeklyObj.standard_start_time)));
                var hours = duration.asHours();
