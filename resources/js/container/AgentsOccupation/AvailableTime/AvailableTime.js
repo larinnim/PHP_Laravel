@@ -19,11 +19,13 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
+import { throws } from "assert";
 
 class AvailableTime extends React.Component {
     state = {
         open: false,
         week_index: 0,
+        specificDays: {},
         weekly: {
             Monday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
@@ -99,18 +101,20 @@ class AvailableTime extends React.Component {
                 var specificDaysArr = {};
                 var specificDaysObj = {};
 
-                for(var i = 0; i < keys.length-7; i++) { 
+                // for(var i = 0; i < keys.length-7; i++) { 
+                for(var i = 0; i < 7; i++) { 
+
                     let d_start = new Date();
                     let d_end = new Date();
-                days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
-                days_copy[keys[i]].standard_end_time= new Date(days[keys[i]].standard_end_time.date); 
-                days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
-                days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
+                    days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
+                    days_copy[keys[i]].standard_end_time= new Date(days[keys[i]].standard_end_time.date); 
+                    days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
+                    days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
 
-                // this.setState({ weekly: days[key] });
-                var key = (keys[i]) ; 
-                console.log(days[key]) 
-            }
+                    // this.setState({ weekly: days[key] });
+                    var key = (keys[i]) ; 
+                    console.log(days[key]) 
+                }
 
             for(var i = 7; i < keys.length; i++){
                 specificDaysArr['specific_start_date'] = new Date(days[keys[i]].standard_start_time.date); 
@@ -167,7 +171,7 @@ class AvailableTime extends React.Component {
                         <IconButton  onClick={() => this.handleNextWeek()}>
                             <ChevronRightIcon/>
                         </IconButton>
-                        <DayTimeTable week_index={this.state.week_index}/>
+                        <DayTimeTable week_index={this.state.week_index} weekly={this.state.weekly} specificDays={this.state.specificDays}/>
                         <Button
                             size="medium"
                             onClick={this.handleTimeSlot}

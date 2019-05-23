@@ -10,6 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 
 var locale = window.navigator.userLanguage || window.navigator.language;
+var day_headers = [];
+
 const styles = theme => ({
     root: {
         width: "auto",
@@ -27,6 +29,9 @@ const styles = theme => ({
     },
     color: {
         backgroundColor: "blue"
+    },
+    initial_cell_color: {
+        backgroundColor: "lightgreen"
     },
     cellsStyle: {
         borderRight: "1px solid grey",
@@ -51,6 +56,8 @@ class DayTimeTable extends Component {
             rows: [],
             todayDate: null,
             todayDay: null,
+            days_headers: [],
+            selected_time: [],
         };
     }
 
@@ -63,76 +70,165 @@ class DayTimeTable extends Component {
     };
     cellClickHandler = (id, weekDay) => {
         let toUpdateRow = this.state.rows;
+        let header = this.state.days_headers;
+        let selected_time_var = this.state.selected_time;
+        let day= '';
+        let time_var='';
+
         switch (weekDay) {
             case "day1":
-                toUpdateRow[id - 1].day1 = !toUpdateRow[id - 1].day1;
+                day = header[0].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
                 break;
             case "day2":
-                toUpdateRow[id - 1].day2 = !toUpdateRow[id - 1].day2;
+                day = header[1].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day2 = !toUpdateRow[id - 1].day2;
                 break;
             case "day3":
-                toUpdateRow[id - 1].day3 = !toUpdateRow[id - 1].day3;
+            day = header[2].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day3 = !toUpdateRow[id - 1].day3;
                 break;
             case "day4":
-                toUpdateRow[id - 1].day4 = !toUpdateRow[id - 1].day4;
+                day = header[3].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day4 = !toUpdateRow[id - 1].day4;
                 break;
             case "day5":
-                toUpdateRow[id - 1].day5 = !toUpdateRow[id - 1].day5;
+                day = header[4].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day5 = !toUpdateRow[id - 1].day5;
                 break;
             case "day6":
-                toUpdateRow[id - 1].day6 = !toUpdateRow[id - 1].day6;
+            day = header[6].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day6 = !toUpdateRow[id - 1].day6;
                 break;
             case "day7":
-                toUpdateRow[id - 1].day7 = !toUpdateRow[id - 1].day7;
+            day = header[7].startOf('day');
+                time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
+                day.set({
+                    hour:   time_var.get('hour'),
+                    minute: time_var.get('minute'),
+                    second: time_var.get('second')
+                });
+                selected_time_var.push(day);
+                // toUpdateRow[id - 1].day7 = !toUpdateRow[id - 1].day7;
                 break;
         }
         this.setState({ rows: toUpdateRow });
     };
-    // getHeaderText = todayDay => {
-    //     let todayDayText = null;
-    //     console.log(todayDay);
-    //     if (todayDay > 7) {
-    //         todayDay = todayDay % 7;
-    //     }
-    //     switch (todayDay) {
-    //         case 1:
-    //             // todayDayText = "Mon";
-    //             todayDayText = moment().locale(locale).format('ddd') + ' - ' +moment().locale(locale).format('D MMMM');
-    //             break;
-    //         case 2:
-    //             todayDayText = "Tue";
-    //             break;
-    //         case 3:
-    //             todayDayText = "Wed";
-    //             break;
-    //         case 4:
-    //             todayDayText = "Thu";
-    //             break;
-    //         case 5:
-    //             todayDayText = "Fri";
-    //             break;
-    //         case 6:
-    //             todayDayText = "Sat";
-    //             break;
-    //         default:
-    //             todayDayText = "Sun";
-    //             break;
-    //     }
-    //     return todayDayText;
-    // };
+    
+    fill_table_rows = (day_headers, rows) => {
+        console.log('DAYS HEADER: '+ day_headers);
+        var toPopulateRow = rows;
+
+        // day_headers.map((value, header_index)  => {
+        for (let index = 0; index <= day_headers.length; index++) {
+            if(this.props.specificDays.length > 0){
+                // var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(value).startOf('day'));
+                var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(day_headers[index]).startOf('day'));
+                if(existe_day){
+                     console.log('exist specific day');
+                }
+            }
+            else {
+            //    var day_of_week = moment(value).locale('en').format('dddd');
+            //    console.log('VALUE ' +moment(value).locale('en').format('dddd'));
+            var day_of_week = moment(day_headers[index]).locale('en').format('dddd');
+            console.log('VALUE ' +moment(day_headers[index]).locale('en').format('dddd'));
+               var weeklyObj = this.props.weekly[day_of_week];
+               var duration = moment.duration(moment(weeklyObj.standard_end_time).diff(moment(weeklyObj.standard_start_time)));
+               var hours = duration.asHours();
+                console.log('DIF HOURS '+ hours);
+               var begin = weeklyObj.standard_start_time.getHours();
+               var finish = weeklyObj.standard_end_time.getHours();
+               var interval_begin = weeklyObj.interval_start_time.getHours();
+               var interval_finish = weeklyObj.interval_end_time.getHours();
+
+               while(begin <= finish){
+                toPopulateRow[begin]['day'+index] = !toPopulateRow[begin]['day'+index];
+                    // toPopulateRow[begin].header_index = !toPopulateRow[begin].header_index;
+                    begin++;
+               }
+               while(interval_begin < interval_finish){
+                    toPopulateRow[interval_begin]['day'+index] = !toPopulateRow[interval_begin]['day'+index];
+                    // toPopulateRow[begin].header_index = !toPopulateRow[begin].header_index;
+                    interval_begin++;
+               }
+            }
+        }
+        this.setState({ rows: toPopulateRow });
+
+        // });
+    };
+
+    getOnlyDate(array_dates){
+        var newDateArray= [];
+        for(let i = 0; i <= array_dates.length; i++) {
+            let date = moment(array_dates[i]).startOf('day');
+            newDateArray.push(date)
+        }
+        console.log("newDateArray", newDateArray);
+    };
+
+    isInArray(array, value) {
+        return (array.find(item => {return item == value}) || []).length > 0;
+    }
 
     header_table_html = (props) => {
         var indents = [];
+        day_headers=[];
         let i = this.props.week_index;
         let final_week = i+7;
         while(i < final_week){
+            day_headers.push(moment().locale(locale).add(i+1, 'days'));
             indents.push(
               <TableCell className={this.props.classes.cellsHeaderStyle} key={i}>
-                {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
+                {moment().locale(locale).add(i+1, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i+1, 'days').format('D MMMM')}
             </TableCell>
             );
             i++;
         }
+        // this.setState({ days_headers: day_headers });
+        // this.fill_table_rows(day_headers);
 
         return indents;
 
@@ -186,10 +282,13 @@ class DayTimeTable extends Component {
         }
         let initialTodayDate = createBaseData(0).format("MM-DD-YYYY");
         let initialTodayDay = createBaseData(0).day(); //Monday = 1, ..., Sunday = 0
+        this.fill_table_rows(day_headers, initialRows);
+
         this.setState({
             todayDate: initialTodayDate,
             rows: initialRows,
-            todayDay: initialTodayDay
+            todayDay: initialTodayDay,
+            days_headers: day_headers
         });
     }
 
@@ -248,20 +347,24 @@ class DayTimeTable extends Component {
                                     className={`${this.isActive(
                                         row.day1,
                                         classes.color
-                                    )} ${classes.cellsStyle}`}
+                                    )}
+                                    ${classes.cellsStyle}`}
+                                    // className={` ${this.props.showBulkActions ? 'show' : 'hidden'}
+                                    // ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day1")
+                                    onClick={() => row.day1 ?
+                                        this.cellClickHandler(row.id, "day1") : false
                                     }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
                                         row.day2,
                                         classes.color
-                                    )} ${classes.cellsStyle}`}
+                                    )}
+                                     ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day2")
+                                    onClick={() => row.day2 ?
+                                        this.cellClickHandler(row.id, "day2") : false
                                     }
                                 />
                                 <TableCell
@@ -270,8 +373,9 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day3")
+                                    disabled={!row.day3}
+                                    onClick={() => row.day3 ?
+                                        this.cellClickHandler(row.id, "day3") : false
                                     }
                                 />
                                 <TableCell
@@ -280,8 +384,8 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day4")
+                                    onClick={() => row.day4 ?
+                                        this.cellClickHandler(row.id, "day4") : false
                                     }
                                 />
                                 <TableCell
@@ -290,8 +394,8 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day5")
+                                    onClick={() => row.day5 ?
+                                        this.cellClickHandler(row.id, "day5") : false
                                     }
                                 />
                                 <TableCell
@@ -300,8 +404,8 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day6")
+                                    onClick={() => row.day6 ?
+                                        this.cellClickHandler(row.id, "day6") : false
                                     }
                                 />
                                 <TableCell
@@ -310,8 +414,8 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() =>
-                                        this.cellClickHandler(row.id, "day7")
+                                    onClick={() => row.day7 ?
+                                        this.cellClickHandler(row.id, "day7") : false
                                     }
                                 />
                             </TableRow>
