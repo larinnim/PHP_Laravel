@@ -22,6 +22,7 @@ import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import SaveIcon from '@material-ui/icons/Save';
 import axios from "axios";
+import Checkbox from '@material-ui/core/Checkbox';
 
 Moment.locale(navigator.language);
 momentLocalizer();
@@ -70,42 +71,49 @@ class SimpleModal extends React.Component {
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
                 },
             Tuesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Wednesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Thursday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Friday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Saturday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Sunday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             }
         },
         week_days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -135,6 +143,12 @@ class SimpleModal extends React.Component {
     };
 
     handleInterval (day) {
+        let openInterval = this.state.openInterval;
+        openInterval[day] = !openInterval[day];
+        this.setState({ openInterval:  openInterval});
+    };
+
+    handleCheckBoxInterval (day) {
         let openInterval = this.state.openInterval;
         openInterval[day] = !openInterval[day];
         this.setState({ openInterval:  openInterval});
@@ -219,7 +233,14 @@ class SimpleModal extends React.Component {
                     min={this.state.weekly[day].standard_start_time}
                 />
             </div>
-            <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button>
+            <Button value={day}><AddIcon/> Add Interval</Button>
+            {/* <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button> */}
+            <Checkbox
+                checked={day.interval_checkbox}
+                onChange={() => this.handleInterval(day)}
+                value={day}
+                color="primary"
+                />
             { this.state.openInterval[day] ?
                     <div style={{ backgroundColor: 'grey' }}>
                         <div>
@@ -406,6 +427,7 @@ class SimpleModal extends React.Component {
                                             />
                                         </div>
                                         <Button onClick={() => this.handleIntervalSpecific()}><AddIcon/> Add Interval</Button>
+                                   
                                         { this.state.openIntervalSpecifc ?
                                             <div style={{ backgroundColor: 'grey' }}>
                                                 <div>
