@@ -162,16 +162,37 @@ class UserController extends Controller
             ->where('ally_id', $user->id)                        
             ->first();
                 \Log::alert('OUT IF'. $availableDay);
+                \Log::alert('THE ENDDD'. $arrDay[$arrKey[3]]);
 
+                $intervalStart = null;
+                $intervalEnd = null;
+                if(!is_null($arrDay[$arrKey[2]]) || !empty($arrDay[$arrKey[2]])){
+                    $intervalStart = new DateTime($arrDay[$arrKey[2]], $timezone);
+                }
+                if(!is_null($arrDay[$arrKey[3]]) || !empty($arrDay[$arrKey[3]])){
+                    $intervalEnd = new DateTime($arrDay[$arrKey[3]], $timezone);
+                }
             if($availableDay){
-                \Log::alert('IN IF');
+                // $intervalStart = null;
+                // $intervalEnd = null;
+                // if(!is_null($arrDay[$arrKey[2]]) || !empty($arrDay[$arrKey[2]])){
+                //     $intervalStart = new DateTime($arrDay[$arrKey[2]], $timezone);
+                // }
+                // elseif(!is_null($arrDay[$arrKey[3]]) || !empty($arrDay[$arrKey[3]])){
+                //     $intervalEnd = new DateTime($arrDay[$arrKey[3]], $timezone);
+                // }
 
-                $available = Availability::where('date', $key_day);
-                $available->update([
+                Availability::where('date', $key_day)
+                ->where('ally_id', $user->id)
+                ->update([
+                    // 'standard_start_time' => new DateTime($arrDay[$arrKey[0]], $timezone),
+                    // 'standard_end_time' => new DateTime($arrDay[$arrKey[1]], $timezone),
+                    // 'interval_start_time' => new DateTime($arrDay[$arrKey[2]], $timezone),
+                    // 'interval_end_time' => new DateTime($arrDay[$arrKey[3]], $timezone)
                     $arrKey[0] => new DateTime($arrDay[$arrKey[0]], $timezone),
                     $arrKey[1] => new DateTime($arrDay[$arrKey[1]], $timezone),
-                    $arrKey[2] => new DateTime($arrDay[$arrKey[2]], $timezone),
-                    $arrKey[3] => new DateTime($arrDay[$arrKey[3]], $timezone)
+                    $arrKey[2] => $intervalStart,
+                    $arrKey[3] => $intervalEnd
                 ]);
             }
 
@@ -182,8 +203,10 @@ class UserController extends Controller
 
                 $standard_date_start = new DateTime($arrDay[$arrKey[0]], $timezone);
                 $standard_date_end = new DateTime($arrDay[$arrKey[1]], $timezone);
-                $interval_date_start = new DateTime($arrDay[$arrKey[2]], $timezone);
-                $interval_date_end = new DateTime($arrDay[$arrKey[3]], $timezone);
+                $interval_date_start = $intervalStart;
+                $interval_date_end = $intervalEnd;
+                // $interval_date_start = new DateTime($arrDay[$arrKey[2]], $timezone);
+                // $interval_date_end = new DateTime($arrDay[$arrKey[3]], $timezone);
 
                 $availableDay[$arrKey[0]] = $standard_date_start;
                 $availableDay[$arrKey[1]] = $standard_date_end;
@@ -211,11 +234,33 @@ class UserController extends Controller
 
         $dayObj = [];
         foreach ($available as $key_day => $day) {
+            \Log::alert('START '. $day->interval_start_time );
+            \Log::alert('END '. $day->interval_end_time);
+
+            $intervalStart = null;
+            $intervalEnd = null;
+            if(!is_null($day->interval_start_time) || !empty($day->interval_end_time)){
+                $intervalStart = (new \DateTime($day->interval_start_time))->setTimezone($timezone);
+            }
+            if(!is_null($day->interval_end_time) || !empty($day->interval_end_time)){
+                $intervalEnd = (new \DateTime($day->interval_end_time))->setTimezone($timezone);
+            }
+            // if($day->interval_end_time && $day->interval_start_time){
+            //     $intervalStart = (new \DateTime($day->interval_start_time))->setTimezone($timezone);
+            //     $intervalEnd = (new \DateTime($day->interval_end_time))->setTimezone($timezone); 
+            // }
+
+            // else {
+            //     $intervalStart = null;
+            //     $intervalEnd = null;
+            // }
+
             $dayObj [$day->date]['standard_start_time'] = (new \DateTime($day->standard_start_time))->setTimezone($timezone); 
             $dayObj [$day->date]['standard_end_time'] = (new \DateTime($day->standard_end_time))->setTimezone($timezone); 
-            $dayObj [$day->date]['interval_start_time'] = (new \DateTime($day->interval_start_time))->setTimezone($timezone); 
-            $dayObj [$day->date]['interval_end_time'] = (new \DateTime($day->interval_end_time))->setTimezone($timezone); 
-
+            // $dayObj [$day->date]['interval_start_time'] = (new \DateTime($day->interval_start_time))->setTimezone($timezone); 
+            // $dayObj [$day->date]['interval_end_time'] = (new \DateTime($day->interval_end_time))->setTimezone($timezone); 
+            $dayObj [$day->date]['interval_start_time'] =  $intervalStart;
+            $dayObj [$day->date]['interval_end_time'] = $intervalEnd; 
         }
         \Log::alert('THE AVAI '. json_encode($dayObj));
         return response()->json([

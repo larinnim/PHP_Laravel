@@ -69,50 +69,64 @@ class SimpleModal extends React.Component {
             Monday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
                 interval_checkbox: false
                 },
             Tuesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_checkbox: false
             },
             Wednesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_checkbox: false
             },
             Thursday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_checkbox: false
             },
             Friday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
                 interval_checkbox: false
             },
             Saturday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_checkbox: false
             },
             Sunday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
                 interval_checkbox: false
             }
         },
@@ -151,7 +165,20 @@ class SimpleModal extends React.Component {
     handleCheckBoxInterval (day) {
         let openInterval = this.state.openInterval;
         openInterval[day] = !openInterval[day];
+        let week = this.state.weekly;
+        week[day].interval_checkbox = !week[day].interval_checkbox
+
+        if(week[day].interval_checkbox){
+            week[day].interval_start_time =  new Date(new Date().setHours(0, 0, 0, 0));
+            week[day].interval_end_time =  new Date(new Date().setHours(0, 0, 0, 0));
+        }
+        else {
+            week[day].interval_start_time =  null;
+            week[day].interval_end_time =  null;
+        }
+       
         this.setState({ openInterval:  openInterval});
+
     };
 
     handleIntervalSpecific () {
@@ -236,8 +263,8 @@ class SimpleModal extends React.Component {
             <Button value={day}><AddIcon/> Add Interval</Button>
             {/* <Button onClick={() => this.handleInterval(day)} value={day}><AddIcon/> Add Interval</Button> */}
             <Checkbox
-                checked={day.interval_checkbox}
-                onChange={() => this.handleInterval(day)}
+                checked={this.state.weekly[day].interval_checkbox}
+                onChange={() => this.handleCheckBoxInterval(day)}
                 value={day}
                 color="primary"
                 />
@@ -317,17 +344,27 @@ class SimpleModal extends React.Component {
             // let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone);
             // console.log(timezone);
             let days_copy = Object.assign({}, this.state.weekly);
+            let intervalDivWeek = this.state.openInterval;
             var keys = Object.keys(days); 
             var specificDaysArr = {};
             var specificDaysObj = {};
 
-            for(var i = 0; i < keys.length-7; i++) { 
+            // for(var i = 0; i < keys.length-7; i++) { 
+            for(var i = 0; i < keys.length; i++) { 
                 let d_start = new Date();
                 let d_end = new Date();
                days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
                days_copy[keys[i]].standard_end_time= new Date(days[keys[i]].standard_end_time.date); 
-               days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
-               days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
+               if(days[keys[i]].interval_start_time && days[keys[i]].interval_start_time.date){
+                    days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
+                    days_copy[keys[i]].interval_checkbox = true;
+                    intervalDivWeek[keys[i]] = true;
+               }
+               if(days[keys[i]].interval_end_time && days[keys[i]].interval_end_time.date){
+                    days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date);
+                    days_copy[keys[i]].interval_checkbox = true; 
+                    intervalDivWeek[keys[i]] = true;
+               }
 
                // this.setState({ weekly: days[key] });
                var key = (keys[i]) ; 
@@ -345,7 +382,8 @@ class SimpleModal extends React.Component {
            }
             this.setState({ 
                 weekly: days_copy,
-                specificDays: specificDaysObj
+                specificDays: specificDaysObj,
+                openInterval: intervalDivWeek
             });
           })
       }

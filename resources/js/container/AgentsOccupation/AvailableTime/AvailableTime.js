@@ -30,46 +30,111 @@ class AvailableTime extends React.Component {
             Monday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                interval_checkbox: false
                 },
             Tuesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Wednesday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Thursday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Friday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                interval_checkbox: false
             },
             Saturday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             },
             Sunday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
                 standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
-                interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
-                interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_start_time: null,
+                interval_end_time: null,
+                // interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+                // interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+                interval_checkbox: false
             }
         }
+        // weekly: {
+        //     Monday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         },
+        //     Tuesday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     },
+        //     Wednesday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     },
+        //     Thursday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     },
+        //     Friday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     },
+        //     Saturday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     },
+        //     Sunday: {
+        //         standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         standard_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //         interval_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
+        //         interval_end_time: new Date(new Date().setHours(23, 0, 0, 0)),
+        //     }
+        // }
     };
 
     handleNextWeek(){
@@ -108,8 +173,12 @@ class AvailableTime extends React.Component {
                     let d_end = new Date();
                     days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
                     days_copy[keys[i]].standard_end_time= new Date(days[keys[i]].standard_end_time.date); 
-                    days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
-                    days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
+                    if(days[keys[i]].interval_start_time && days[keys[i]].interval_start_time.date){
+                        days_copy[keys[i]].interval_start_time  = new Date(days[keys[i]].interval_start_time.date); 
+                    }
+                    if(days[keys[i]].interval_end_time && days[keys[i]].interval_end_time.date){
+                        days_copy[keys[i]].interval_end_time  = new Date(days[keys[i]].interval_end_time.date); 
+                    }
 
                     // this.setState({ weekly: days[key] });
                     var key = (keys[i]) ; 

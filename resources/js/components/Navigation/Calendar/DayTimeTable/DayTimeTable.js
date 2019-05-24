@@ -29,9 +29,6 @@ const styles = theme => ({
         // minWidth: 700
     },
     color: {
-        backgroundColor: "blue"
-    },
-    initial_cell_color: {
         backgroundColor: "lightgreen"
     },
     cellsStyle: {
@@ -181,8 +178,12 @@ class DayTimeTable extends Component {
                 console.log('DIF HOURS '+ hours);
                var begin = weeklyObj.standard_start_time.getHours();
                var finish = weeklyObj.standard_end_time.getHours();
-               var interval_begin = weeklyObj.interval_start_time.getHours();
-               var interval_finish = weeklyObj.interval_end_time.getHours();
+               if(weeklyObj.interval_start_time && weeklyObj.interval_start_time != null){
+                var interval_begin = weeklyObj.interval_start_time.getHours();
+               }
+               if(weeklyObj.interval_start_time && weeklyObj.interval_start_time != null){
+                var interval_finish = weeklyObj.interval_end_time.getHours();
+               }
 
                while(begin <= finish){
                 toPopulateRow[begin]['day'+index] = !toPopulateRow[begin]['day'+index];
