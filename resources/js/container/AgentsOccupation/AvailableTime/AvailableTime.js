@@ -26,6 +26,7 @@ class AvailableTime extends React.Component {
         open: false,
         week_index: 0,
         specificDays: {},
+        finished_render: false,
         weekly: {
             Monday: {
                 standard_start_time: new Date(new Date().setHours(0, 0, 0, 0)),
@@ -196,7 +197,8 @@ class AvailableTime extends React.Component {
             }
                 this.setState({ 
                     weekly: days_copy,
-                    specificDays: specificDaysObj
+                    specificDays: specificDaysObj,
+                    finished_render: true
                 });
             })
     };
@@ -219,37 +221,40 @@ class AvailableTime extends React.Component {
                 >
                     Check Availability
                 </Button>
-                <Modal
+                {this.state.finished_render ?
+                    <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     open={this.state.open}
                     onClose={this.handleClose}
-                >
-                    <div
-                        className={`${classes.paper} ${
-                            classes.centerScheduler
-                        }`}
                     >
-                        <Typography variant="h6" id="modal-title">
-                            Select dates
-                        </Typography>
-                        {this.state.week_index > 0 ?
-                        <IconButton  onClick={() => this.handlePrevWeek()}>
-                            <ChevronLeftIcon/>
-                        </IconButton> : ''}
-                        <IconButton  onClick={() => this.handleNextWeek()}>
-                            <ChevronRightIcon/>
-                        </IconButton>
-                        <DayTimeTable week_index={this.state.week_index} weekly={this.state.weekly} specificDays={this.state.specificDays}/>
-                        <Button
-                            size="medium"
-                            onClick={this.handleTimeSlot}
-                            classes={{ root: classes.button }}
+                        <div
+                            className={`${classes.paper} ${
+                                classes.centerScheduler
+                            }`}
                         >
-                            Checkout
-                        </Button>
-                    </div>
-                </Modal>
+                            <Typography variant="h6" id="modal-title">
+                                Select dates
+                            </Typography>
+                            {this.state.week_index > 0 ?
+                            <IconButton  onClick={() => this.handlePrevWeek()}>
+                                <ChevronLeftIcon/>
+                            </IconButton> : ''}
+                            <IconButton  onClick={() => this.handleNextWeek()}>
+                                <ChevronRightIcon/>
+                            </IconButton>
+                            <DayTimeTable week_index={this.state.week_index} weekly={this.state.weekly} specificDays={this.state.specificDays}/>
+                            <Button
+                                size="medium"
+                                onClick={this.handleTimeSlot}
+                                classes={{ root: classes.button }}
+                            >
+                                Checkout
+                            </Button>
+                        </div>
+                    </Modal> :  
+                    ''
+            }
             </div>
         );
     }

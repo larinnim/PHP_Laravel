@@ -56,6 +56,7 @@ class DayTimeTable extends Component {
             todayDay: null,
             days_headers: [],
             selected_time: [],
+            clickedCell: false,
         };
     }
 
@@ -72,6 +73,17 @@ class DayTimeTable extends Component {
         let selected_time_var = this.state.selected_time;
         let day= '';
         let time_var='';
+
+        // event.target.classList.add('timeSelected');
+        if(!event.target.style.backgroundColor){
+            event.target.style.backgroundColor = 'red';
+            event.target.style.backgroundImage = 'repeating-linear-gradient(45deg,transparent,transparent 10px,#fff 10px,#fff 15px)';
+        }
+        else {
+            event.target.style.backgroundColor = '';
+            event.target.style.backgroundImage = '';
+        }
+       
 
         switch (weekDay) {
             case "day1":
@@ -129,7 +141,7 @@ class DayTimeTable extends Component {
                 // toUpdateRow[id - 1].day5 = !toUpdateRow[id - 1].day5;
                 break;
             case "day6":
-            day = header[6].startOf('day');
+            day = header[5].startOf('day');
                 time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
                 day.set({
                     hour:   time_var.get('hour'),
@@ -140,7 +152,7 @@ class DayTimeTable extends Component {
                 // toUpdateRow[id - 1].day6 = !toUpdateRow[id - 1].day6;
                 break;
             case "day7":
-            day = header[7].startOf('day');
+            day = header[6].startOf('day');
                 time_var = moment(toUpdateRow[id-1].time, 'HH:mm');
                 day.set({
                     hour:   time_var.get('hour'),
@@ -151,7 +163,7 @@ class DayTimeTable extends Component {
                 // toUpdateRow[id - 1].day7 = !toUpdateRow[id - 1].day7;
                 break;
         }
-        this.setState({ rows: toUpdateRow });
+        this.setState({ rows: toUpdateRow, clickedCell: true });
     };
     
     fill_table_rows = (day_headers, rows) => {
@@ -181,12 +193,12 @@ class DayTimeTable extends Component {
                if(weeklyObj.interval_start_time && weeklyObj.interval_start_time != null){
                 var interval_begin = weeklyObj.interval_start_time.getHours();
                }
-               if(weeklyObj.interval_start_time && weeklyObj.interval_start_time != null){
+               if(weeklyObj.interval_end_time && weeklyObj.interval_end_time != null){
                 var interval_finish = weeklyObj.interval_end_time.getHours();
                }
 
                while(begin <= finish){
-                toPopulateRow[begin]['day'+index] = !toPopulateRow[begin]['day'+index];
+                    toPopulateRow[begin]['day'+index] = !toPopulateRow[begin]['day'+index];
                     // toPopulateRow[begin].header_index = !toPopulateRow[begin].header_index;
                     begin++;
                }
@@ -242,6 +254,7 @@ class DayTimeTable extends Component {
     };
 
     componentDidMount() {
+        console.log(this.props);
         let id = 0;
         var intervalMinutes = 60;
         var interval = moment.duration(intervalMinutes, "minutes");
