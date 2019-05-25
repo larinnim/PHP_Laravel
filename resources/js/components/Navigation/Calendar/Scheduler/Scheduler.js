@@ -23,6 +23,7 @@ import SwipeableViews from 'react-swipeable-views';
 import SaveIcon from '@material-ui/icons/Save';
 import axios from "axios";
 import Checkbox from '@material-ui/core/Checkbox';
+import AvailableTime from "../../../../container/AgentsOccupation/AvailableTime/AvailableTime";
 
 Moment.locale(navigator.language);
 momentLocalizer();
@@ -56,14 +57,17 @@ class SimpleModal extends React.Component {
             Saturday: false,
             Sunday: false,
         },
-        openIntervalSpecifc: false,
+        // openIntervalSpecifc: false,
         specificDays: {},
         availableSwitch: false,
         timeStatus: true,
         specific_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
         specific_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
-        specific_interval_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
-        specific_interval_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
+        // specific_interval_start_date: new Date(new Date().setHours(0, 0, 0, 0)),
+        // specific_interval_end_date: new Date(new Date().setHours(23, 0, 0, 0)),
+        // specific_interval_start_date: null,
+        // specific_interval_end_date: null,
+        // specific_interval_checkbox: false,
         value: 0,
         weekly: {
             Monday: {
@@ -181,11 +185,38 @@ class SimpleModal extends React.Component {
 
     };
 
-    handleIntervalSpecific () {
-        let openIntervalSpecifc = this.state.openIntervalSpecifc;
-        openIntervalSpecifc = !openIntervalSpecifc;
-        this.setState({ openIntervalSpecifc:  openIntervalSpecifc});
-    };
+    // handleCheckBoxIntervalSpecific (day) {
+    //     let specific_start_date_var = this.state.specific_start_date;
+    //     let specific_end_date_var = this.state.specific_end_date;
+    //     let specific_interval_start_date_var = this.state.specific_interval_start_date;
+    //     let specific_interval_end_date_var = this.state.specific_interval_end_date;
+    //     let specific_interval_checkbox_var = this.state.specific_interval_checkbox;
+    //     let openIntervalSpecifcVar = this.state.openIntervalSpecifc;
+    //     openIntervalSpecifcVar = !openIntervalSpecifcVar;
+    //     specific_interval_checkbox_var = !specific_interval_checkbox_var;
+
+    //     if(specific_interval_checkbox_var){
+    //         specific_interval_start_date_var =  new Date(new Date().setHours(0, 0, 0, 0));
+    //         specific_interval_end_date_var =  new Date(new Date().setHours(0, 0, 0, 0));
+    //     }
+    //     else {
+    //         specific_interval_start_date_var =  null;
+    //         specific_interval_end_date_var =  null;
+    //     }
+
+    //     this.setState({ 
+    //         openIntervalSpecifc:  openIntervalSpecifcVar,
+    //         specific_interval_checkbox: specific_interval_checkbox_var
+    //     });
+    // }
+    // handleIntervalSpecific () {
+    //     let openIntervalSpecifc = this.state.openIntervalSpecifc;
+    //     openIntervalSpecifc = !openIntervalSpecifc;
+    //     this.setState({ 
+    //         openIntervalSpecifc:  openIntervalSpecifc,
+    //         specific_interval_checkbox: specific_interval_checkbox_var
+    //     });
+    // };
 
     handleClose = () => {
         this.setState({ open: false });
@@ -225,15 +256,15 @@ class SimpleModal extends React.Component {
         this.setState({ weekly: var_weekly }); 
     }
 
-    handleIntervalSpecificStart = name => event => {
-        console.log(name);
-        console.log(event);
-        this.setState({ specific_interval_start_date: new Date(event)}); 
-    }
+    // handleIntervalSpecificStart = name => event => {
+    //     console.log(name);
+    //     console.log(event);
+    //     this.setState({ specific_interval_start_date: new Date(event)}); 
+    // }
 
-    handleIntervalSpecificEnd = name => event => {
-        this.setState({ specific_interval_end_date:  new Date(event) }); 
-    }
+    // handleIntervalSpecificEnd = name => event => {
+    //     this.setState({ specific_interval_end_date:  new Date(event) }); 
+    // }
 
     weekDays_html = () => 
     this.state.week_days.map((day) => (
@@ -306,8 +337,18 @@ class SimpleModal extends React.Component {
     const formData = new FormData();
     formData.append("specific_start_date", this.state.specific_start_date.toISOString());
     formData.append("specific_end_date", this.state.specific_end_date.toISOString());
-    // formData.append("specific_interval_start_date", this.state.specific_interval_start_date.toISOString());
-    // formData.append("specific_interval_end_date", this.state.specific_interval_end_date.toISOString());
+    // if(this.state.specific_interval_start_date && this.state.specific_interval_start_date != null){
+    //     formData.append("specific_interval_start_date", this.state.specific_interval_start_date.toISOString());
+    // }
+    // else {
+    //     formData.append("specific_interval_start_date", this.state.specific_interval_start_date);
+    // }
+    // if(this.state.specific_interval_end_date && this.state.specific_interval_end_date != null){
+    //     formData.append("specific_interval_end_date", this.state.specific_interval_end_date.toISOString());
+    // }
+    // else {
+    //     formData.append("specific_interval_end_date", this.state.specific_interval_end_date);
+    // }
     formData.append("timezone", timezone);
     axios
             .post("/api/availability/specific/" + token, formData)
@@ -350,7 +391,8 @@ class SimpleModal extends React.Component {
             var specificDaysObj = {};
 
             // for(var i = 0; i < keys.length-7; i++) { 
-            for(var i = 0; i < keys.length; i++) { 
+            
+            for(var i = 0; i < 7; i++) { 
                 let d_start = new Date();
                 let d_end = new Date();
                days_copy[keys[i]].standard_start_time = new Date(days[keys[i]].standard_start_time.date); 
@@ -370,16 +412,17 @@ class SimpleModal extends React.Component {
                var key = (keys[i]) ; 
                console.log(days[key]) 
            }
-
-           for(var i = 7; i < keys.length; i++){
-            specificDaysArr['specific_start_date'] = new Date(days[keys[i]].standard_start_time.date); 
-            specificDaysArr['specific_end_date'] = new Date(days[keys[i]].standard_end_time.date); 
-            // specificDaysArr['date'].specific_interval_start_date = new Date(days[keys[i]].specific_interval_start_date); 
-            // specificDaysArr['date'].specific_interval_end_date = new Date(days[keys[i]].specific_interval_end_date); 
-            // specificDaysObj.push(specificDaysArr);
-            specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
-            specificDaysArr = [];
-           }
+           if(keys.length > 7){
+                for(var i = 7; i < keys.length; i++){
+                    specificDaysArr['specific_start_date'] = new Date(days[keys[i]].standard_start_time.date); 
+                    specificDaysArr['specific_end_date'] = new Date(days[keys[i]].standard_end_time.date); 
+                    // specificDaysArr['date'].specific_interval_start_date = new Date(days[keys[i]].specific_interval_start_date); 
+                    // specificDaysArr['date'].specific_interval_end_date = new Date(days[keys[i]].specific_interval_end_date); 
+                    // specificDaysObj.push(specificDaysArr);
+                    specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+                    specificDaysArr = [];
+               }   
+            }
             this.setState({ 
                 weekly: days_copy,
                 specificDays: specificDaysObj,
@@ -464,9 +507,18 @@ class SimpleModal extends React.Component {
                                                 // min={new Date()}
                                             />
                                         </div>
-                                        <Button onClick={() => this.handleIntervalSpecific()}><AddIcon/> Add Interval</Button>
-                                   
-                                        { this.state.openIntervalSpecifc ?
+
+
+                                        {/* <Button onClick={() => this.handleIntervalSpecific()}><AddIcon/> Add Interval</Button> */}
+                                        {/* <Button><AddIcon/> Add Interval</Button>
+
+                                        <Checkbox
+                                            checked={this.state.specific_interval_checkbox}
+                                            onChange={() => this.handleCheckBoxIntervalSpecific()}
+                                            color="primary"
+                                            /> */}
+
+                                        {/* { this.state.openIntervalSpecifc ?
                                             <div style={{ backgroundColor: 'grey' }}>
                                                 <div>
                                                     Start
@@ -495,7 +547,7 @@ class SimpleModal extends React.Component {
                                                 </div>
                                             </div>
                                         : ''
-                                    }
+                                    } */}
                                         <div style={{ marginTop: 40 }}>
                                             End
                                             <DateTimePicker
@@ -511,6 +563,7 @@ class SimpleModal extends React.Component {
                                         <Button size="small" onClick={this.saveSpecific}>
                                             Save
                                         </Button>
+                                        <AvailableTime user='owner' token={localStorage.getItem("token")}></AvailableTime>
                         </TabContainer>
                         </SwipeableViews>
                     </div>

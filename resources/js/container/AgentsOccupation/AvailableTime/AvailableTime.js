@@ -20,6 +20,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import { throws } from "assert";
+import moment from "moment";
 
 class AvailableTime extends React.Component {
     state = {
@@ -152,12 +153,18 @@ class AvailableTime extends React.Component {
 
     handleAvailability(user_id){
         this.setState({ open: true });
-        axios.get('/api/availability',{
-            params: {
-              vref: user_id
-            }
-          })
-            .then(response => {
+        if(this.props.token){
+           var res = axios.get('/api/availability/'+this.props.token);
+        }
+        else {
+            var res =    axios.get('/api/availability',{
+                params: {
+                  vref: user_id
+                }
+              })
+        }
+        
+            res.then(response => {
                 console.log(response);
                 let days = response.data.days;
                 // let timezone = Moment(response.data.days.Monday.standard_start_time).tz(response.data.timezone);
@@ -192,7 +199,32 @@ class AvailableTime extends React.Component {
                 // specificDaysArr['date'].specific_interval_start_date = new Date(days[keys[i]].specific_interval_start_date); 
                 // specificDaysArr['date'].specific_interval_end_date = new Date(days[keys[i]].specific_interval_end_date); 
                 // specificDaysObj.push(specificDaysArr);
-                specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+                // specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+                
+                if(i+1 >= keys.length){
+                    var a = moment(new Date(days[keys[i]].standard_start_time.date));
+                    var b = moment(new Date(days[keys[i]].standard_end_time.date));
+                    // var a = moment( specificDaysObj[new Date(days[keys[i]].standard_start_time.date)]);
+                    // var b = moment( specificDaysObj[new Date(days[keys[i]].standard_end_time.date)]);
+                    if(a.startOf('day') != b.startOf('day')){
+                        var time = b.toDate();
+                        // console.log(time);
+                        // time.set({hour:0,minute:0,second:0,millisecond:0});
+                        // time.toISOString();
+                        // time.format();
+
+                        // b.setHours(0);
+                        // b.setMinutes(0);
+                        // b.setSeconds(0);
+                        // b.setMilliseconds(0)
+                        specificDaysArr['specific_start_date'] = time;
+                        // days_copy[keys[i]].standard_start_time  = new Date(days[b.format('YYYY-MM-DD')].standard_start_time); 
+                        // specificDaysObj[new Date(days[keys[i]].standard_start_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+                    }
+                }
+
+                specificDaysObj[new Date(days[keys[i]].standard_end_time.date).toLocaleDateString(navigator.language)] = specificDaysArr;
+                
                 specificDaysArr = [];
             }
                 this.setState({ 
@@ -234,7 +266,10 @@ class AvailableTime extends React.Component {
                             }`}
                         >
                             <Typography variant="h6" id="modal-title">
-                                Select dates
+                            {this.props.user == 'owner'?
+                                'Your availability':
+                                'Select dates'
+                            }
                             </Typography>
                             {this.state.week_index > 0 ?
                             <IconButton  onClick={() => this.handlePrevWeek()}>
@@ -243,7 +278,7 @@ class AvailableTime extends React.Component {
                             <IconButton  onClick={() => this.handleNextWeek()}>
                                 <ChevronRightIcon/>
                             </IconButton>
-                            <DayTimeTable week_index={this.state.week_index} weekly={this.state.weekly} specificDays={this.state.specificDays}/>
+                            <DayTimeTable user={this.props.user} week_index={this.state.week_index} weekly={this.state.weekly} specificDays={this.state.specificDays}/>
                             <Button
                                 size="medium"
                                 onClick={this.handleTimeSlot}

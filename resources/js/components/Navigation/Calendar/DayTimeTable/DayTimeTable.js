@@ -367,9 +367,12 @@ class DayTimeTable extends Component {
                                     // className={` ${this.props.showBulkActions ? 'show' : 'hidden'}
                                     // ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day1 ?
-                                        this.cellClickHandler(row.id, "day1") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day1 ? this.cellClickHandler(row.id, "day1") : false) 
+                                    }}
+                                    // onClick={() => row.day1 ?
+                                    //     this.cellClickHandler(row.id, "day1") : false
+                                    // }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -378,9 +381,12 @@ class DayTimeTable extends Component {
                                     )}
                                      ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day2 ?
-                                        this.cellClickHandler(row.id, "day2") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day2 ? this.cellClickHandler(row.id, "day2") : false) 
+                                    }}
+                                    // onClick={() => row.day2 ?
+                                    //     this.cellClickHandler(row.id, "day2") : false
+                                    // }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -389,9 +395,12 @@ class DayTimeTable extends Component {
                                     )} ${classes.cellsStyle}`}
                                     align="right"
                                     disabled={!row.day3}
-                                    onClick={() => row.day3 ?
-                                        this.cellClickHandler(row.id, "day3") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day3 ? this.cellClickHandler(row.id, "day3") : false) 
+                                    }}
+                                    // onClick={() => row.day3 ?
+                                    //     this.cellClickHandler(row.id, "day3") : false
+                                    // }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -399,9 +408,12 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day4 ?
-                                        this.cellClickHandler(row.id, "day4") : false
-                                    }
+                                    // onClick={() => row.day4 ?
+                                    //     this.cellClickHandler(row.id, "day4") : false
+                                    // }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day4 ? this.cellClickHandler(row.id, "day4") : false) 
+                                    }}
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -409,9 +421,12 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day5 ?
-                                        this.cellClickHandler(row.id, "day5") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day5 ? this.cellClickHandler(row.id, "day5") : false) 
+                                    }}
+                                    // onClick={() => row.day5 ?
+                                    //     this.cellClickHandler(row.id, "day5") : false
+                                    // }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -419,9 +434,12 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day6 ?
-                                        this.cellClickHandler(row.id, "day6") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day6 ? this.cellClickHandler(row.id, "day6") : false) 
+                                    }}
+                                    // onClick={() => row.day6 ?
+                                    //     this.cellClickHandler(row.id, "day6") : false
+                                    // }
                                 />
                                 <TableCell
                                     className={`${this.isActive(
@@ -429,9 +447,9 @@ class DayTimeTable extends Component {
                                         classes.color
                                     )} ${classes.cellsStyle}`}
                                     align="right"
-                                    onClick={() => row.day7 ?
-                                        this.cellClickHandler(row.id, "day7") : false
-                                    }
+                                    onClick={() => { this.props.user == 'owner' ? 
+                                    false : (row.day7 ? this.cellClickHandler(row.id, "day7") : false) 
+                                    }}
                                 />
                             </TableRow>
                         ))}
