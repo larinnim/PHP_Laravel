@@ -232,7 +232,16 @@ class UserController extends Controller
         }
         \Log::alert('THE User '. json_encode($user));
 
-        $available = Availability::where('ally_id', $user->id)->get();
+        $available = Availability::where('ally_id', $user->id)
+                    ->WhereDate('date', '>=', Carbon::now())
+                    ->orWhere('date', 'like', '%Monday%')
+                    ->orWhere('date', 'like', '%Tuesday%')
+                    ->orWhere('date', 'like', '%Wednesday%')
+                    ->orWhere('date', 'like', '%Thursday%')
+                    ->orWhere('date', 'like', '%Friday%')
+                    ->orWhere('date', 'like', '%Saturday%')
+                    ->orWhere('date', 'like', '%Sunday%')
+                    ->get();
         $timezoneStrg = $user->timezone;
         $timezone = new DateTimeZone($timezoneStrg);
 

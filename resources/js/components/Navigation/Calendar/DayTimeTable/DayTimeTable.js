@@ -169,19 +169,28 @@ class DayTimeTable extends Component {
     fill_table_rows = (day_headers, rows) => {
         console.log('DAYS HEADER: '+ day_headers);
         var toPopulateRow = rows;
-
-        // day_headers.map((value, header_index)  => {
         for (let index = 1; index <= day_headers.length; ++index) {
-            if(this.props.specificDays.length > 0){
-                // var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(value).startOf('day'));
-                var existe_day = this.isInArray(this.getOnlyDate(this.props.specificDays), moment(day_headers[index-1]).startOf('day'));
+                var existe_day = this.props.specificDays[moment(day_headers[index - 1]).startOf('day').format('DD/MM/YYYY')];
+                
                 if(existe_day){
                      console.log('exist specific day');
+                     var begin = existe_day.specific_start_date.getHours();
+                     var finish = existe_day.specific_end_date.getHours();
+                     if(begin == finish){
+                         finish = 23;
+                         while(finish > 0){
+                            toPopulateRow[finish]['day'+index] = false;
+                            finish--;
+                         }
+                     }
+                     else {
+                        while(finish < 24){
+                            toPopulateRow[finish]['day'+index] = true;
+                            finish++;
+                         }
+                     }
                 }
-            }
             else {
-            //    var day_of_week = moment(value).locale('en').format('dddd');
-            //    console.log('VALUE ' +moment(value).locale('en').format('dddd'));
             var day_of_week = moment(day_headers[index-1]).locale('en').format('dddd');
             console.log('VALUE ' +moment(day_headers[index-1]).locale('en').format('dddd'));
                var weeklyObj = this.props.weekly[day_of_week];
@@ -198,20 +207,16 @@ class DayTimeTable extends Component {
                }
 
                while(begin <= finish){
-                    toPopulateRow[begin]['day'+index] = !toPopulateRow[begin]['day'+index];
-                    // toPopulateRow[begin].header_index = !toPopulateRow[begin].header_index;
+                    toPopulateRow[begin]['day'+index] = true;
                     begin++;
                }
                while(interval_begin < interval_finish){
-                    toPopulateRow[interval_begin]['day'+index] = !toPopulateRow[interval_begin]['day'+index];
-                    // toPopulateRow[begin].header_index = !toPopulateRow[begin].header_index;
+                toPopulateRow[interval_begin]['day'+index] = false;
                     interval_begin++;
                }
             }
         }
-        this.setState({ rows: toPopulateRow });
-
-        // });
+        return toPopulateRow;
     };
 
     getOnlyDate(array_dates){
@@ -241,17 +246,16 @@ class DayTimeTable extends Component {
             );
             i++;
         }
-        // this.setState({ days_headers: day_headers });
-        // this.fill_table_rows(day_headers);
-
         return indents;
-
-        // return (arr.map((value, i)  => {
-        //     <TableCell className={this.props.classes.cellsHeaderStyle}>
-        //         {moment().locale(locale).add(i, 'days').format('ddd') + ' - ' +moment().locale(locale).add(i, 'days').format('D MMMM')}
-        //     </TableCell>
-        // }));
     };
+
+    componentDidUpdate(prevProps, prevState) {
+        const index_header = this.props.week_index;
+        if(index_header !== prevProps.week_index && typeof prevProps.week_index !== 'undefined' && typeof index_header !== 'undefined'){
+            let toPopulateRow = this.fill_table_rows(day_headers, this.state.rows);
+            this.setState({rows: toPopulateRow});
+        }
+    }
 
     componentDidMount() {
         console.log(this.props);
